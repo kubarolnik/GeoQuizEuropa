@@ -577,10 +577,10 @@ a { color: inherit; }
 /* Ekran wyniku: podpowiedź klawisza pod napisem przycisku (tylko komputer z klawiaturą) */
 .klawisz { display: none; }
 @media (hover: hover) and (pointer: fine) {
-  .wynik-koncowy .przyciski .przycisk { flex-direction: column; gap: 5px; padding-block: 9px 8px; }
+  .wynik-koncowy .przyciski .przycisk { flex-direction: column; gap: 4px; padding-block: 8px 7px; }
   .klawisz {
-    display: block; padding: 1px 6px 2px;
-    border: 1px solid currentColor; border-radius: 5px; opacity: .5;
-    font-size: 10.5px; font-weight: 500; letter-spacing: .02em; line-height: 1.3;
+    display: block; padding: 0 4px 1px;
+    border: 1px solid currentColor; border-radius: 4px; opacity: .5;
+    font-size: 8.5px; font-weight: 500; letter-spacing: .03em; line-height: 1.3;
   }
 }
