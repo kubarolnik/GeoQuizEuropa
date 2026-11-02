@@ -117,7 +117,15 @@ test('w quizie „Stolice” nazwy bez dopisku „(stolica)”, w Sprawdzianie z
   rowne(wQuizie.filter((n) => ['Andora', 'Luksemburg', 'Monako', 'San Marino', 'Watykan'].includes(n)).sort(), ['Andora', 'Luksemburg', 'Monako', 'San Marino', 'Watykan']);
   rowne(new Set(wQuizie).size, wQuizie.length, 'nazwy w quizie „Stolice” muszą być unikalne:');
   rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'stolica-monako'), SPRAWDZIAN), 'Monako (stolica)');
-  rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'panstwo-monako'), 'panstwa'), 'Monako (państwo)');
+});
+test('w quizie „Państwa” nazwy bez dopisku „(państwo)”, w Sprawdzianie z dopiskiem', () => {
+  const wQuizie = pytaniaQuizu(dane, 'panstwa').map((p) => nazwaWQuizie(p, 'panstwa'));
+  prawda(wQuizie.every((n) => !n.includes('(')), 'została nazwa z nawiasem: ' + wQuizie.filter((n) => n.includes('(')));
+  rowne(wQuizie.filter((n) => ['Andora', 'Cypr', 'Luksemburg', 'Monako', 'San Marino', 'Watykan'].includes(n)).sort(), ['Andora', 'Cypr', 'Luksemburg', 'Monako', 'San Marino', 'Watykan']);
+  rowne(new Set(wQuizie).size, wQuizie.length, 'nazwy w quizie „Państwa” muszą być unikalne:');
+  rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'panstwo-monako'), SPRAWDZIAN), 'Monako (państwo)');
+  rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'panstwo-cypr'), SPRAWDZIAN), 'Cypr (państwo)');
+  rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'wyspa-cypr'), 'wyspy'), 'Cypr (wyspa)');
 });
 test('kolejność i nazwy quizów na liście', () => {
   rowne(dane.quizy.map((q) => `${q.numer}. ${q.nazwa}`), ['1. Państwa', '2. Stolice', '3. Morza', '4. Zatoki', '5. Półwyspy', '6. Wyspy + Przynależności', '7. Krainy Geograficzne', '8. Rzeki', '9. Jeziora', '10. Cieśniny']);
