@@ -89,13 +89,14 @@ test('każde pytanie ma geometrię (niepustą, poprawnego typu)', () => {
 const POZA_EUROPE = new Set(['RUS']);
 test('wszystkie współrzędne są liczbami w zasięgu Europy (−35…90°E, 25…85°N; Rosja w całości)', () => {
   for (const p of dane.pytania) for (const [x, y] of wszystkieWspolrzedne(geo.get(p.geometria).geometry)) {
-    const zasieg = POZA_EUROPE.has(p.iso) ? x >= 0 && x <= 180 && y >= 25 && y <= 85 : x >= -35 && x <= 90 && y >= 25 && y <= 85;
+    const zasieg = POZA_EUROPE.has(p.iso) ? x >= -180 && x <= 180 && y >= 25 && y <= 85 : x >= -35 && x <= 90 && y >= 25 && y <= 85;
     prawda(Number.isFinite(x) && Number.isFinite(y) && zasieg, `${p.nazwa}: ${x},${y}`);
   }
 });
 test('Rosja podświetlana w całości (aż po Pacyfik), bez dalekich terytoriów innych państw', () => {
   const xs = (iso) => wszystkieWspolrzedne(geo.get(dane.pytania.find((p) => p.iso === iso).geometria).geometry).map(([x]) => x);
   prawda(Math.max(...xs('RUS')) > 179, 'Rosja kończy się przed Pacyfikiem');
+  prawda(Math.min(...xs('RUS')) < -179, 'brak końca Czukotki za 180. południkiem');
   prawda(Math.min(...xs('FRA')) > -10, 'Francja zawiera terytoria zamorskie (np. Gujanę)');
 });
 test('brak duplikatów (id pytań, nazwy w quizie, nazwy w Sprawdzianie, odwołania do geometrii)', () => {

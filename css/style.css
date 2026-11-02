@@ -573,3 +573,15 @@ a { color: inherit; }
 .panel-wypisz.po-odpowiedzi .sprawdz:hover, .panel-wypisz.trafione .sprawdz:hover {
   opacity: .38; filter: saturate(.2); cursor: default; transform: none;
 }
+
+/* Ekran wyniku: podpowiedź klawisza w przycisku (tylko komputer z klawiaturą) */
+.klawisz { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .klawisz {
+    display: inline-block; margin-left: 7px; padding: 1px 5px 2px;
+    border: 1px solid currentColor; border-radius: 5px; opacity: .5;
+    font-size: 10.5px; font-weight: 500; letter-spacing: .02em; line-height: 1.3; vertical-align: 1px;
+  }
+  .okno.wynik-koncowy { width: min(460px, 100%); }
+  .wynik-koncowy .przyciski .przycisk { white-space: nowrap; padding-inline: 10px; }
+}

@@ -262,7 +262,7 @@ async function widokQuiz(quizId) {
   function pokazPytanie() {
     odpowiedziano = false;
     mapa.wyczysc();
-    mapa.wrocZRosji();
+    mapa.wrocDoEuropy();
     const p = pytania[nr];
     licznik.textContent = `${nr + 1}/${pytania.length}`;
     ustawPostep(nr);
@@ -344,8 +344,8 @@ async function widokQuiz(quizId) {
           </div>
           <p class="wynik-opis">Poprawne odpowiedzi: <strong>${poprawne}</strong> z <strong>${pytania.length}</strong></p>
           <div class="przyciski">
-            <button class="przycisk jeszcze" type="button">Jeszcze raz</button>
-            <a class="przycisk glowny" href="#europa-wskaz">Wróć do quizów</a>
+            <button class="przycisk jeszcze" type="button">Jeszcze raz<span class="klawisz" aria-hidden="true">spacja</span></button>
+            <a class="przycisk glowny wroc-do-listy" href="#europa-wskaz">Wróć do quizów<span class="klawisz" aria-hidden="true">enter</span></a>
           </div>
         </section>
       </div>`);
@@ -458,7 +458,8 @@ async function widokWypisz(quizId) {
   let doOdsloniecia = null; // obiekt bieżącego pytania
   // Otwarcie/zamknięcie klawiatury zmienia widoczną część ekranu – sprawdzamy, czy obiekt nadal widać.
   let czekaj = null;
-  const poZmianieEkranu = () => { clearTimeout(czekaj); czekaj = setTimeout(() => { if (v.isConnected && doOdsloniecia) odslon(doOdsloniecia); }, 150); };
+  let wracaDoEuropy = false; // w trakcie powrotu do widoku Europy nie przerywamy lotu mapy
+  const poZmianieEkranu = () => { clearTimeout(czekaj); czekaj = setTimeout(() => { if (v.isConnected && doOdsloniecia && !wracaDoEuropy) odslon(doOdsloniecia); }, 150); };
   window.visualViewport?.addEventListener('resize', poZmianieEkranu);
   pole.addEventListener('focus', poZmianieEkranu);
 
@@ -492,7 +493,8 @@ async function widokWypisz(quizId) {
     // państwo) nie mieści się w widocznej części mapy; poza tym przybliżenie i położenie ustawia użytkownik.
     doOdsloniecia = panstwo || p.geometria;
     const obiekt = doOdsloniecia;
-    mapa.wrocZRosji().then(() => requestAnimationFrame(() => { if (doOdsloniecia === obiekt) odslon(obiekt); }));
+    wracaDoEuropy = true;
+    mapa.wrocDoEuropy().then(() => { wracaDoEuropy = false; requestAnimationFrame(() => { if (doOdsloniecia === obiekt) odslon(obiekt); }); });
     // Na komputerze kursor od razu w polu. Na telefonie klawiatura otwiera się po pierwszym
     // stuknięciu w pole i potem zostaje otwarta – pole nie traci fokusu między pytaniami.
     if (!dotyk.matches || document.activeElement === pole) pole.focus({ preventScroll: true });
@@ -575,8 +577,8 @@ async function widokWypisz(quizId) {
           </div>
           <p class="wynik-opis">Poprawne odpowiedzi: <strong>${poprawne}</strong> z <strong>${pytania.length}</strong></p>
           <div class="przyciski">
-            <button class="przycisk jeszcze" type="button">Jeszcze raz</button>
-            <a class="przycisk glowny" href="#europa-wypisz">Wróć do quizów</a>
+            <button class="przycisk jeszcze" type="button">Jeszcze raz<span class="klawisz" aria-hidden="true">spacja</span></button>
+            <a class="przycisk glowny wroc-do-listy" href="#europa-wypisz">Wróć do quizów<span class="klawisz" aria-hidden="true">enter</span></a>
           </div>
         </section>
       </div>`);
@@ -653,6 +655,14 @@ async function trasa() {
 }
 
 document.addEventListener('keydown', (e) => {
+  // Ekran wyniku: spacja = „Jeszcze raz”, Enter = „Wróć do quizów”.
+  const wynik = document.querySelector('.tlo-wyniku');
+  // (defaultPrevented: ten sam Enter właśnie zakończył quiz w polu odpowiedzi – nie liczy się drugi raz)
+  if (wynik && !e.defaultPrevented && (e.key === ' ' || e.key === 'Enter')) {
+    e.preventDefault();
+    if (!e.repeat) wynik.querySelector(e.key === ' ' ? '.jeszcze' : '.wroc-do-listy')?.click();
+    return;
+  }
   if (e.target instanceof HTMLInputElement) return; // pisanie w polu odpowiedzi
   if ((e.key === 'Enter' || e.key === ' ') && document.querySelector('.panel.po-odpowiedzi:not([hidden])') && !document.querySelector('.tlo-okna')) {
     if (document.activeElement?.classList.contains('dalej')) return; // przycisk sam obsłuży
