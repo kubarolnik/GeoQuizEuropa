@@ -133,6 +133,13 @@ test('w quizie „Wyspy i Przynależności” Cypr bez dopisku „(wyspa)”, w 
   rowne(new Set(wQuizie).size, wQuizie.length, 'nazwy w quizie wysp muszą być unikalne:');
   rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'wyspa-cypr'), SPRAWDZIAN), 'Cypr (wyspa)');
 });
+test('Bałkany: w Sprawdzianie „Stara Płanina (Bałkany)”, w quizie krain „Bałkany”', () => {
+  const b = dane.pytania.find((p) => p.id === 'kraina-balkany');
+  rowne(nazwaWQuizie(b, SPRAWDZIAN), 'Stara Płanina (Bałkany)');
+  rowne(nazwaWQuizie(b, 'krainy'), 'Bałkany');
+  const wSprawdzianie = pytaniaQuizu(dane, SPRAWDZIAN).map((p) => nazwaWQuizie(p, SPRAWDZIAN));
+  rowne(new Set(wSprawdzianie).size, wSprawdzianie.length, 'nazwy w Sprawdzianie muszą być unikalne:');
+});
 test('kolejność i nazwy quizów na liście', () => {
   rowne(dane.quizy.map((q) => `${q.numer}. ${q.nazwa}`), ['1. Państwa', '2. Stolice', '3. Morza', '4. Zatoki', '5. Półwyspy', '6. Wyspy i Przynależności', '7. Krainy Geograficzne', '8. Rzeki', '9. Jeziora', '10. Cieśniny']);
 });

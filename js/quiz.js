@@ -36,7 +36,11 @@ export function pytaniaQuizu(dane, quizId) {
 // i Przynależności” dopiski „(państwo)” / „(stolica)” / „(wyspa)” są zbędne (Andora, Cypr,
 // Luksemburg, Monako, San Marino, Watykan), więc je pomijamy. W Sprawdzianie zostają, bo tam obok siebie są np. „Monako (państwo)”
 // i „Monako (stolica)”, a także „Cypr (państwo)” i „Cypr (wyspa)”.
+// W Sprawdzianie pasmo Bałkany ma pełniejszą nazwę (w quizie „Krainy Geograficzne” zostaje „Bałkany”).
+const NAZWY_W_SPRAWDZIANIE = { 'kraina-balkany': 'Stara Płanina (Bałkany)' };
+
 export function nazwaWQuizie(pytanie, quizId) {
+  if (quizId === SPRAWDZIAN && NAZWY_W_SPRAWDZIANIE[pytanie.id]) return NAZWY_W_SPRAWDZIANIE[pytanie.id];
   if (quizId === 'stolice' && pytanie.rodzaj === 'stolica') return pytanie.nazwa.replace(/ \(stolica\)$/, '');
   if (quizId === 'panstwa' && pytanie.rodzaj === 'państwo') return pytanie.nazwa.replace(/ \(państwo\)$/, '');
   if (quizId === 'wyspy' && pytanie.rodzaj === 'wyspa') return pytanie.nazwa.replace(/ \(wyspa\)$/, '');
