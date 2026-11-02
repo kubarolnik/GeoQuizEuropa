@@ -602,3 +602,8 @@ a { color: inherit; }
   padding: 4px 10px; border-radius: 8px; font-size: 13px; line-height: 1.35;
   border: 1px solid rgba(224, 72, 72, .38); background: rgba(224, 72, 72, .09);
 }
+/* Kolory bloku błędów: napis „Błędy” czerwony, reszta biała (w jasnym motywie – ciemna, żeby była czytelna) */
+.okno-bledy { color: #fff; }
+.okno-bledy .naglowek-bledow .etykieta { color: var(--pudlo); background: rgba(224, 72, 72, .14); }
+.grupa-bledow h3 .numer { opacity: .6; }
+:root[data-tlo="jasne"] .okno-bledy { color: #1d2127; }
