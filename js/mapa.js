@@ -183,30 +183,6 @@ export function utworzMape(element, { geometrie, tlo }) {
     });
   }
 
-  // Tryb „Wypisz”: płynnie ustawia mapę tak, żeby obiekt był dobrze widoczny w odsłoniętej
-  // części mapy (oddala albo przybliża). Punkty pokazujemy na tle ich okolicy.
-  function pokazDoNazwania(id, gornyMargines = 0, { lewyMargines = 0, granica = null } = {}) {
-    const f = indeks.get(id);
-    if (!f) return Promise.resolve();
-    const punkt = f.geometry.type === 'Point';
-    const g = granica ? L.geoJSON(indeks.get(granica)).getBounds()
-      : punkt ? L.latLngBounds([L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0])])
-      : L.geoJSON(f).getBounds();
-    const margines = 32;
-    return new Promise((gotowe) => {
-      let zakonczone = false;
-      const koniec = () => { if (zakonczone) return; zakonczone = true; map.off('moveend', koniec); gotowe(); };
-      map.once('moveend', koniec);
-      setTimeout(koniec, 2500);
-      map.flyToBounds(g, {
-        paddingTopLeft: [lewyMargines + margines, gornyMargines + margines],
-        paddingBottomRight: [margines + 48, margines],
-        maxZoom: punkt && !granica ? 6 : 8,
-        duration: 0.9,
-      });
-    });
-  }
-
   // ---- rozpoznawanie trafień ----
   function trafia(id, latlng) {
     const f = indeks.get(id);
@@ -256,7 +232,6 @@ export function utworzMape(element, { geometrie, tlo }) {
     wyczysc,
     pokazPudlo,
     pokazObiekt,
-    pokazDoNazwania,
     trafia,
     odlegloscPx,
     tolerancja,

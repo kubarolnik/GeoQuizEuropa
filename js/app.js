@@ -463,9 +463,11 @@ async function widokWypisz(quizId) {
     const panstwo = panstwoStolicy(p);
     if (panstwo) mapa.podswietl(panstwo, { slabo: true, kolor: KOLOR_PYTANIA });
     mapa.podswietl(p.geometria, { kolor: KOLOR_PYTANIA });
+    // Jak w trybie „Wskaż”: mapa rusza się tylko wtedy, gdy obiekt (przy stolicy – całe jej
+    // państwo) nie mieści się w widocznej części mapy; poza tym przybliżenie i położenie ustawia użytkownik.
     requestAnimationFrame(() => {
       const [gora, lewo] = marginesyPanelu();
-      mapa.pokazDoNazwania(p.geometria, gora, { lewyMargines: lewo, granica: panstwo });
+      mapa.pokazObiekt(panstwo || p.geometria, gora, { lewyMargines: lewo, przyblizMale: false });
     });
     // Na komputerze kursor od razu w polu; na telefonie klawiatura otwiera się dopiero po stuknięciu.
     if (!dotyk.matches) pole.focus({ preventScroll: true });

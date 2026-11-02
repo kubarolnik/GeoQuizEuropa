@@ -513,14 +513,14 @@ a { color: inherit; }
   margin: 0; color: #fff; font-size: 15px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
   opacity: .85; text-shadow: 0 1px 10px rgba(0, 0, 0, .4);
 }
-.tryby { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+.tryby { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; }
 .widok-start .kategoria.tryb {
-  width: 236px; min-height: 168px; padding: 18px 18px 20px;
-  flex-direction: column; gap: 6px; font-size: 30px; line-height: 1.1;
+  width: 212px; min-height: 150px; padding: 16px 16px 18px;
+  flex-direction: column; gap: 5px; font-size: 27px; line-height: 1.1;
 }
-.tryb-ikona { display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 4px; border-radius: 12px; background: rgba(var(--akcent-rgb), .22); }
-.tryb-ikona svg { width: 21px; height: 21px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.tryb-opis { max-width: 190px; font-size: 13px; font-weight: 500; line-height: 1.35; opacity: .85; text-align: center; letter-spacing: 0; }
+.tryb-ikona { display: grid; place-items: center; width: 36px; height: 36px; margin-bottom: 3px; border-radius: 12px; background: rgba(var(--akcent-rgb), .22); }
+.tryb-ikona svg { width: 19px; height: 19px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.tryb-opis { max-width: 176px; font-size: 12.5px; font-weight: 500; line-height: 1.35; opacity: .85; text-align: center; letter-spacing: 0; }
 .wybor-wroc {
   position: absolute; z-index: 2; top: max(16px, env(safe-area-inset-top)); left: max(16px, env(safe-area-inset-left));
   background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .5); color: #fff;
@@ -528,8 +528,8 @@ a { color: inherit; }
 }
 .wybor-wroc:hover { background: rgba(255, 255, 255, .22); }
 @media (max-width: 540px) {
-  .tryby { flex-direction: column; align-items: center; gap: 12px; }
-  .widok-start .kategoria.tryb { width: 260px; min-height: 0; padding: 16px 18px; }
+  .tryby { flex-direction: column; align-items: center; gap: 24px; }
+  .widok-start .kategoria.tryb { width: 236px; min-height: 0; padding: 14px 16px; }
 }
 .pasek-tryb { font-weight: 400; opacity: .6; }
 
