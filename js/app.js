@@ -364,4 +364,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 window.addEventListener('hashchange', trasa);
+// Każde wejście na stronę (także odświeżenie albo link z „#europa” / „#quiz-…”) zaczyna się
+// od strony głównej z przyciskiem „Europa”: usuwamy końcówkę adresu bez dodawania wpisu do historii.
+if (location.hash) history.replaceState(null, '', location.pathname + location.search);
 trasa();
