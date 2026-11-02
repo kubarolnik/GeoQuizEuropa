@@ -401,8 +401,8 @@ a { color: inherit; }
 @keyframes przyblizenie { from { transform: scale(1.06); } to { transform: scale(1); } }
 .widok-start::after { display: none; }
 .widok-start .kategoria {
-  width: 288px; max-width: 100%; min-height: 104px; border: 0; border-radius: var(--r-l);
-  font-size: 40px; box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+  width: 280px; max-width: 100%; min-height: 112px; border: 0; border-radius: var(--r-l);
+  font-size: 41px; box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
 }
 .widok-start .kategoria:hover { background: var(--akcent); opacity: .92; transform: translateY(-2px); }
 .widok-start .start-podpis { color: #fff; opacity: .9; font-size: var(--t-s); font-weight: 500; text-shadow: 0 1px 8px rgba(0, 0, 0, .4); }
