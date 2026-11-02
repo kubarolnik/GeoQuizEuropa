@@ -438,6 +438,21 @@ async function widokWypisz(quizId) {
   const dotyk = window.matchMedia('(pointer: coarse)');
   const kartaWRogu = window.matchMedia('(orientation: landscape) and (max-height: 500px) and (pointer: coarse)');
   const marginesyPanelu = () => { const r = panel.getBoundingClientRect(); return kartaWRogu.matches ? [0, r.right] : [r.bottom, 0]; };
+  // Wysokość dołu ekranu zasłoniętego przez klawiaturę telefonu (0, gdy klawiatura jest schowana).
+  const zaslonietyDol = () => {
+    const vv = window.visualViewport;
+    return vv ? Math.max(0, Math.round(window.innerHeight - (vv.offsetTop + vv.height))) : 0;
+  };
+  // Odsłania obiekt w części mapy, której nie zasłania panel ani klawiatura.
+  function odslon(id) {
+    const [gora, lewo] = marginesyPanelu();
+    return mapa.pokazObiekt(id, gora, { lewyMargines: lewo, dolnyMargines: zaslonietyDol(), przyblizMale: false });
+  }
+  let doOdsloniecia = null; // obiekt bieżącego pytania
+  // Otwarcie/zamknięcie klawiatury zmienia widoczną część ekranu – sprawdzamy, czy obiekt nadal widać.
+  let czekaj = null;
+  const poZmianieEkranu = () => { clearTimeout(czekaj); czekaj = setTimeout(() => { if (v.isConnected && doOdsloniecia) odslon(doOdsloniecia); }, 150); };
+  window.visualViewport?.addEventListener('resize', poZmianieEkranu);
 
   let pytania, nr, poprawne, odpowiedziano;
   let klawiaturaPrzedBledem = false; // czy przed błędną odpowiedzią klawiatura była otwarta (telefon)
@@ -466,10 +481,8 @@ async function widokWypisz(quizId) {
     mapa.podswietl(p.geometria, { kolor: KOLOR_PYTANIA });
     // Jak w trybie „Wskaż”: mapa rusza się tylko wtedy, gdy obiekt (przy stolicy – całe jej
     // państwo) nie mieści się w widocznej części mapy; poza tym przybliżenie i położenie ustawia użytkownik.
-    requestAnimationFrame(() => {
-      const [gora, lewo] = marginesyPanelu();
-      mapa.pokazObiekt(panstwo || p.geometria, gora, { lewyMargines: lewo, przyblizMale: false });
-    });
+    doOdsloniecia = panstwo || p.geometria;
+    requestAnimationFrame(() => odslon(doOdsloniecia));
     // Na komputerze kursor od razu w polu. Na telefonie klawiatura otwiera się po pierwszym
     // stuknięciu w pole i potem zostaje otwarta – pole nie traci fokusu między pytaniami.
     if (!dotyk.matches || document.activeElement === pole) pole.focus({ preventScroll: true });
@@ -579,6 +592,8 @@ async function widokWypisz(quizId) {
     okno.addEventListener('click', (e) => { if (e.target === okno) okno.remove(); });
   }
 
+  // Sprzątanie nasłuchu po opuszczeniu quizu.
+  window.addEventListener('hashchange', () => window.visualViewport?.removeEventListener('resize', poZmianieEkranu), { once: true });
   forma.addEventListener('submit', sprawdz);
   // „Dalej” po błędzie: na telefonie od razu otwieramy klawiaturę na następne pytanie
   // (fokus musi nastąpić w trakcie stuknięcia, inaczej telefon nie pokaże klawiatury).
