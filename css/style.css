@@ -302,13 +302,13 @@ a { color: inherit; }
 .cel { margin: 12px 0 0; font-size: var(--t-l); font-weight: 600; letter-spacing: -.025em; line-height: 1.15; overflow-wrap: anywhere; text-wrap: balance; }
 .cel.wejscie { animation: wejscie 260ms var(--krzywa) both; }
 @keyframes wejscie { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-.odpowiedz { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "fraza dalej" "przyn dalej"; align-items: center; column-gap: 12px; margin-top: 12px; animation: wejscie 240ms var(--krzywa) both; }
+.odpowiedz { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "fraza dalej" "przyn ."; align-items: center; column-gap: 12px; margin-top: 12px; animation: wejscie 240ms var(--krzywa) both; }
 .odpowiedz[hidden] { display: none; }
 .fraza { grid-area: fraza; display: flex; align-items: center; gap: 10px; margin: 0; font-size: var(--t-m); font-weight: 600; letter-spacing: -.01em; }
 .przynaleznosc { grid-area: przyn; margin: 4px 0 0 34px; font-size: var(--t-xs); opacity: .8; }
 .przynaleznosc strong { font-weight: 600; }
 .przynaleznosc[hidden] { display: none; }
-.dalej { grid-area: dalej; align-self: end; }
+.dalej { grid-area: dalej; align-self: center; }
 .znak { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; color: #fff; flex: none; animation: wbicie 260ms var(--krzywa) both; }
 .znak svg { width: 15px; height: 15px; stroke-width: 3; }
 .trafione .znak { background: var(--trafione); }
