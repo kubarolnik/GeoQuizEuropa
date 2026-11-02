@@ -2,7 +2,7 @@
 
 import { MOTYWY, wczytajMotyw, zapiszMotyw, zastosujMotyw, akcentDla } from './motywy.js';
 import { utworzKoloBarw } from './kolo-barw.js';
-import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaQuizu, wczytajWyniki, zapiszWynik, SPRAWDZIAN } from './quiz.js';
+import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaQuizu, nazwaWQuizie, wczytajWyniki, zapiszWynik, SPRAWDZIAN } from './quiz.js';
 import { utworzMape } from './mapa.js';
 
 const app = document.getElementById('app');
@@ -222,7 +222,7 @@ async function widokQuiz(quizId) {
     const p = pytania[nr];
     licznik.textContent = `${nr + 1}/${pytania.length}`;
     ustawPostep(nr);
-    cel.textContent = p.nazwa;
+    cel.textContent = nazwaWQuizie(p, quizId);
     cel.classList.remove('wejscie'); void cel.offsetWidth; cel.classList.add('wejscie');
     odpowiedz.hidden = true;
     panel.classList.remove('po-odpowiedzi', 'trafione', 'pudlo');

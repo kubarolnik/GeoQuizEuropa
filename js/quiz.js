@@ -32,6 +32,14 @@ export function pytaniaQuizu(dane, quizId) {
   return dane.pytania.filter((p) => p.quiz === quizId);
 }
 
+// Nazwa pytania wyświetlana w danym quizie. W quizie „Stolice” dopisek „(stolica)” jest
+// zbędny (Andora, Luksemburg, Monako, San Marino, Watykan), więc go pomijamy. W Sprawdzianie
+// zostaje, bo tam obok siebie są np. „Monako (państwo)” i „Monako (stolica)”.
+export function nazwaWQuizie(pytanie, quizId) {
+  if (quizId === 'stolice' && pytanie.rodzaj === 'stolica') return pytanie.nazwa.replace(/ \(stolica\)$/, '');
+  return pytanie.nazwa;
+}
+
 export function nazwaQuizu(dane, quizId) {
   if (quizId === SPRAWDZIAN) return 'Sprawdzian';
   return dane.quizy.find((q) => q.id === quizId)?.nazwa ?? '';

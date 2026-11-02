@@ -3,7 +3,7 @@
 //   node testy/test.mjs
 
 import { readFileSync } from 'node:fs';
-import { tasuj, losujFraze, procent, pytaniaQuizu, SPRAWDZIAN } from '../js/quiz.js';
+import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaWQuizie, SPRAWDZIAN } from '../js/quiz.js';
 
 const czytaj = (p) => JSON.parse(readFileSync(new URL('../' + p, import.meta.url), 'utf8'));
 const dane = czytaj('data/europa.json');
@@ -110,6 +110,14 @@ test('„Sprawdzian” = suma pytań z quizów 1–10 (184)', () => {
   const suma = dane.quizy.reduce((s, q) => s + pytaniaQuizu(dane, q.id).length, 0);
   rowne(pytaniaQuizu(dane, SPRAWDZIAN).length, suma);
   rowne(suma, 184);
+});
+test('w quizie „Stolice” nazwy bez dopisku „(stolica)”, w Sprawdzianie z dopiskiem', () => {
+  const wQuizie = pytaniaQuizu(dane, 'stolice').map((p) => nazwaWQuizie(p, 'stolice'));
+  prawda(wQuizie.every((n) => !n.includes('(')), 'została nazwa z nawiasem: ' + wQuizie.filter((n) => n.includes('(')));
+  rowne(wQuizie.filter((n) => ['Andora', 'Luksemburg', 'Monako', 'San Marino', 'Watykan'].includes(n)).sort(), ['Andora', 'Luksemburg', 'Monako', 'San Marino', 'Watykan']);
+  rowne(new Set(wQuizie).size, wQuizie.length, 'nazwy w quizie „Stolice” muszą być unikalne:');
+  rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'stolica-monako'), SPRAWDZIAN), 'Monako (stolica)');
+  rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'panstwo-monako'), 'panstwa'), 'Monako (państwo)');
 });
 test('kolejność i nazwy quizów na liście', () => {
   rowne(dane.quizy.map((q) => `${q.numer}. ${q.nazwa}`), ['1. Państwa', '2. Stolice', '3. Morza', '4. Zatoki', '5. Półwyspy', '6. Wyspy + Przynależności', '7. Krainy Geograficzne', '8. Rzeki', '9. Jeziora', '10. Cieśniny']);
