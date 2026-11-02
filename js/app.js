@@ -232,13 +232,29 @@ async function widokQuiz(quizId) {
     odpowiedziano = true;
     const p = pytania[nr];
     const ok = mapa.trafia(p.geometria, latlng);
-    if (ok) poprawne++;
     mapa.podswietl(p.geometria);
-    if (!ok) mapa.pokazPudlo(latlng);
+    ustawPostep(nr + 1);
+
+    if (ok) {
+      // Trafienie: bez frazy i bez przycisku „Dalej”. Jeśli obiekt nie mieści się w widoku,
+      // mapa najpierw płynnie go odsłania, a dopiero potem liczymy 1 sekundę do następnego pytania.
+      poprawne++;
+      panel.classList.remove('trafione'); void panel.offsetWidth; panel.classList.add('trafione');
+      const tenNr = nr;
+      Promise.resolve(mapa.pokazObiekt(p.geometria, panel.getBoundingClientRect().bottom, { przyblizMale: false })).then(() => {
+        setTimeout(() => {
+          if (!v.isConnected || nr !== tenNr) return; // quiz zakończony albo przerwany w międzyczasie
+          nastepne();
+        }, 1000);
+      });
+      return;
+    }
+
+    mapa.pokazPudlo(latlng);
 
     fraza.innerHTML = '';
-    fraza.append(el(`<span class="znak">${ok ? ikona.ok : ikona.zamknij}</span>`));
-    fraza.append(document.createTextNode(losujFraze(ok ? dane.frazy.trafione : dane.frazy.pudlo)));
+    fraza.append(el(`<span class="znak">${ikona.zamknij}</span>`));
+    fraza.append(document.createTextNode(losujFraze(dane.frazy.pudlo)));
     if (p.przynaleznosc) {
       przynaleznosc.hidden = false;
       przynaleznosc.innerHTML = '';
@@ -246,14 +262,11 @@ async function widokQuiz(quizId) {
     } else przynaleznosc.hidden = true;
     dalej.querySelector('span').textContent = nr === pytania.length - 1 ? 'Wynik' : 'Dalej';
     odpowiedz.hidden = false;
-    panel.classList.add('po-odpowiedzi', ok ? 'trafione' : 'pudlo');
-    ustawPostep(nr + 1);
-    if (!ok) { try { navigator.vibrate?.(120); } catch { /* brak wibracji */ } }
+    panel.classList.add('po-odpowiedzi', 'pudlo');
+    try { navigator.vibrate?.(120); } catch { /* brak wibracji */ }
 
-    if (!ok) {
-      // Po zmianie zawartości panelu sprawdzamy jego wysokość i odsłaniamy obiekt pod nim.
-      requestAnimationFrame(() => mapa.pokazObiekt(p.geometria, panel.getBoundingClientRect().bottom));
-    }
+    // Po zmianie zawartości panelu sprawdzamy jego wysokość i odsłaniamy obiekt pod nim.
+    requestAnimationFrame(() => mapa.pokazObiekt(p.geometria, panel.getBoundingClientRect().bottom));
     dalej.focus({ preventScroll: true, focusVisible: false });
   }
 

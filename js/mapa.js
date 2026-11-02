@@ -145,9 +145,11 @@ export function utworzMape(element, { geometrie, tlo }) {
   // Płynnie przesuwa (i w razie potrzeby oddala) mapę, żeby obiekt był widoczny
   // w części mapy niezasłoniętej przez górny panel. Bardzo małe obszary (np. wyspy
   // przy dużym oddaleniu) są dodatkowo lekko przybliżane.
-  function pokazObiekt(id, gornyMargines = 0) {
+  // Zwraca obietnicę spełnianą, gdy mapa skończy się przesuwać (od razu, jeśli nie trzeba jej ruszać).
+  // przyblizMale: false – nie przybliżaj małych obiektów (przy trafieniu obiekt jest już pod kursorem).
+  function pokazObiekt(id, gornyMargines = 0, { przyblizMale = true } = {}) {
     const f = indeks.get(id);
-    if (!f) return;
+    if (!f) return Promise.resolve();
     const punkt = f.geometry.type === 'Point';
     const granicaObiektu = punkt
       ? L.latLngBounds([L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0])])
@@ -160,13 +162,19 @@ export function utworzMape(element, { geometrie, tlo }) {
     const a = map.latLngToContainerPoint(granicaObiektu.getSouthWest()), b = map.latLngToContainerPoint(granicaObiektu.getNorthEast());
     const malenki = !punkt && Math.max(Math.abs(b.x - a.x), Math.abs(b.y - a.y)) < 16;
     const zoom = map.getZoom();
-    const maxZoom = malenki ? Math.max(zoom, Math.min(zoom + 2, 8)) : zoom;
-    if (widoczne.contains(granicaObiektu) && maxZoom === zoom) return;
-    map.flyToBounds(granicaObiektu, {
-      paddingTopLeft: [margines, gornyMargines + margines],
-      paddingBottomRight: [margines + 48, margines],
-      maxZoom,
-      duration: 0.9,
+    const maxZoom = malenki && przyblizMale ? Math.max(zoom, Math.min(zoom + 2, 8)) : zoom;
+    if (widoczne.contains(granicaObiektu) && maxZoom === zoom) return Promise.resolve();
+    return new Promise((gotowe) => {
+      let zakonczone = false;
+      const koniec = () => { if (zakonczone) return; zakonczone = true; map.off('moveend', koniec); gotowe(); };
+      map.once('moveend', koniec);
+      setTimeout(koniec, 2500); // zabezpieczenie, gdyby animacja nie zgłosiła końca
+      map.flyToBounds(granicaObiektu, {
+        paddingTopLeft: [margines, gornyMargines + margines],
+        paddingBottomRight: [margines + 48, margines],
+        maxZoom,
+        duration: 0.9,
+      });
     });
   }
 
