@@ -152,7 +152,7 @@ export function utworzMape(element, { geometrie, tlo }) {
   // przy dużym oddaleniu) są dodatkowo lekko przybliżane.
   // Zwraca obietnicę spełnianą, gdy mapa skończy się przesuwać (od razu, jeśli nie trzeba jej ruszać).
   // przyblizMale: false – nie przybliżaj małych obiektów (przy trafieniu obiekt jest już pod kursorem).
-  function pokazObiekt(id, gornyMargines = 0, { przyblizMale = true } = {}) {
+  function pokazObiekt(id, gornyMargines = 0, { przyblizMale = true, lewyMargines = 0 } = {}) {
     const f = indeks.get(id);
     if (!f) return Promise.resolve();
     const punkt = f.geometry.type === 'Point';
@@ -161,7 +161,7 @@ export function utworzMape(element, { geometrie, tlo }) {
       : L.geoJSON(f).getBounds();
     const rozmiar = map.getSize();
     const margines = 24;
-    const lg = map.containerPointToLatLng([margines, gornyMargines + margines]);
+    const lg = map.containerPointToLatLng([lewyMargines + margines, gornyMargines + margines]);
     const pd = map.containerPointToLatLng([rozmiar.x - margines - 48, rozmiar.y - margines]);
     const widoczne = L.latLngBounds(lg, pd);
     const a = map.latLngToContainerPoint(granicaObiektu.getSouthWest()), b = map.latLngToContainerPoint(granicaObiektu.getNorthEast());
@@ -175,7 +175,7 @@ export function utworzMape(element, { geometrie, tlo }) {
       map.once('moveend', koniec);
       setTimeout(koniec, 2500); // zabezpieczenie, gdyby animacja nie zgłosiła końca
       map.flyToBounds(granicaObiektu, {
-        paddingTopLeft: [margines, gornyMargines + margines],
+        paddingTopLeft: [lewyMargines + margines, gornyMargines + margines],
         paddingBottomRight: [margines + 48, margines],
         maxZoom,
         duration: 0.9,

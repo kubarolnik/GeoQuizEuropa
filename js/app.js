@@ -210,6 +210,13 @@ async function widokQuiz(quizId) {
 
   let pytania, nr, poprawne, odpowiedziano;
 
+  // Część mapy zasłonięta przez panel: zwykle pas u góry, a na telefonie trzymanym
+  // poziomo (panel w lewym górnym rogu) – pas po lewej stronie.
+  function marginesyPanelu() {
+    const r = panel.getBoundingClientRect();
+    return r.width < window.innerWidth / 2 ? [0, r.right] : [r.bottom, 0];
+  }
+
   function start() {
     pytania = tasuj(pytaniaQuizu(dane, quizId));
     nr = 0; poprawne = 0;
@@ -222,7 +229,8 @@ async function widokQuiz(quizId) {
     const p = pytania[nr];
     licznik.textContent = `${nr + 1}/${pytania.length}`;
     ustawPostep(nr);
-    cel.textContent = nazwaWQuizie(p, quizId);
+    // Miękki dywiz: w wąskiej karcie (telefon poziomo) bardzo długie słowo łamie się poprawnie.
+    cel.textContent = nazwaWQuizie(p, quizId).replace('Wschodnioeuropejska', 'Wschodnio\u00ADeuropejska');
     cel.classList.remove('wejscie'); void cel.offsetWidth; cel.classList.add('wejscie');
     odpowiedz.hidden = true;
     panel.classList.remove('po-odpowiedzi', 'trafione', 'pudlo');
@@ -245,7 +253,7 @@ async function widokQuiz(quizId) {
       poprawne++;
       panel.classList.remove('trafione'); void panel.offsetWidth; panel.classList.add('trafione');
       const tenNr = nr;
-      Promise.resolve(mapa.pokazObiekt(p.geometria, panel.getBoundingClientRect().bottom, { przyblizMale: false })).then(() => {
+      Promise.resolve(mapa.pokazObiekt(p.geometria, marginesyPanelu()[0], { przyblizMale: false, lewyMargines: marginesyPanelu()[1] })).then(() => {
         setTimeout(() => {
           if (!v.isConnected || nr !== tenNr) return; // quiz zakończony albo przerwany w międzyczasie
           nastepne();
@@ -271,7 +279,7 @@ async function widokQuiz(quizId) {
 
     // Po zmianie zawartości panelu sprawdzamy jego wysokość i odsłaniamy obiekt pod nim.
     // Przy stolicy pokazujemy całe państwo (z podświetloną stolicą), przy innych obiektach – sam obiekt.
-    requestAnimationFrame(() => mapa.pokazObiekt(panstwo || p.geometria, panel.getBoundingClientRect().bottom));
+    requestAnimationFrame(() => { const [gora, lewo] = marginesyPanelu(); mapa.pokazObiekt(panstwo || p.geometria, gora, { lewyMargines: lewo }); });
     dalej.focus({ preventScroll: true, focusVisible: false });
   }
 

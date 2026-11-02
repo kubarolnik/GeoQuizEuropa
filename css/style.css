@@ -479,3 +479,23 @@ a { color: inherit; }
   .przynaleznosc { margin-left: 30px; }
   .dalej { min-height: 38px; padding: 0 14px; font-size: 14px; }
 }
+
+/* Telefon trzymany poziomo: panel quizu jako prawie kwadratowa karta w lewym górnym rogu
+   (ta sama wielkość napisów i przycisków), z niewielkim odstępem od krawędzi ekranu. */
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) {
+  .panel {
+    top: max(10px, env(safe-area-inset-top));
+    left: max(10px, env(safe-area-inset-left));
+    right: auto;
+    margin: 0;
+    width: 272px; max-width: calc(100vw - 20px);
+    padding: 14px 16px 16px;
+    max-height: calc(100% - 20px); overflow-y: auto;
+  }
+  .panel-gora { flex-wrap: wrap; row-gap: 8px; }
+  .panel-gora .etykieta { max-width: 100%; flex: 0 1 auto; }
+  .cel { overflow-wrap: normal; hyphens: manual; }
+  .odpowiedz { grid-template-columns: 1fr; grid-template-areas: "fraza" "przyn" "dalej"; row-gap: 10px; }
+  .przynaleznosc { margin-top: 0; }
+  .dalej { justify-self: stretch; }
+}
