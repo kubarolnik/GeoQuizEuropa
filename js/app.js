@@ -428,6 +428,7 @@ async function widokWypisz(quizId) {
   const cel = v.querySelector('.cel');
   const forma = v.querySelector('.wpisz');
   const pole = v.querySelector('.pole');
+  const przyciskSprawdz = v.querySelector('.sprawdz');
   const odpowiedz = v.querySelector('.odpowiedz');
   const fraza = v.querySelector('.fraza');
   const poprawna = v.querySelector('.poprawna');
@@ -481,6 +482,7 @@ async function widokWypisz(quizId) {
     pole.value = '';
     pole.classList.remove('dobrze', 'zle');
     panel.classList.remove('po-odpowiedzi', 'trafione', 'pudlo');
+    przyciskSprawdz.removeAttribute('aria-disabled');
     // Stolica: delikatnie jej państwo + punkt stolicy. Inne obiekty: sam obiekt.
     const panstwo = panstwoStolicy(p);
     if (panstwo) mapa.podswietl(panstwo, { slabo: true, kolor: KOLOR_PYTANIA });
@@ -497,9 +499,11 @@ async function widokWypisz(quizId) {
   function sprawdz(e) {
     e.preventDefault();
     // Po złej odpowiedzi Enter w polu działa jak „Dalej” (klawiatura zostaje otwarta).
-    if (odpowiedziano) { if (panel.classList.contains('pudlo')) nastepne(); return; }
+    // Przyciemniony „Sprawdź” po odpowiedzi nic nie robi.
+    if (odpowiedziano) { if (e.submitter !== przyciskSprawdz && panel.classList.contains('pudlo')) nastepne(); return; }
     if (!pole.value.trim()) { pole.focus(); return; }
     odpowiedziano = true;
+    przyciskSprawdz.setAttribute('aria-disabled', 'true');
     const p = pytania[nr];
     const ok = sprawdzOdpowiedz(pole.value, p, quizId);
     // Pole nie jest wyłączane ani chowane (to zamykałoby klawiaturę na telefonie);
@@ -607,15 +611,14 @@ async function widokWypisz(quizId) {
     if (klawiaturaPrzedBledem && nr < pytania.length - 1) pole.focus({ preventScroll: true });
     klawiaturaPrzedBledem = false;
   }, true);
-  // Po złej odpowiedzi Enter w polu przechodzi dalej (przycisk „Sprawdź” jest wtedy ukryty,
-  // więc formularz sam by się nie wysłał).
+  // Po złej odpowiedzi Enter w polu przechodzi dalej.
   pole.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && odpowiedziano) { e.preventDefault(); if (panel.classList.contains('pudlo')) nastepne(); }
   });
   // Między odpowiedzią a następnym pytaniem nie da się zmienić tekstu w polu.
   pole.addEventListener('beforeinput', (e) => { if (odpowiedziano) e.preventDefault(); });
   // Przycisk „Sprawdź” / „Dalej” nie zabiera fokusu z pola (klawiatura zostaje).
-  for (const przycisk of [v.querySelector('.sprawdz'), dalej]) {
+  for (const przycisk of [przyciskSprawdz, dalej]) {
     for (const typ of ['pointerdown', 'mousedown']) przycisk.addEventListener(typ, (e) => { if (document.activeElement === pole) e.preventDefault(); });
   }
   dalej.addEventListener('click', nastepne);

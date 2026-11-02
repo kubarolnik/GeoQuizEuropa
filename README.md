@@ -77,7 +77,7 @@ Geometrie są już zbudowane w `data/`. Żeby zbudować je od nowa:
    `ne_10m_admin_0_countries_pol`, `ne_10m_geography_marine_polys`, `ne_10m_geography_regions_polys`,
    `ne_10m_rivers_lake_centerlines`, `ne_10m_lakes`, `ne_10m_land`, `ne_10m_minor_islands`.
 2. `cd narzedzia && npm install && node zbuduj-dane.mjs <katalog>`
-3. `node zbuduj-tlo-swiata.mjs <katalog>` – dokłada do tła zgrubne zarysy reszty świata (mapę można przesunąć wszędzie, więc każdy obiekt da się pokazać nad klawiaturą telefonu).
+3. `node zbuduj-tlo-swiata.mjs <katalog>` – buduje tło mapy dla całego świata (okolice Europy dokładnie, reszta zgrubnie) (mapę można przesunąć wszędzie, więc każdy obiekt da się pokazać nad klawiaturą telefonu).
 
 Geometrie przygotowane ręcznie są w `narzedzia/reczne.mjs` (każda opisana komentarzem `RĘCZNIE`). Granice państw pochodzą z wersji Natural Earth „z punktu widzenia Polski” (Krym w Ukrainie, Kosowo jako państwo, Cypr jako całość).
 

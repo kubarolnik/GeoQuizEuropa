@@ -1,5 +1,5 @@
-// Buduje data/tlo.geojson: obrysy WSZYSTKICH państw świata i największe jeziora (tło mapy).
-// Uruchamiać PO zbuduj-dane.mjs. Geometrie pytań (data/geometrie.geojson) się nie zmieniają.
+// Buduje data/tlo.geojson: obrysy wszystkich państw świata i największe jeziora (tło mapy).
+// Geometrie pytań (data/geometrie.geojson) się nie zmieniają.
 //
 // Użycie: cd narzedzia && node zbuduj-tlo-swiata.mjs <katalog-z-plikami-ne>
 
@@ -14,29 +14,35 @@ if (!NE) { console.error('Podaj katalog z plikami Natural Earth.'); process.exit
 const wczytaj = (n) => JSON.parse(readFileSync(join(NE, n + '.geojson'), 'utf8'));
 const DANE = new URL('../data/', import.meta.url);
 
-// Dotychczasowe tło Europy (zbuduj-dane.mjs, zasięg ZASIEG) zostaje bez zmian;
-// ten skrypt dokłada zgrubne zarysy wszystkiego POZA tym prostokątem.
+// Tło budowane od nowa w jednym przebiegu mapshapera (wspólna topologia = brak szczelin
+// między sąsiadami). Każde państwo dzielone jest na część w prostokącie ZASIEG (dokładnie,
+// ~400 m) i resztę świata (zgrubnie, ~5 km). Części w ZASIEGU państw z pytań pomijamy –
+// rysuje je data/geometrie.geojson. Linie podziału nie są rysowane jako granice (js/mapa.js).
 const ZASIEG = [-35, 25, 90, 85];
 const POZA = [[-180, -90, ZASIEG[0], 90], [ZASIEG[2], -90, 180, 90], [ZASIEG[0], -90, ZASIEG[2], ZASIEG[1]], [ZASIEG[0], ZASIEG[3], ZASIEG[2], 90]];
 const czesci = (g) => (g.geometry.type === 'Polygon' ? [g.geometry.coordinates] : g.geometry.type === 'MultiPolygon' ? g.geometry.coordinates : []);
-function pozaZasiegiem(f, props) {
-  const wiel = [];
-  for (const b of POZA) for (const c of czesci(turf.bboxClip(f, b))) if (c.length && c[0].length >= 4 && turf.area(turf.polygon(c)) > 0) wiel.push(c);
-  return wiel.length ? { type: 'Feature', properties: props, geometry: { type: 'MultiPolygon', coordinates: wiel } } : null;
+const dobre = (c) => c.length && c[0].length >= 4 && turf.area(turf.polygon(c)) > 0;
+function podziel(f, props) {
+  const w = czesci(turf.bboxClip(f, ZASIEG)).filter(dobre);
+  const z = POZA.flatMap((b) => czesci(turf.bboxClip(f, b))).filter(dobre);
+  const mp = (c, d) => ({ type: 'Feature', properties: { ...props, d }, geometry: { type: 'MultiPolygon', coordinates: c } });
+  return [...(w.length ? [mp(w, 400)] : []), ...(z.length ? [mp(z, 5000)] : [])];
 }
+const europa = JSON.parse(readFileSync(new URL('europa.json', DANE), 'utf8'));
+const isoPytan = new Set(europa.pytania.filter((p) => p.iso).map((p) => p.iso));
 const panstwa = wczytaj('ne_10m_admin_0_countries_pol').features.filter((f) => f.geometry)
-  .map((f) => pozaZasiegiem(f, { iso: f.properties.ADM0_A3 })).filter(Boolean);
-const jeziora = wczytaj('ne_10m_lakes').features.filter((f) => f.geometry && turf.area(f) > 3000e6)
-  .map((f) => pozaZasiegiem(f, { jezioro: true })).filter(Boolean);
-const europa = JSON.parse(readFileSync(new URL('tlo.geojson', DANE), 'utf8')).features.filter((f) => !f.properties.swiat);
+  .flatMap((f) => podziel(f, { iso: f.properties.ADM0_A3 }));
+const jeziora = wczytaj('ne_10m_lakes').features.filter((f) => f.geometry)
+  .flatMap((f) => podziel(f, { jezioro: true }))
+  .filter((f) => turf.area(f) > (f.properties.d === 400 ? 20e6 : 3000e6));
 
 const tmp = mkdtempSync(join(tmpdir(), 'tlo-'));
 const MS = new URL('./node_modules/.bin/mapshaper', import.meta.url).pathname;
-function uprosc(features, interwal, nazwa) {
+function uprosc(features, nazwa) {
   if (!features.length) return [];
   const we = join(tmp, nazwa + '-we.json'), wy = join(tmp, nazwa + '-wy.json');
   writeFileSync(we, JSON.stringify(turf.featureCollection(features)));
-  execFileSync(MS, ['-i', we, '-simplify', `interval=${interwal}`, 'keep-shapes', '-filter-slivers', 'min-area=2km2', '-o', wy, 'precision=0.001', 'format=geojson'], { stdio: 'pipe' });
+  execFileSync(MS, ['-i', we, '-simplify', 'variable', 'interval=d', 'keep-shapes', '-filter-slivers', 'min-area=2km2', '-o', wy, 'precision=0.001', 'format=geojson'], { stdio: 'pipe' });
   return JSON.parse(readFileSync(wy, 'utf8')).features;
 }
 // Zaokrąglenie współrzędnych (zgrubne tło świata).
@@ -46,9 +52,15 @@ function zaokraglij(f, krok) {
   return { ...f, geometry: { ...f.geometry, coordinates: r(f.geometry.coordinates) } };
 }
 
-const swiat = [...uprosc(panstwa, 5000, 'panstwa'), ...uprosc(jeziora, 5000, 'jeziora')]
+const wynik = [...uprosc(panstwa, 'panstwa'), ...uprosc(jeziora, 'jeziora')]
   .filter((f) => f.geometry && f.geometry.coordinates.length)
-  .map((f) => zaokraglij({ ...f, properties: { ...f.properties, swiat: true } }, 0.01));
-const wynik = [...europa, ...swiat];
+  .filter((f) => !(f.properties.d === 400 && isoPytan.has(f.properties.iso)))
+  .map((f) => { const { d, ...props } = f.properties; return zaokraglij({ ...f, properties: props }, d === 400 ? 0.0001 : 0.01); })
+  // Kawałki jednego państwa łączymy w jeden obiekt – rysowany jedną ścieżką nie ma szczeliny na styku.
+  .reduce((acc, f) => {
+    const poprz = f.properties.iso && acc.find((g) => g.properties.iso === f.properties.iso);
+    if (poprz) poprz.geometry.coordinates.push(...czesci(f)); else acc.push({ ...f, geometry: { type: 'MultiPolygon', coordinates: czesci(f) } });
+    return acc;
+  }, []);
 writeFileSync(new URL('tlo.geojson', DANE), JSON.stringify(turf.featureCollection(wynik)));
-console.log(`Gotowe: Europa ${europa.length} obiektów, reszta świata ${swiat.length}.`);
+console.log(`Gotowe: ${wynik.length} obiektów.`);

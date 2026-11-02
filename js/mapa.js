@@ -18,6 +18,30 @@ const KOLORY_MAPY = {
 };
 const KOLOR_PODSWIETLENIA = '#16b45a';
 
+// Dane tła są pocięte prostokątem okolic Europy (dokładniej w środku, zgrubnie poza nim),
+// a państwa z pytań przycięte do niego. Linie cięcia nie są granicami – nie rysujemy ich.
+const LINIE_CIECIA = { x: [-35, 90], y: [25, 85] };
+const naLinii = (a, b) => LINIE_CIECIA.x.some((x) => Math.abs(a[0] - x) < 1e-6 && Math.abs(b[0] - x) < 1e-6)
+  || LINIE_CIECIA.y.some((y) => Math.abs(a[1] - y) < 1e-6 && Math.abs(b[1] - y) < 1e-6);
+// Zwraca [granice bez linii cięcia, same linie cięcia leżące na lądzie].
+function obrysyBezCiec(fc) {
+  const linie = [], szwy = [];
+  for (const f of fc.features) {
+    const g = f.geometry;
+    const wielokaty = g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : [];
+    for (const pierscien of wielokaty.flat()) {
+      let biezaca = [pierscien[0]];
+      for (let i = 1; i < pierscien.length; i++) {
+        if (naLinii(pierscien[i - 1], pierscien[i])) { if (biezaca.length > 1) linie.push(biezaca); szwy.push([pierscien[i - 1], pierscien[i]]); biezaca = [pierscien[i]]; }
+        else biezaca.push(pierscien[i]);
+      }
+      if (biezaca.length > 1) linie.push(biezaca);
+    }
+  }
+  const mls = (c) => ({ type: 'Feature', properties: {}, geometry: { type: 'MultiLineString', coordinates: c } });
+  return [mls(linie), mls(szwy)];
+}
+
 export function utworzMape(element, { geometrie, tlo }) {
   const map = L.map(element, {
     zoomControl: false,
@@ -53,6 +77,9 @@ export function utworzMape(element, { geometrie, tlo }) {
 
   const morze = L.rectangle(ZASIEG_MAPY, { renderer: rendererPodkladu, stroke: false, fillOpacity: 1, interactive: false }).addTo(map);
   const lad = L.geoJSON(wszystkiePanstwa, { renderer: rendererPodkladu, stroke: false, fillOpacity: 1, interactive: false }).addTo(map);
+  const [linieGranic, linieCiecia] = obrysyBezCiec(wszystkiePanstwa);
+  // Na styku kawałków lądu wygładzanie zostawia cienką szparę – zamalowujemy ją kolorem lądu.
+  const szwy = L.geoJSON(linieCiecia, { renderer: rendererPodkladu, weight: 2, lineCap: 'butt', interactive: false }).addTo(map);
   const wodyLadowe = L.geoJSON(jeziora, { renderer: rendererPodkladu, stroke: false, fillOpacity: 1, interactive: false }).addTo(map);
 
   L.tileLayer(KAFELKI, {
@@ -62,12 +89,13 @@ export function utworzMape(element, { geometrie, tlo }) {
     className: 'kafelki-reliefu',
   }).addTo(map);
 
-  const granice = L.geoJSON(wszystkiePanstwa, { renderer: rendererGranic, fill: false, weight: 0.9, interactive: false }).addTo(map);
+  const granice = L.geoJSON(linieGranic, { renderer: rendererGranic, weight: 0.9, interactive: false }).addTo(map);
 
   function kolorujMape() {
     const k = KOLORY_MAPY[document.documentElement.dataset.tlo === 'jasne' ? 'jasne' : 'ciemne'];
     morze.setStyle({ fillColor: k.morze });
     lad.setStyle({ fillColor: k.lad });
+    szwy.setStyle({ color: k.lad });
     wodyLadowe.setStyle({ fillColor: k.morze });
     granice.setStyle({ color: k.granica });
     element.style.background = k.morze;

@@ -567,5 +567,9 @@ a { color: inherit; }
   .poprawna { margin-left: 28px; font-size: 13px; }
 }
 
-/* „Wypisz”: po odpowiedzi pole zostaje (klawiatura na telefonie się nie zamyka), znika tylko „Sprawdź” */
-.panel-wypisz.po-odpowiedzi .sprawdz, .panel-wypisz.trafione .sprawdz { display: none; }
+/* „Wypisz”: po odpowiedzi „Sprawdź” zostaje na miejscu, ale jest przygaszony i nieaktywny */
+.sprawdz { transition: opacity var(--czas), filter var(--czas), background-color var(--czas); }
+.panel-wypisz.po-odpowiedzi .sprawdz, .panel-wypisz.trafione .sprawdz,
+.panel-wypisz.po-odpowiedzi .sprawdz:hover, .panel-wypisz.trafione .sprawdz:hover {
+  opacity: .38; filter: saturate(.2); cursor: default; transform: none;
+}
