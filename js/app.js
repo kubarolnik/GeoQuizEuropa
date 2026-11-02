@@ -146,8 +146,8 @@ function widokWybor() {
     <main class="widok widok-start widok-wybor">
       <div class="zdjecie-tla" aria-hidden="true" style="background-image:url(img/tlo-start.jpg)"></div>
       <a class="przycisk maly wybor-wroc" href="#">${ikona.wstecz}<span>Wróć</span></a>
+      <p class="wybor-naglowek">Europa</p>
       <div class="start-srodek">
-        <p class="wybor-naglowek">Europa</p>
         <div class="tryby">
           ${Object.entries(TRYBY).map(([id, t]) => `
             <a class="przycisk glowny kategoria tryb" href="${t.lista}">
@@ -392,6 +392,8 @@ async function widokWypisz(quizId) {
   const nazwa = nazwaQuizu(dane, quizId);
   document.title = `${nazwa} (wypisz) – Europa`;
   const KOLOR_PYTANIA = '#e8b04b'; // podświetlenie obiektu, o który pytamy
+  const KOLOR_DOBRZE = '#16b45a';
+  const KOLOR_ZLE = '#e04848';
 
   app.innerHTML = '';
   const v = el(`
@@ -482,6 +484,13 @@ async function widokWypisz(quizId) {
     const ok = sprawdzOdpowiedz(pole.value, p, quizId);
     pole.disabled = true;
     ustawPostep(nr + 1);
+
+    // Podświetlenie zmienia kolor: zielony – dobrze, czerwony – źle.
+    const panstwo = panstwoStolicy(p);
+    const kolor = ok ? KOLOR_DOBRZE : KOLOR_ZLE;
+    mapa.wyczysc();
+    if (panstwo) mapa.podswietl(panstwo, { slabo: true, kolor });
+    mapa.podswietl(p.geometria, { kolor });
 
     if (ok) {
       // Poprawnie: bez frazy i bez „Dalej” – po 1 s następne pytanie.
