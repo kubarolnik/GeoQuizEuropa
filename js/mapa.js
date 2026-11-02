@@ -181,6 +181,21 @@ export function utworzMape(element, { geometrie, tlo }) {
   // przy dużym oddaleniu) są dodatkowo lekko przybliżane.
   // Zwraca obietnicę spełnianą, gdy mapa skończy się przesuwać (od razu, jeśli nie trzeba jej ruszać).
   // przyblizMale: false – nie przybliżaj małych obiektów (przy trafieniu obiekt jest już pod kursorem).
+  // Rosja (jedyna sięgająca daleko poza Europę) wymaga dużego oddalenia mapy – przy następnym
+  // pytaniu wracamy wtedy do widoku Europy jak po wejściu w quiz.
+  let oddalonoNaRosje = false;
+  function wrocZRosji() {
+    if (!oddalonoNaRosje) return Promise.resolve();
+    oddalonoNaRosje = false;
+    return new Promise((gotowe) => {
+      let zakonczone = false;
+      const koniec = () => { if (zakonczone) return; zakonczone = true; map.off('moveend', koniec); gotowe(); };
+      map.once('moveend', koniec);
+      setTimeout(koniec, 2500);
+      map.flyToBounds(WIDOK_EUROPY, { duration: 0.9 });
+    });
+  }
+
   function pokazObiekt(id, gornyMargines = 0, { przyblizMale = true, lewyMargines = 0, dolnyMargines = 0 } = {}) {
     const f = indeks.get(id);
     if (!f) return Promise.resolve();
@@ -198,6 +213,7 @@ export function utworzMape(element, { geometrie, tlo }) {
     const zoom = map.getZoom();
     const maxZoom = malenki && przyblizMale ? Math.max(zoom, Math.min(zoom + 2, 8)) : zoom;
     if (widoczne.contains(granicaObiektu) && maxZoom === zoom) return Promise.resolve();
+    if (id === 'panstwo-rosja') oddalonoNaRosje = true;
     return new Promise((gotowe) => {
       let zakonczone = false;
       const koniec = () => { if (zakonczone) return; zakonczone = true; map.off('moveend', koniec); gotowe(); };
@@ -261,10 +277,11 @@ export function utworzMape(element, { geometrie, tlo }) {
     wyczysc,
     pokazPudlo,
     pokazObiekt,
+    wrocZRosji,
     trafia,
     odlegloscPx,
     tolerancja,
-    widokEuropy: () => map.flyToBounds(WIDOK_EUROPY, { duration: 0.8 }),
+    widokEuropy: () => { oddalonoNaRosje = false; map.flyToBounds(WIDOK_EUROPY, { duration: 0.8 }); },
     zniszcz: () => {
       document.removeEventListener('zmiana-motywu', kolorujMape);
       for (const [typ, fn] of Object.entries(naOknie)) window.removeEventListener(typ, fn, true);

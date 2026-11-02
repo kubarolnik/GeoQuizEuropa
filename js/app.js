@@ -262,6 +262,7 @@ async function widokQuiz(quizId) {
   function pokazPytanie() {
     odpowiedziano = false;
     mapa.wyczysc();
+    mapa.wrocZRosji();
     const p = pytania[nr];
     licznik.textContent = `${nr + 1}/${pytania.length}`;
     ustawPostep(nr);
@@ -490,7 +491,8 @@ async function widokWypisz(quizId) {
     // Jak w trybie „Wskaż”: mapa rusza się tylko wtedy, gdy obiekt (przy stolicy – całe jej
     // państwo) nie mieści się w widocznej części mapy; poza tym przybliżenie i położenie ustawia użytkownik.
     doOdsloniecia = panstwo || p.geometria;
-    requestAnimationFrame(() => odslon(doOdsloniecia));
+    const obiekt = doOdsloniecia;
+    mapa.wrocZRosji().then(() => requestAnimationFrame(() => { if (doOdsloniecia === obiekt) odslon(obiekt); }));
     // Na komputerze kursor od razu w polu. Na telefonie klawiatura otwiera się po pierwszym
     // stuknięciu w pole i potem zostaje otwarta – pole nie traci fokusu między pytaniami.
     if (!dotyk.matches || document.activeElement === pole) pole.focus({ preventScroll: true });
