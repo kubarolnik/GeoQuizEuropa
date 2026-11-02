@@ -707,6 +707,13 @@ window.addEventListener('keydown', (e) => {
 }, true);
 
 document.addEventListener('keydown', (e) => {
+  // Esc w trakcie quizu = „Zakończ” (okno „Zakończyć quiz?”); przy otwartym oknie Esc je zamyka (jak „Kontynuuj”).
+  if (e.key === 'Escape' && !e.repeat) {
+    const pytanie = document.querySelector('.tlo-okna:not(.tlo-wyniku) .anuluj');
+    if (pytanie) { e.preventDefault(); pytanie.click(); return; }
+    const zakoncz = document.querySelector('.panel:not([hidden]) .zakoncz');
+    if (zakoncz && !document.querySelector('.tlo-okna')) { e.preventDefault(); zakoncz.click(); return; }
+  }
   // Ekran wyniku: spacja = „Jeszcze raz”, Enter = „Wróć do quizów”.
   const wynik = document.querySelector('.tlo-wyniku');
   // (defaultPrevented: ten sam Enter właśnie zakończył quiz w polu odpowiedzi – nie liczy się drugi raz)

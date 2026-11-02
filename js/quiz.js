@@ -92,16 +92,16 @@ export function zapiszWynik(quizId, wartoscProcent, magazyn = globalThis.localSt
 // ---- tryb „Wypisz”: sprawdzanie wpisanej nazwy ----
 // Pytanie wyświetlane nad polem do wpisania, zależnie od rodzaju obiektu.
 const PYTANIA_O_RODZAJ = {
-  'państwo': 'Jakie to państwo?',
-  stolica: 'Jaka to stolica?',
-  morze: 'Jakie to morze?',
-  zatoka: 'Jaka to zatoka?',
-  'półwysep': 'Jaki to półwysep?',
-  wyspa: 'Jaka to wyspa lub archipelag?',
-  kraina: 'Jaka to kraina geograficzna?',
-  rzeka: 'Jaka to rzeka?',
-  jezioro: 'Jakie to jezioro?',
-  'cieśnina': 'Jaka to cieśnina lub kanał?',
+  'państwo': 'Co to za państwo?',
+  stolica: 'Co to za stolica?',
+  morze: 'Co to za morze?',
+  zatoka: 'Co to za zatoka?',
+  'półwysep': 'Co to za półwysep?',
+  wyspa: 'Co to za wyspa lub archipelag?',
+  kraina: 'Co to za kraina geograficzna?',
+  rzeka: 'Co to za rzeka?',
+  jezioro: 'Co to za jezioro?',
+  'cieśnina': 'Co to za cieśnina lub kanał?',
 };
 export function pytanieORodzaj(pytanie) {
   return PYTANIA_O_RODZAJ[pytanie.rodzaj] || 'Co to za miejsce?';
@@ -126,7 +126,7 @@ export function normalizujOdpowiedz(tekst) {
 }
 
 // Słowo określające rodzaj obiektu na początku nazwy nie jest wymagane:
-// na „Jaka to zatoka?” wystarczy „Biskajska”, na „Jakie to morze?” – „Północne” itd.
+// na „Co to za zatoka?” wystarczy „Biskajska”, na „Co to za morze?” – „Północne” itd.
 const SLOWA_RODZAJU = ['Morze', 'Zatoka', 'Półwysep', 'Nizina', 'Wyżyna', 'Góry', 'Masyw', 'Jezioro', 'Cieśnina', 'Wyspy', 'Wyspa'];
 // Wyjątek: przy kanałach słowo „Kanał” jest wymagane („Kanał La Manche”, nie samo „La Manche”).
 

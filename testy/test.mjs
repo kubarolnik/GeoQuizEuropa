@@ -331,7 +331,7 @@ test('przy kanałach słowo „Kanał” jest wymagane, przy cieśninach słowo 
 });
 test('w żadnym quizie jedna odpowiedź nie pasuje do dwóch obiektów tego samego rodzaju', () => {
   // (W Sprawdzianie np. „Polska” to państwo i Nizina Polska, a „Monako” – państwo i stolica,
-  // ale pytania różnią się rodzajem: „Jakie to państwo?” / „Jaka to kraina geograficzna?”.)
+  // ale pytania różnią się rodzajem: „Co to za państwo?” / „Co to za kraina geograficzna?”.)
   for (const q of [...dane.quizy.map((x) => x.id), SPRAWDZIAN]) {
     const kto = new Map();
     for (const p of pytaniaQuizu(dane, q)) for (const o of poprawneOdpowiedzi(p, q)) {
