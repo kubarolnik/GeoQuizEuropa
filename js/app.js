@@ -364,7 +364,11 @@ document.addEventListener('keydown', (e) => {
   }
 });
 window.addEventListener('hashchange', trasa);
-// Każde wejście na stronę (także odświeżenie albo link z „#europa” / „#quiz-…”) zaczyna się
-// od strony głównej z przyciskiem „Europa”: usuwamy końcówkę adresu bez dodawania wpisu do historii.
-if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+// Nowe wejście na stronę (wpisany adres, zakładka, link z „#europa” / „#quiz-…”) zaczyna się od
+// strony głównej z przyciskiem „Europa”. Odświeżenie (F5) oraz powrót przyciskiem wstecz/dalej
+// zostawiają bieżący widok – jak na YouTube, gdzie odświeżenie zostawia ten sam film.
+const rodzajWejscia = performance.getEntriesByType?.('navigation')?.[0]?.type;
+if (location.hash && rodzajWejscia !== 'reload' && rodzajWejscia !== 'back_forward') {
+  history.replaceState(null, '', location.pathname + location.search);
+}
 trasa();
