@@ -23,7 +23,8 @@ const ikona = {
 };
 // Liniowe symbole kategorii (rysowane kolorem przewodnim).
 const SYMBOLE = {
-  panstwa: '<path d="M12 21s-6.5-5.6-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.2"/>',
+  panstwa: '<path d="M5 21V4"/><path d="M5 4.5c2.5-1.6 5-1.6 7.5 0s5 1.6 7 0v9c-2 1.6-4.5 1.6-7 0s-5-1.6-7.5 0"/>',
+  stolice: '<path d="M12 21s-6.5-5.6-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.2"/>',
   morza: '<path d="M3 9.5c1.5-1.3 3-1.3 4.5 0s3 1.3 4.5 0 3-1.3 4.5 0 3 1.3 4.5 0M3 15c1.5-1.3 3-1.3 4.5 0s3 1.3 4.5 0 3-1.3 4.5 0 3 1.3 4.5 0"/>',
   zatoki: '<path d="M3 5h4.5c0 6.5 9 6.5 9 0H21"/><path d="M5 17c1.4-1.1 2.8-1.1 4.2 0s2.8 1.1 4.2 0 2.8-1.1 4.2 0"/>',
   polwyspy: '<path d="M3 5h18"/><path d="M9 5c0 5.5 1 10.5 3 15 2-4.5 3-9.5 3-15"/>',

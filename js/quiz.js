@@ -23,7 +23,7 @@ export function procent(poprawne, wszystkie) {
   return Math.round((poprawne / wszystkie) * 100);
 }
 
-// Pytania danego quizu; „Sprawdzian” = wszystkie pytania z quizów 1–9.
+// Pytania danego quizu; „Sprawdzian” = wszystkie pytania z quizów 1–10.
 export function pytaniaQuizu(dane, quizId) {
   if (quizId === SPRAWDZIAN) {
     const quizy = new Set(dane.quizy.map((q) => q.id));
@@ -40,12 +40,27 @@ export function nazwaQuizu(dane, quizId) {
 // ---- wyniki (tylko ostatnie ukończone podejście) ----
 const KLUCZ_WYNIKOW = 'europa-wyniki';
 
+// Wersja 2: quiz „Państwa i Stolice” podzielony na „Państwa” i „Stolice”.
+// Stary wynik pod kluczem „panstwa” dotyczył połączonego quizu (92 pytania),
+// więc jest usuwany; pozostałe wyniki zostają.
+const KLUCZ_WERSJI = 'europa-wyniki-wersja';
+function migruj(magazyn) {
+  try {
+    if (magazyn.getItem(KLUCZ_WERSJI) === '2') return;
+    const w = JSON.parse(magazyn.getItem(KLUCZ_WYNIKOW) || '{}') || {};
+    delete w.panstwa;
+    magazyn.setItem(KLUCZ_WYNIKOW, JSON.stringify(w));
+    magazyn.setItem(KLUCZ_WERSJI, '2');
+  } catch { /* brak dostępu do magazynu */ }
+}
+
 export function wczytajWyniki(magazyn = globalThis.localStorage) {
+  migruj(magazyn);
   try { return JSON.parse(magazyn.getItem(KLUCZ_WYNIKOW) || '{}') || {}; } catch { return {}; }
 }
 
 export function zapiszWynik(quizId, wartoscProcent, magazyn = globalThis.localStorage) {
-  const w = wczytajWyniki(magazyn);
+  const w = wczytajWyniki(magazyn); // (wczytanie wykonuje też migrację)
   w[quizId] = wartoscProcent; // nadpisuje poprzedni wynik
   try { magazyn.setItem(KLUCZ_WYNIKOW, JSON.stringify(w)); } catch { /* ignoruj */ }
 }

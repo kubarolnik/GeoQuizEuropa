@@ -1,5 +1,5 @@
 {
- "opis": "Wszystkie pytania quizów „Europa”. Polskie nazwy wpisane ręcznie. Geometrie w data/geometrie.geojson (pole „geometria” = id obiektu). „Sprawdzian” = wszystkie pytania z quizów 1–9.",
+ "opis": "Wszystkie pytania quizów „Europa”. Polskie nazwy wpisane ręcznie. Geometrie w data/geometrie.geojson (pole „geometria” = id obiektu). „Sprawdzian” = wszystkie pytania z quizów 1–10.",
  "frazy": {
   "trafione": [
    "Trafione!",
@@ -22,46 +22,51 @@
   {
    "id": "panstwa",
    "numer": 1,
-   "nazwa": "Państwa i Stolice"
+   "nazwa": "Państwa"
+  },
+  {
+   "id": "stolice",
+   "numer": 2,
+   "nazwa": "Stolice"
   },
   {
    "id": "morza",
-   "numer": 2,
+   "numer": 3,
    "nazwa": "Morza"
   },
   {
    "id": "zatoki",
-   "numer": 3,
+   "numer": 4,
    "nazwa": "Zatoki"
   },
   {
    "id": "polwyspy",
-   "numer": 4,
+   "numer": 5,
    "nazwa": "Półwyspy"
   },
   {
    "id": "wyspy",
-   "numer": 5,
+   "numer": 6,
    "nazwa": "Wyspy + Przynależności"
   },
   {
    "id": "krainy",
-   "numer": 6,
+   "numer": 7,
    "nazwa": "Krainy Geograficzne"
   },
   {
    "id": "rzeki",
-   "numer": 7,
+   "numer": 8,
    "nazwa": "Rzeki"
   },
   {
    "id": "jeziora",
-   "numer": 8,
+   "numer": 9,
    "nazwa": "Jeziora"
   },
   {
    "id": "ciesniny",
-   "numer": 9,
+   "numer": 10,
    "nazwa": "Cieśniny"
   }
  ],
@@ -79,7 +84,7 @@
    "id": "stolica-albania",
    "nazwa": "Tirana",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-albania",
    "panstwo": "Albania",
    "wspolrzedne": [
@@ -101,7 +106,7 @@
    "id": "stolica-andora",
    "nazwa": "Andora (stolica)",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-andora",
    "panstwo": "Andora",
    "wspolrzedne": [
@@ -123,7 +128,7 @@
    "id": "stolica-austria",
    "nazwa": "Wiedeń",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-austria",
    "panstwo": "Austria",
    "wspolrzedne": [
@@ -145,7 +150,7 @@
    "id": "stolica-belgia",
    "nazwa": "Bruksela",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-belgia",
    "panstwo": "Belgia",
    "wspolrzedne": [
@@ -167,7 +172,7 @@
    "id": "stolica-bialorus",
    "nazwa": "Mińsk",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-bialorus",
    "panstwo": "Białoruś",
    "wspolrzedne": [
@@ -189,7 +194,7 @@
    "id": "stolica-bosnia",
    "nazwa": "Sarajewo",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-bosnia",
    "panstwo": "Bośnia i Hercegowina",
    "wspolrzedne": [
@@ -211,7 +216,7 @@
    "id": "stolica-bulgaria",
    "nazwa": "Sofia",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-bulgaria",
    "panstwo": "Bułgaria",
    "wspolrzedne": [
@@ -233,7 +238,7 @@
    "id": "stolica-chorwacja",
    "nazwa": "Zagrzeb",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-chorwacja",
    "panstwo": "Chorwacja",
    "wspolrzedne": [
@@ -255,7 +260,7 @@
    "id": "stolica-cypr",
    "nazwa": "Nikozja",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-cypr",
    "panstwo": "Cypr",
    "wspolrzedne": [
@@ -277,7 +282,7 @@
    "id": "stolica-czarnogora",
    "nazwa": "Podgorica",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-czarnogora",
    "panstwo": "Czarnogóra",
    "wspolrzedne": [
@@ -299,7 +304,7 @@
    "id": "stolica-czechy",
    "nazwa": "Praga",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-czechy",
    "panstwo": "Czechy",
    "wspolrzedne": [
@@ -321,7 +326,7 @@
    "id": "stolica-dania",
    "nazwa": "Kopenhaga",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-dania",
    "panstwo": "Dania",
    "wspolrzedne": [
@@ -343,7 +348,7 @@
    "id": "stolica-estonia",
    "nazwa": "Tallinn",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-estonia",
    "panstwo": "Estonia",
    "wspolrzedne": [
@@ -365,7 +370,7 @@
    "id": "stolica-finlandia",
    "nazwa": "Helsinki",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-finlandia",
    "panstwo": "Finlandia",
    "wspolrzedne": [
@@ -387,7 +392,7 @@
    "id": "stolica-francja",
    "nazwa": "Paryż",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-francja",
    "panstwo": "Francja",
    "wspolrzedne": [
@@ -409,7 +414,7 @@
    "id": "stolica-grecja",
    "nazwa": "Ateny",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-grecja",
    "panstwo": "Grecja",
    "wspolrzedne": [
@@ -431,7 +436,7 @@
    "id": "stolica-hiszpania",
    "nazwa": "Madryt",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-hiszpania",
    "panstwo": "Hiszpania",
    "wspolrzedne": [
@@ -453,7 +458,7 @@
    "id": "stolica-holandia",
    "nazwa": "Amsterdam",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-holandia",
    "panstwo": "Holandia",
    "wspolrzedne": [
@@ -475,7 +480,7 @@
    "id": "stolica-irlandia",
    "nazwa": "Dublin",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-irlandia",
    "panstwo": "Irlandia",
    "wspolrzedne": [
@@ -497,7 +502,7 @@
    "id": "stolica-islandia",
    "nazwa": "Reykjavik",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-islandia",
    "panstwo": "Islandia",
    "wspolrzedne": [
@@ -519,7 +524,7 @@
    "id": "stolica-kosowo",
    "nazwa": "Prisztina",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-kosowo",
    "panstwo": "Kosowo",
    "wspolrzedne": [
@@ -541,7 +546,7 @@
    "id": "stolica-liechtenstein",
    "nazwa": "Vaduz",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-liechtenstein",
    "panstwo": "Liechtenstein",
    "wspolrzedne": [
@@ -563,7 +568,7 @@
    "id": "stolica-litwa",
    "nazwa": "Wilno",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-litwa",
    "panstwo": "Litwa",
    "wspolrzedne": [
@@ -585,7 +590,7 @@
    "id": "stolica-luksemburg",
    "nazwa": "Luksemburg (stolica)",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-luksemburg",
    "panstwo": "Luksemburg",
    "wspolrzedne": [
@@ -607,7 +612,7 @@
    "id": "stolica-lotwa",
    "nazwa": "Ryga",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-lotwa",
    "panstwo": "Łotwa",
    "wspolrzedne": [
@@ -629,7 +634,7 @@
    "id": "stolica-macedonia",
    "nazwa": "Skopje",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-macedonia",
    "panstwo": "Macedonia Północna",
    "wspolrzedne": [
@@ -651,7 +656,7 @@
    "id": "stolica-malta",
    "nazwa": "Valletta",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-malta",
    "panstwo": "Malta",
    "wspolrzedne": [
@@ -673,7 +678,7 @@
    "id": "stolica-moldawia",
    "nazwa": "Kiszyniów",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-moldawia",
    "panstwo": "Mołdawia",
    "wspolrzedne": [
@@ -695,7 +700,7 @@
    "id": "stolica-monako",
    "nazwa": "Monako (stolica)",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-monako",
    "panstwo": "Monako",
    "wspolrzedne": [
@@ -717,7 +722,7 @@
    "id": "stolica-niemcy",
    "nazwa": "Berlin",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-niemcy",
    "panstwo": "Niemcy",
    "wspolrzedne": [
@@ -739,7 +744,7 @@
    "id": "stolica-norwegia",
    "nazwa": "Oslo",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-norwegia",
    "panstwo": "Norwegia",
    "wspolrzedne": [
@@ -761,7 +766,7 @@
    "id": "stolica-polska",
    "nazwa": "Warszawa",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-polska",
    "panstwo": "Polska",
    "wspolrzedne": [
@@ -783,7 +788,7 @@
    "id": "stolica-portugalia",
    "nazwa": "Lizbona",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-portugalia",
    "panstwo": "Portugalia",
    "wspolrzedne": [
@@ -805,7 +810,7 @@
    "id": "stolica-rosja",
    "nazwa": "Moskwa",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-rosja",
    "panstwo": "Rosja",
    "wspolrzedne": [
@@ -827,7 +832,7 @@
    "id": "stolica-rumunia",
    "nazwa": "Bukareszt",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-rumunia",
    "panstwo": "Rumunia",
    "wspolrzedne": [
@@ -849,7 +854,7 @@
    "id": "stolica-san-marino",
    "nazwa": "San Marino (stolica)",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-san-marino",
    "panstwo": "San Marino",
    "wspolrzedne": [
@@ -871,7 +876,7 @@
    "id": "stolica-serbia",
    "nazwa": "Belgrad",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-serbia",
    "panstwo": "Serbia",
    "wspolrzedne": [
@@ -893,7 +898,7 @@
    "id": "stolica-slowacja",
    "nazwa": "Bratysława",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-slowacja",
    "panstwo": "Słowacja",
    "wspolrzedne": [
@@ -915,7 +920,7 @@
    "id": "stolica-slowenia",
    "nazwa": "Lublana",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-slowenia",
    "panstwo": "Słowenia",
    "wspolrzedne": [
@@ -937,7 +942,7 @@
    "id": "stolica-szwajcaria",
    "nazwa": "Berno",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-szwajcaria",
    "panstwo": "Szwajcaria",
    "wspolrzedne": [
@@ -959,7 +964,7 @@
    "id": "stolica-szwecja",
    "nazwa": "Sztokholm",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-szwecja",
    "panstwo": "Szwecja",
    "wspolrzedne": [
@@ -981,7 +986,7 @@
    "id": "stolica-ukraina",
    "nazwa": "Kijów",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-ukraina",
    "panstwo": "Ukraina",
    "wspolrzedne": [
@@ -1003,7 +1008,7 @@
    "id": "stolica-watykan",
    "nazwa": "Watykan (stolica)",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-watykan",
    "panstwo": "Watykan",
    "wspolrzedne": [
@@ -1025,7 +1030,7 @@
    "id": "stolica-wegry",
    "nazwa": "Budapeszt",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-wegry",
    "panstwo": "Węgry",
    "wspolrzedne": [
@@ -1047,7 +1052,7 @@
    "id": "stolica-wielka-brytania",
    "nazwa": "Londyn",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-wielka-brytania",
    "panstwo": "Wielka Brytania",
    "wspolrzedne": [
@@ -1069,7 +1074,7 @@
    "id": "stolica-wlochy",
    "nazwa": "Rzym",
    "rodzaj": "stolica",
-   "quiz": "panstwa",
+   "quiz": "stolice",
    "geometria": "stolica-wlochy",
    "panstwo": "Włochy",
    "wspolrzedne": [

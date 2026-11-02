@@ -3,15 +3,16 @@
 import { writeFileSync } from 'node:fs';
 
 const quizy = [
-  { id: 'panstwa', numer: 1, nazwa: 'Państwa i Stolice' },
-  { id: 'morza', numer: 2, nazwa: 'Morza' },
-  { id: 'zatoki', numer: 3, nazwa: 'Zatoki' },
-  { id: 'polwyspy', numer: 4, nazwa: 'Półwyspy' },
-  { id: 'wyspy', numer: 5, nazwa: 'Wyspy + Przynależności' },
-  { id: 'krainy', numer: 6, nazwa: 'Krainy Geograficzne' },
-  { id: 'rzeki', numer: 7, nazwa: 'Rzeki' },
-  { id: 'jeziora', numer: 8, nazwa: 'Jeziora' },
-  { id: 'ciesniny', numer: 9, nazwa: 'Cieśniny' },
+  { id: 'panstwa', numer: 1, nazwa: 'Państwa' },
+  { id: 'stolice', numer: 2, nazwa: 'Stolice' },
+  { id: 'morza', numer: 3, nazwa: 'Morza' },
+  { id: 'zatoki', numer: 4, nazwa: 'Zatoki' },
+  { id: 'polwyspy', numer: 5, nazwa: 'Półwyspy' },
+  { id: 'wyspy', numer: 6, nazwa: 'Wyspy + Przynależności' },
+  { id: 'krainy', numer: 7, nazwa: 'Krainy Geograficzne' },
+  { id: 'rzeki', numer: 8, nazwa: 'Rzeki' },
+  { id: 'jeziora', numer: 9, nazwa: 'Jeziora' },
+  { id: 'ciesniny', numer: 10, nazwa: 'Cieśniny' },
 ];
 
 // [id, państwo, kod ISO (Natural Earth ADM0_A3), stolica, [szer., dł.] stolicy]
@@ -73,7 +74,7 @@ for (const [id, panstwo, iso, stolica, [lat, lng]] of panstwa) {
   // Cypr ma też pytanie „Cypr (wyspa)” w quizie 5, dlatego w Sprawdzianie musi się odróżniać.
   const dopiskiPanstwa = takaSama || id === 'cypr';
   dodaj({ id: `panstwo-${id}`, nazwa: dopiskiPanstwa ? `${panstwo} (państwo)` : panstwo, rodzaj: 'państwo', quiz: 'panstwa', geometria: `panstwo-${id}`, iso, zrodlo: 'Natural Earth (widok granic: Polska)' });
-  dodaj({ id: `stolica-${id}`, nazwa: takaSama ? `${stolica} (stolica)` : stolica, rodzaj: 'stolica', quiz: 'panstwa', geometria: `stolica-${id}`, panstwo, wspolrzedne: [lat, lng], zrodlo: 'ręcznie (współrzędne)' });
+  dodaj({ id: `stolica-${id}`, nazwa: takaSama ? `${stolica} (stolica)` : stolica, rodzaj: 'stolica', quiz: 'stolice', geometria: `stolica-${id}`, panstwo, wspolrzedne: [lat, lng], zrodlo: 'ręcznie (współrzędne)' });
 }
 
 const NE = 'Natural Earth';
@@ -184,7 +185,7 @@ lista('ciesniny', 'cieśnina', [
 ]);
 
 const dane = {
-  opis: 'Wszystkie pytania quizów „Europa”. Polskie nazwy wpisane ręcznie. Geometrie w data/geometrie.geojson (pole „geometria” = id obiektu). „Sprawdzian” = wszystkie pytania z quizów 1–9.',
+  opis: 'Wszystkie pytania quizów „Europa”. Polskie nazwy wpisane ręcznie. Geometrie w data/geometrie.geojson (pole „geometria” = id obiektu). „Sprawdzian” = wszystkie pytania z quizów 1–10.',
   frazy: {
     trafione: ['Trafione!', 'Doskonale!', 'Dobrze!', 'Fenomenalnie!', 'Brawo, kalafiorku!', 'Bombastycznie!'],
     pudlo: ['Błąd!', 'Ale pech!', 'Nie tym razem.', 'Słabiutko.', 'Pudło!', 'Wisisz Kubie dychę!'],

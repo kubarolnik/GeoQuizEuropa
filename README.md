@@ -58,7 +58,7 @@ testy/test.mjs          testy
 node testy/test.mjs
 ```
 
-Sprawdzają m.in.: czy każde pytanie ma geometrię, brak duplikatów, zgodność każdej nazwy ze specyfikacją (litera po literze), liczbę pytań w każdym quizie i w Sprawdzianie (184 = suma quizów 1–9), równe prawdopodobieństwo fraz (dokładne przedziały + test chi-kwadrat), równomierność tasowania, zaokrąglanie procentów, nadpisywanie wyniku, położenie każdej stolicy w jej państwie i każdej wyspy w państwie, do którego należy.
+Sprawdzają m.in.: czy każde pytanie ma geometrię, brak duplikatów, zgodność każdej nazwy ze specyfikacją (litera po literze), liczbę pytań w każdym quizie i w Sprawdzianie (184 = suma quizów 1–10), równe prawdopodobieństwo fraz (dokładne przedziały + test chi-kwadrat), równomierność tasowania, zaokrąglanie procentów, nadpisywanie wyniku, położenie każdej stolicy w jej państwie i każdej wyspy w państwie, do którego należy.
 
 ## Odtworzenie danych (opcjonalne)
 

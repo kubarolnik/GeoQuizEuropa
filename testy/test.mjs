@@ -26,9 +26,8 @@ function prawda(w, opis) { if (!w) throw new Error(opis); }
 const PANSTWA = 'Albania (Tirana), Andora (Andora), Austria (Wiedeń), Belgia (Bruksela), Białoruś (Mińsk), Bośnia i Hercegowina (Sarajewo), Bułgaria (Sofia), Chorwacja (Zagrzeb), Cypr (Nikozja), Czarnogóra (Podgorica), Czechy (Praga), Dania (Kopenhaga), Estonia (Tallinn), Finlandia (Helsinki), Francja (Paryż), Grecja (Ateny), Hiszpania (Madryt), Holandia (Amsterdam), Irlandia (Dublin), Islandia (Reykjavik), Kosowo (Prisztina), Liechtenstein (Vaduz), Litwa (Wilno), Luksemburg (Luksemburg), Łotwa (Ryga), Macedonia Północna (Skopje), Malta (Valletta), Mołdawia (Kiszyniów), Monako (Monako), Niemcy (Berlin), Norwegia (Oslo), Polska (Warszawa), Portugalia (Lizbona), Rosja (Moskwa), Rumunia (Bukareszt), San Marino (San Marino), Serbia (Belgrad), Słowacja (Bratysława), Słowenia (Lublana), Szwajcaria (Berno), Szwecja (Sztokholm), Ukraina (Kijów), Watykan (Watykan), Węgry (Budapeszt), Wielka Brytania (Londyn), Włochy (Rzym)'
   .split('), ').map((s) => s.replace(/\)$/, '').split(' ('));
 const OCZEKIWANE = {
-  panstwa: PANSTWA.flatMap(([p, s]) => p === s
-    ? [`${p} (państwo)`, `${s} (stolica)`]
-    : [p === 'Cypr' ? 'Cypr (państwo)' : p, s]),
+  panstwa: PANSTWA.map(([p, s]) => (p === s || p === 'Cypr' ? `${p} (państwo)` : p)),
+  stolice: PANSTWA.map(([p, s]) => (p === s ? `${s} (stolica)` : s)),
   morza: ['Morze Barentsa', 'Morze Białe', 'Morze Grenlandzkie', 'Morze Norweskie', 'Morze Północne', 'Morze Bałtyckie', 'Morze Śródziemne', 'Morze Egejskie', 'Morze Adriatyckie', 'Morze Liguryjskie', 'Morze Tyrreńskie', 'Morze Jońskie', 'Morze Marmara', 'Morze Czarne', 'Morze Azowskie'],
   zatoki: ['Zatoka Botnicka', 'Zatoka Fińska', 'Zatoka Biskajska', 'Zatoka Wenecka', 'Zatoka Genueńska'],
   polwyspy: ['Półwysep Skandynawski', 'Półwysep Kolski', 'Półwysep Jutlandzki', 'Półwysep Bretoński', 'Półwysep Iberyjski', 'Półwysep Apeniński', 'Półwysep Bałkański', 'Półwysep Krymski'],
@@ -104,16 +103,16 @@ test('nazwy dokładnie zgodne ze specyfikacją (ortografia, polskie znaki, kolej
     rowne(jest, [...lista].sort(), `quiz „${quiz}”:`);
   }
 });
-test('liczba pytań w quizach: 92, 15, 5, 8, 15, 22, 12, 6, 9', () => {
-  rowne(dane.quizy.map((q) => pytaniaQuizu(dane, q.id).length), [92, 15, 5, 8, 15, 22, 12, 6, 9]);
+test('liczba pytań w quizach: 46, 46, 15, 5, 8, 15, 22, 12, 6, 9', () => {
+  rowne(dane.quizy.map((q) => pytaniaQuizu(dane, q.id).length), [46, 46, 15, 5, 8, 15, 22, 12, 6, 9]);
 });
-test('„Sprawdzian” = suma pytań z quizów 1–9 (184)', () => {
+test('„Sprawdzian” = suma pytań z quizów 1–10 (184)', () => {
   const suma = dane.quizy.reduce((s, q) => s + pytaniaQuizu(dane, q.id).length, 0);
   rowne(pytaniaQuizu(dane, SPRAWDZIAN).length, suma);
   rowne(suma, 184);
 });
 test('kolejność i nazwy quizów na liście', () => {
-  rowne(dane.quizy.map((q) => `${q.numer}. ${q.nazwa}`), ['1. Państwa i Stolice', '2. Morza', '3. Zatoki', '4. Półwyspy', '5. Wyspy + Przynależności', '6. Krainy Geograficzne', '7. Rzeki', '8. Jeziora', '9. Cieśniny']);
+  rowne(dane.quizy.map((q) => `${q.numer}. ${q.nazwa}`), ['1. Państwa', '2. Stolice', '3. Morza', '4. Zatoki', '5. Półwyspy', '6. Wyspy + Przynależności', '7. Krainy Geograficzne', '8. Rzeki', '9. Jeziora', '10. Cieśniny']);
 });
 test('pule fraz zgodne ze specyfikacją', () => {
   rowne(dane.frazy.trafione, TRAFIONE);
@@ -129,7 +128,7 @@ test('teksty w UTF-8 (NFC), bez „krzaków” z błędnego kodowania', () => {
 });
 test('każda stolica leży w swoim państwie', () => {
   const panstwa = new Map(pytaniaQuizu(dane, 'panstwa').filter((p) => p.rodzaj === 'państwo').map((p) => [p.iso, geo.get(p.geometria).geometry]));
-  for (const p of pytaniaQuizu(dane, 'panstwa').filter((x) => x.rodzaj === 'stolica')) {
+  for (const p of pytaniaQuizu(dane, 'stolice')) {
     const iso = dane.pytania.find((x) => x.rodzaj === 'państwo' && x.id === p.id.replace('stolica-', 'panstwo-')).iso;
     const g = panstwa.get(iso), pt = geo.get(p.geometria).geometry.coordinates;
     prawda(punktWObszarze(pt, g) || odlegloscKm(pt, g) < 1, `${p.nazwa} nie leży w państwie ${iso} (odległość ${odlegloscKm(pt, g).toFixed(1)} km)`);
@@ -205,6 +204,13 @@ test('zapisywany jest tylko ostatni wynik (nadpisanie)', async () => {
   zapiszWynik('morza', 90, mag);
   zapiszWynik('morza', 40, mag);
   rowne(wczytajWyniki(mag), { morza: 40 });
+});
+test('migracja: stary wynik połączonego quizu „Państwa i Stolice” jest usuwany, reszta zostaje', async () => {
+  const { wczytajWyniki } = await import('../js/quiz.js');
+  const mag = { d: { 'europa-wyniki': JSON.stringify({ panstwa: 80, morza: 58 }) }, getItem(k) { return this.d[k] ?? null; }, setItem(k, v) { this.d[k] = v; } };
+  rowne(wczytajWyniki(mag), { morza: 58 });
+  mag.setItem('europa-wyniki', JSON.stringify({ panstwa: 70, morza: 58 })); // nowy wynik po migracji zostaje
+  rowne(wczytajWyniki(mag), { panstwa: 70, morza: 58 });
 });
 
 console.log(`\n${testy - bledy}/${testy} testów zaliczonych.`);
