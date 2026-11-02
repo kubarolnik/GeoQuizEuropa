@@ -242,7 +242,7 @@ async function widokQuiz(quizId) {
   const postep = v.querySelector('.postep span');
   const ustawPostep = (n) => { postep.style.transform = `scaleX(${n / pytania.length})`; };
 
-  let pytania, nr, poprawne, odpowiedziano;
+  let pytania, nr, poprawne, odpowiedziano, bledy;
 
   // Część mapy zasłonięta przez panel: zwykle pas u góry, a na telefonie trzymanym
   // poziomo (panel w lewym górnym rogu) – pas po lewej stronie.
@@ -255,7 +255,7 @@ async function widokQuiz(quizId) {
 
   function start() {
     pytania = tasuj(pytaniaQuizu(dane, quizId));
-    nr = 0; poprawne = 0;
+    nr = 0; poprawne = 0; bledy = [];
     pokazPytanie();
   }
 
@@ -300,6 +300,7 @@ async function widokQuiz(quizId) {
     }
 
     mapa.pokazPudlo(latlng);
+    bledy.push(p);
 
     fraza.innerHTML = '';
     fraza.append(el(`<span class="znak">${ikona.zamknij}</span>`));
@@ -350,6 +351,7 @@ async function widokQuiz(quizId) {
         </section>
       </div>`);
     v.append(okno);
+    if (quizId === SPRAWDZIAN) pokazBledy(okno, bledy);
     panel.hidden = true;
     // pierścień dochodzi do wyniku po pojawieniu się okna
     const luk = okno.querySelector('.luk');
@@ -463,12 +465,12 @@ async function widokWypisz(quizId) {
   window.visualViewport?.addEventListener('resize', poZmianieEkranu);
   pole.addEventListener('focus', poZmianieEkranu);
 
-  let pytania, nr, poprawne, odpowiedziano;
+  let pytania, nr, poprawne, odpowiedziano, bledy;
   let klawiaturaPrzedBledem = false; // czy przed błędną odpowiedzią klawiatura była otwarta (telefon)
 
   function start() {
     pytania = tasuj(pytaniaQuizu(dane, quizId));
-    nr = 0; poprawne = 0;
+    nr = 0; poprawne = 0; bledy = [];
     pokazPytanie();
   }
 
@@ -532,6 +534,7 @@ async function widokWypisz(quizId) {
     }
 
     pole.classList.add('zle');
+    bledy.push(p);
     fraza.innerHTML = '';
     fraza.append(el(`<span class="znak">${ikona.zamknij}</span>`));
     fraza.append(document.createTextNode(losujFraze(dane.frazy.pudlo)));
@@ -583,6 +586,7 @@ async function widokWypisz(quizId) {
         </section>
       </div>`);
     v.append(okno);
+    if (quizId === SPRAWDZIAN) pokazBledy(okno, bledy);
     panel.hidden = true;
     const luk = okno.querySelector('.luk');
     requestAnimationFrame(() => requestAnimationFrame(() => { luk.style.strokeDashoffset = String(2 * Math.PI * 54 * (1 - proc / 100)); }));
@@ -652,6 +656,36 @@ async function trasa() {
     app.innerHTML = '';
     app.append(el(`<main class="widok widok-blad"><p>Nie udało się wczytać danych mapy.</p><p class="okno-opis">Strona musi być otwarta przez serwer (np. GitHub Pages albo <code>npx serve</code>), a nie bezpośrednio z pliku.</p><a class="przycisk" href="#">Strona główna</a></main>`));
   }
+}
+
+// Sprawdzian: pod wynikiem blok z błędami pogrupowanymi wg kategorii (numeracja jak na liście quizów).
+// Wynik zostaje dokładnie tam, gdzie był (na środku ekranu); blok błędów zaczyna się w 1/3 wolnego
+// miejsca pod wynikiem, więc żeby zobaczyć całość, przewija się stronę w dół.
+function pokazBledy(okno, bledy) {
+  if (!bledy.length) return;
+  const kolejnosc = new Map(dane.pytania.map((p, i) => [p.id, i]));
+  const grupy = [...dane.quizy].sort((a, b) => a.numer - b.numer)
+    .map((q) => ({ q, lista: bledy.filter((p) => p.quiz === q.id).sort((a, b) => kolejnosc.get(a.id) - kolejnosc.get(b.id)) }))
+    .filter((g) => g.lista.length);
+  const blok = el(`<section class="okno okno-bledy" aria-label="Błędy"><div class="naglowek-bledow"><span class="etykieta">Błędy · ${bledy.length}</span></div></section>`);
+  for (const { q, lista } of grupy) {
+    const grupa = el(`<div class="grupa-bledow"><h3><span class="numer">${q.numer}.</span> </h3><ul></ul></div>`);
+    grupa.querySelector('h3').append(q.nazwa);
+    for (const p of lista) grupa.querySelector('ul').append(Object.assign(document.createElement('li'), { textContent: nazwaWQuizie(p, p.quiz) }));
+    blok.append(grupa);
+  }
+  okno.classList.add('z-bledami');
+  okno.append(blok);
+  const wynik = okno.querySelector('.wynik-koncowy');
+  const uloz = () => {
+    if (!okno.isConnected) { window.removeEventListener('resize', uloz); return; }
+    const H = okno.clientHeight, h = wynik.offsetHeight, min = 16;
+    const gora = Math.max(min, (H - h) / 2);
+    wynik.style.marginTop = gora + 'px';
+    blok.style.marginTop = Math.max(min, (H - gora - h) / 3) + 'px';
+  };
+  uloz();
+  window.addEventListener('resize', uloz);
 }
 
 // Sposób obsługi (do podpowiedzi klawiszy na ekranie wyniku): myszka lub klawiatura → „mysz”,

@@ -588,3 +588,17 @@ a { color: inherit; }
   :root[data-wejscie] .klawisz { display: none; }
   :root[data-wejscie] .wynik-koncowy .przyciski .przycisk { flex-direction: row; padding-block: 0; }
 }
+
+/* Sprawdzian: błędy pod wynikiem (okno przewijane, wynik zostaje na środku ekranu) */
+.tlo-okna.z-bledami { display: block; overflow-y: auto; overscroll-behavior: contain; padding-top: 0; padding-bottom: var(--o-3); }
+.z-bledami .okno { margin-inline: auto; }
+.okno-bledy { text-align: left; animation-delay: 120ms; }
+.naglowek-bledow { text-align: center; }
+.grupa-bledow + .grupa-bledow { margin-top: 16px; }
+.grupa-bledow h3 { margin: 18px 0 8px; font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.grupa-bledow h3 .numer { opacity: .55; font-variant-numeric: tabular-nums; }
+.grupa-bledow ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.grupa-bledow li {
+  padding: 4px 10px; border-radius: 8px; font-size: 13px; line-height: 1.35;
+  border: 1px solid rgba(224, 72, 72, .38); background: rgba(224, 72, 72, .09);
+}
