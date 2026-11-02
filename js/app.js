@@ -2,7 +2,7 @@
 
 import { MOTYWY, wczytajMotyw, zapiszMotyw, zastosujMotyw, akcentDla } from './motywy.js';
 import { utworzKoloBarw } from './kolo-barw.js';
-import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaQuizu, nazwaWQuizie, wczytajWyniki, zapiszWynik, SPRAWDZIAN } from './quiz.js';
+import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaQuizu, nazwaWQuizie, geometrieTrafienia, panstwoStolicy, wczytajWyniki, zapiszWynik, SPRAWDZIAN } from './quiz.js';
 import { utworzMape } from './mapa.js';
 
 const app = document.getElementById('app');
@@ -232,7 +232,10 @@ async function widokQuiz(quizId) {
     if (odpowiedziano) return;
     odpowiedziano = true;
     const p = pytania[nr];
-    const ok = mapa.trafia(p.geometria, latlng);
+    // Stolica: trafienie w jej państwo też się liczy.
+    const ok = geometrieTrafienia(p).some((g) => mapa.trafia(g, latlng));
+    const panstwo = panstwoStolicy(p);
+    if (panstwo) mapa.podswietl(panstwo, { slabo: true });
     mapa.podswietl(p.geometria);
     ustawPostep(nr + 1);
 
@@ -267,7 +270,8 @@ async function widokQuiz(quizId) {
     try { navigator.vibrate?.(120); } catch { /* brak wibracji */ }
 
     // Po zmianie zawartości panelu sprawdzamy jego wysokość i odsłaniamy obiekt pod nim.
-    requestAnimationFrame(() => mapa.pokazObiekt(p.geometria, panel.getBoundingClientRect().bottom));
+    // Przy stolicy pokazujemy całe państwo (z podświetloną stolicą), przy innych obiektach – sam obiekt.
+    requestAnimationFrame(() => mapa.pokazObiekt(panstwo || p.geometria, panel.getBoundingClientRect().bottom));
     dalej.focus({ preventScroll: true, focusVisible: false });
   }
 

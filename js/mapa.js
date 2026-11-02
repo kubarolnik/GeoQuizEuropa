@@ -111,7 +111,8 @@ export function utworzMape(element, { geometrie, tlo }) {
 
   function wyczysc() { warstwa.clearLayers(); }
 
-  function podswietl(id, { kolor = KOLOR_PODSWIETLENIA } = {}) {
+  // slabo: delikatne podświetlenie (np. państwo pod podświetloną stolicą)
+  function podswietl(id, { kolor = KOLOR_PODSWIETLENIA, slabo = false } = {}) {
     const f = indeks.get(id);
     if (!f) return;
     const typ = f.geometry.type;
@@ -124,6 +125,10 @@ export function utworzMape(element, { geometrie, tlo }) {
     if (typ.includes('LineString')) {
       L.geoJSON(f, { style: { color: '#ffffff', weight: 8, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie' }).addTo(warstwa);
       L.geoJSON(f, { style: { color: kolor, weight: 4.5, opacity: 1, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie' }).addTo(warstwa);
+      return;
+    }
+    if (slabo) {
+      L.geoJSON(f, { style: { color: kolor, weight: 1.5, opacity: 0.8, fillColor: kolor, fillOpacity: 0.16 }, interactive: false, className: 'podswietlenie' }).addTo(warstwa);
       return;
     }
     L.geoJSON(f, { style: { color: kolor, weight: 2.5, opacity: 1, fillColor: kolor, fillOpacity: 0.38 }, interactive: false, className: 'podswietlenie' }).addTo(warstwa);

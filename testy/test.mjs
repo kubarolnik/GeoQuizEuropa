@@ -3,7 +3,7 @@
 //   node testy/test.mjs
 
 import { readFileSync } from 'node:fs';
-import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaWQuizie, SPRAWDZIAN } from '../js/quiz.js';
+import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaWQuizie, geometrieTrafienia, SPRAWDZIAN } from '../js/quiz.js';
 
 const czytaj = (p) => JSON.parse(readFileSync(new URL('../' + p, import.meta.url), 'utf8'));
 const dane = czytaj('data/europa.json');
@@ -155,6 +155,17 @@ test('każda stolica leży w swoim państwie', () => {
     const g = panstwa.get(iso), pt = geo.get(p.geometria).geometry.coordinates;
     prawda(punktWObszarze(pt, g) || odlegloscKm(pt, g) < 1, `${p.nazwa} nie leży w państwie ${iso} (odległość ${odlegloscKm(pt, g).toFixed(1)} km)`);
   }
+});
+test('stolica: trafienie liczy się też w jej państwie (dla każdej z 46 stolic istnieje geometria państwa)', () => {
+  for (const p of pytaniaQuizu(dane, 'stolice')) {
+    const g = geometrieTrafienia(p);
+    rowne(g.length, 2, p.nazwa + ':');
+    const panstwo = dane.pytania.find((x) => x.geometria === g[1]);
+    prawda(panstwo && panstwo.rodzaj === 'państwo' && geo.has(g[1]), `${p.nazwa}: brak państwa ${g[1]}`);
+    prawda(punktWObszarze(geo.get(p.geometria).geometry.coordinates, geo.get(g[1]).geometry) || odlegloscKm(geo.get(p.geometria).geometry.coordinates, geo.get(g[1]).geometry) < 1, `${p.nazwa} nie leży w ${panstwo.nazwa}`);
+  }
+  // inne obiekty bez zmian: trafienie tylko w sam obiekt
+  for (const p of dane.pytania.filter((x) => x.rodzaj !== 'stolica')) rowne(geometrieTrafienia(p), [p.geometria], p.nazwa + ':');
 });
 test('każda wyspa leży w państwie, do którego należy', () => {
   const poNazwie = new Map(pytaniaQuizu(dane, 'panstwa').filter((p) => p.rodzaj === 'państwo').map((p) => [p.nazwa.replace(' (państwo)', ''), geo.get(p.geometria).geometry]));

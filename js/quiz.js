@@ -43,6 +43,16 @@ export function nazwaWQuizie(pytanie, quizId) {
   return pytanie.nazwa;
 }
 
+// Obszary, w które kliknięcie liczy się jako trafienie. Przy stolicy wystarczy trafić
+// w jej państwo (albo w sam punkt stolicy) – nie trzeba znać dokładnego położenia miasta.
+export function panstwoStolicy(pytanie) {
+  return pytanie.rodzaj === 'stolica' ? 'panstwo-' + pytanie.id.replace(/^stolica-/, '') : null;
+}
+export function geometrieTrafienia(pytanie) {
+  const p = panstwoStolicy(pytanie);
+  return p ? [pytanie.geometria, p] : [pytanie.geometria];
+}
+
 export function nazwaQuizu(dane, quizId) {
   if (quizId === SPRAWDZIAN) return 'Sprawdzian';
   return dane.quizy.find((q) => q.id === quizId)?.nazwa ?? '';
