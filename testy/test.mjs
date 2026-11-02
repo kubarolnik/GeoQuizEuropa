@@ -275,9 +275,21 @@ test('dopiski w nawiasach nie są wymagane; „Stara Płanina” i „Bałkany�
 test('polskie znaki są wymagane, a złe odpowiedzi odrzucane', () => {
   prawda(!sprawdzOdpowiedz('Ladoga', P('jezioro-ladoga'), 'jeziora'), '„Ladoga” bez „Ł” nie może przejść');
   prawda(!sprawdzOdpowiedz('Krakow', P('stolica-polska'), 'stolice'), 'zła stolica');
-  prawda(!sprawdzOdpowiedz('Północne', P('morze-polnocne'), 'morza'), 'bez słowa „Morze”');
+  prawda(!sprawdzOdpowiedz('Zatoka', P('zatoka-biskajska'), 'zatoki'), 'samo słowo „Zatoka”');
   prawda(!sprawdzOdpowiedz('', P('morze-polnocne'), 'morza'), 'puste');
   prawda(!sprawdzOdpowiedz('Monako', P('panstwo-polska'), 'panstwa'), 'inne państwo');
+});
+test('słowo rodzaju na początku nie jest wymagane (Biskajska, Północne, Apeniński, Bodeńskie, Gibraltarska…)', () => {
+  const przyklady = [['zatoka-biskajska', 'zatoki', 'Biskajska'], ['morze-polnocne', 'morza', 'północne'], ['polwysep-apeninski', 'polwyspy', 'Apeniński'],
+    ['jezioro-bodenskie', 'jeziora', 'Bodeńskie'], ['ciesnina-gibraltarska', 'ciesniny', 'Gibraltarska'], ['ciesnina-swietego-jerzego', 'ciesniny', 'Świętego Jerzego'],
+    ['kraina-nizina-polska', 'krainy', 'Polska'], ['kraina-wyzyna-bawarska', 'krainy', 'Bawarska'], ['kraina-gory-dynarskie', 'krainy', 'Dynarskie'],
+    ['kraina-masyw-centralny', 'krainy', 'Centralny'], ['morze-srodziemne', SPRAWDZIAN, 'Śródziemne']];
+  for (const [id, q, w] of przyklady) prawda(sprawdzOdpowiedz(w, P(id), q), `„${w}” dla ${id}`);
+  // każda nazwa ze słowem rodzaju ma też wersję bez niego
+  for (const p of dane.pytania) {
+    const m = p.nazwa.match(/^(Morze|Zatoka|Półwysep|Nizina|Wyżyna|Góry|Masyw|Jezioro|Cieśnina|Kanał) (.+)$/);
+    if (m) prawda(sprawdzOdpowiedz(m[2], p, p.quiz), `${p.nazwa} → „${m[2]}”`);
+  }
 });
 test('inne przyjęte nazwy: Niderlandy, Reykjavík, La Manche, Morze Marmarowe', () => {
   prawda(sprawdzOdpowiedz('Niderlandy', P('panstwo-holandia'), 'panstwa'), 'Niderlandy');
@@ -285,15 +297,14 @@ test('inne przyjęte nazwy: Niderlandy, Reykjavík, La Manche, Morze Marmarowe',
   prawda(sprawdzOdpowiedz('La Manche', P('ciesnina-la-manche'), 'ciesniny'), 'La Manche');
   prawda(sprawdzOdpowiedz('Morze Marmarowe', P('morze-marmara'), 'morza'), 'Morze Marmarowe');
 });
-test('żadna odpowiedź nie pasuje do dwóch różnych obiektów w jednym quizie (poza tą samą nazwą państwa i stolicy w Sprawdzianie)', () => {
+test('w żadnym quizie jedna odpowiedź nie pasuje do dwóch obiektów tego samego rodzaju', () => {
+  // (W Sprawdzianie np. „Polska” to państwo i Nizina Polska, a „Monako” – państwo i stolica,
+  // ale pytania różnią się rodzajem: „Jakie to państwo?” / „Jaka to kraina geograficzna?”.)
   for (const q of [...dane.quizy.map((x) => x.id), SPRAWDZIAN]) {
     const kto = new Map();
     for (const p of pytaniaQuizu(dane, q)) for (const o of poprawneOdpowiedzi(p, q)) {
-      const k = o.toLocaleLowerCase('pl');
-      if (kto.has(k) && kto.get(k) !== p.id) {
-        const para = [kto.get(k), p.id].sort().join(' / ');
-        prawda(q === SPRAWDZIAN && /stolica-|panstwo-|wyspa-cypr/.test(para), `${q}: „${o}” pasuje do ${para}`);
-      }
+      const k = pytanieORodzaj(p) + '|' + o.toLocaleLowerCase('pl');
+      if (kto.has(k) && kto.get(k) !== p.id) prawda(false, `${q}: „${o}” pasuje do ${kto.get(k)} i ${p.id}`);
       kto.set(k, p.id);
     }
   }

@@ -122,6 +122,10 @@ export function normalizujOdpowiedz(tekst) {
   return String(tekst).normalize('NFC').toLocaleLowerCase('pl').replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '').trim();
 }
 
+// Słowo określające rodzaj obiektu na początku nazwy nie jest wymagane:
+// na „Jaka to zatoka?” wystarczy „Biskajska”, na „Jakie to morze?” – „Północne” itd.
+const SLOWA_RODZAJU = ['Morze', 'Zatoka', 'Półwysep', 'Nizina', 'Wyżyna', 'Góry', 'Masyw', 'Jezioro', 'Cieśnina', 'Kanał'];
+
 // Wszystkie akceptowane odpowiedzi (do porównania). Dopiski „(państwo)”, „(stolica)”, „(wyspa)”
 // nie są wymagane; przy nazwach typu „Stara Płanina (Bałkany)” wystarczy każda z części.
 export function poprawneOdpowiedzi(pytanie, quizId) {
@@ -132,6 +136,10 @@ export function poprawneOdpowiedzi(pytanie, quizId) {
       wyniki.add(m[1]);
       if (!['państwo', 'stolica', 'wyspa'].includes(m[2])) wyniki.add(m[2]);
     }
+  }
+  for (const n of [...wyniki]) {
+    const slowo = SLOWA_RODZAJU.find((w) => n.startsWith(w + ' '));
+    if (slowo) wyniki.add(n.slice(slowo.length + 1));
   }
   return [...wyniki];
 }
