@@ -2,7 +2,7 @@
 
 import { MOTYWY, wczytajMotyw, zapiszMotyw, zastosujMotyw, akcentDla } from './motywy.js';
 import { utworzKoloBarw } from './kolo-barw.js';
-import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaQuizu, nazwaWQuizie, geometrieTrafienia, panstwoStolicy, wczytajWyniki, zapiszWynik, pytanieORodzaj, sprawdzOdpowiedz, SPRAWDZIAN } from './quiz.js';
+import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaQuizu, nazwaWQuizie, geometrieTrafienia, panstwoStolicy, wczytajWyniki, zapiszWynik, pytanieORodzaj, sprawdzOdpowiedz, polecenieWskaz, SPRAWDZIAN } from './quiz.js';
 import { utworzMape } from './mapa.js';
 
 const app = document.getElementById('app');
@@ -267,7 +267,7 @@ async function widokQuiz(quizId) {
     licznik.textContent = `${nr + 1}/${pytania.length}`;
     ustawPostep(nr);
     // Miękki dywiz: w wąskiej karcie (telefon poziomo) bardzo długie słowo łamie się poprawnie.
-    cel.textContent = nazwaWQuizie(p, quizId).replace('Wschodnioeuropejska', 'Wschodnio\u00ADeuropejska');
+    cel.textContent = polecenieWskaz(p, quizId).replace(/Wschodnioeuropejsk/, 'Wschodnio\u00ADeuropejsk');
     cel.classList.remove('wejscie'); void cel.offsetWidth; cel.classList.add('wejscie');
     odpowiedz.hidden = true;
     panel.classList.remove('po-odpowiedzi', 'trafione', 'pudlo');

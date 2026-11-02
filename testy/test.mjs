@@ -3,7 +3,7 @@
 //   node testy/test.mjs
 
 import { readFileSync } from 'node:fs';
-import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaWQuizie, geometrieTrafienia, sprawdzOdpowiedz, poprawneOdpowiedzi, pytanieORodzaj, normalizujOdpowiedz, SPRAWDZIAN } from '../js/quiz.js';
+import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaWQuizie, geometrieTrafienia, sprawdzOdpowiedz, poprawneOdpowiedzi, pytanieORodzaj, normalizujOdpowiedz, polecenieWskaz, SPRAWDZIAN } from '../js/quiz.js';
 
 const czytaj = (p) => JSON.parse(readFileSync(new URL('../' + p, import.meta.url), 'utf8'));
 const dane = czytaj('data/europa.json');
@@ -318,6 +318,15 @@ test('inne przyjęte nazwy: Niderlandy, Reykjavík, Morze Marmarowe, Kanał św.
   prawda(sprawdzOdpowiedz('Reykjavík', P('stolica-islandia'), 'stolice'), 'Reykjavík');
   prawda(sprawdzOdpowiedz('Kanał św. Jerzego', P('ciesnina-swietego-jerzego'), 'ciesniny'), 'Kanał św. Jerzego');
   prawda(sprawdzOdpowiedz('Morze Marmarowe', P('morze-marmara'), 'morza'), 'Morze Marmarowe');
+});
+test('tryb „Wskaż”: polecenie „Wskaż …” z nazwą w bierniku (wszystkie 184 nazwy)', () => {
+  const oczekiwane = 'Albanię | Tiranę | Andorę (państwo) | Andorę (stolica) | Austrię | Wiedeń | Belgię | Brukselę | Białoruś | Mińsk | Bośnię i Hercegowinę | Sarajewo | Bułgarię | Sofię | Chorwację | Zagrzeb | Cypr (państwo) | Nikozję | Czarnogórę | Podgoricę | Czechy | Pragę | Danię | Kopenhagę | Estonię | Tallinn | Finlandię | Helsinki | Francję | Paryż | Grecję | Ateny | Hiszpanię | Madryt | Holandię | Amsterdam | Irlandię | Dublin | Islandię | Reykjavik | Kosowo | Prisztinę | Liechtenstein | Vaduz | Litwę | Wilno | Luksemburg (państwo) | Luksemburg (stolica) | Łotwę | Rygę | Macedonię Północną | Skopje | Maltę | Vallettę | Mołdawię | Kiszyniów | Monako (państwo) | Monako (stolica) | Niemcy | Berlin | Norwegię | Oslo | Polskę | Warszawę | Portugalię | Lizbonę | Rosję | Moskwę | Rumunię | Bukareszt | San Marino (państwo) | San Marino (stolica) | Serbię | Belgrad | Słowację | Bratysławę | Słowenię | Lublanę | Szwajcarię | Berno | Szwecję | Sztokholm | Ukrainę | Kijów | Watykan (państwo) | Watykan (stolica) | Węgry | Budapeszt | Wielką Brytanię | Londyn | Włochy | Rzym | Morze Barentsa | Morze Białe | Morze Grenlandzkie | Morze Norweskie | Morze Północne | Morze Bałtyckie | Morze Śródziemne | Morze Egejskie | Morze Adriatyckie | Morze Liguryjskie | Morze Tyrreńskie | Morze Jońskie | Morze Marmara | Morze Czarne | Morze Azowskie | Zatokę Botnicką | Zatokę Fińską | Zatokę Biskajską | Zatokę Wenecką | Zatokę Genueńską | Półwysep Skandynawski | Półwysep Kolski | Półwysep Jutlandzki | Półwysep Bretoński | Półwysep Iberyjski | Półwysep Apeniński | Półwysep Bałkański | Półwysep Krymski | Spitsbergen | Wyspy Owcze | Szetlandy | Zelandię | Gotlandię | Saremę | Baleary | Majorkę | Minorkę | Ibizę | Sardynię | Korsykę | Sycylię | Kretę | Cypr (wyspa) | Nizinę Wschodnioeuropejską | Nizinę Nadkaspijską | Nizinę Polską | Nizinę Niemiecką | Nizinę Francuską | Nizinę Węgierską | Nizinę Padańską | Nizinę Czarnomorską | Masyw Centralny | Wyżynę Wołyńską | Wyżynę Bawarską | Góry Skandynawskie | Ural | Karpaty | Sudety | Góry Dynarskie | Apeniny | Alpy | Pireneje | Góry Betyckie | Starą Płaninę (Bałkany) | Harz | Wołgę | Dniepr | Dniestr | Niemen | Tamizę | Sekwanę | Dunaj | Pad | Ren | Rodan | Tag | Tyber | Jezioro Bodeńskie | Jezioro Como | Jezioro Genewskie | Onegę | Ładogę | Balaton | Skagerrak | Kattegat | Cieśninę Kaletańską | Cieśninę Gibraltarską | Cieśninę Sycylijską | Bosfor | Dardanele | Kanał La Manche | Kanał Świętego Jerzego'.split(' | ');
+  const pyt = dane.pytania;
+  rowne(pyt.length, oczekiwane.length, 'liczba pytań:');
+  pyt.forEach((p, i) => rowne(polecenieWskaz(p, SPRAWDZIAN), 'Wskaż ' + oczekiwane[i], p.nazwa + ':'));
+  rowne(polecenieWskaz(P('panstwo-szwecja'), 'panstwa'), 'Wskaż Szwecję', 'quiz Państwa:');
+  rowne(polecenieWskaz(P('stolica-monako'), 'stolice'), 'Wskaż Monako', 'quiz Stolice bez dopisku:');
+  rowne(polecenieWskaz(P('stolica-monako'), SPRAWDZIAN), 'Wskaż Monako (stolica)', 'Sprawdzian z dopiskiem:');
 });
 test('przy kanałach słowo „Kanał” jest wymagane, przy cieśninach słowo „Cieśnina” nie', () => {
   for (const q of ['ciesniny', SPRAWDZIAN]) {

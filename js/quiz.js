@@ -43,6 +43,32 @@ export function nazwaWQuizie(pytanie, quizId) {
   return pytanie.nazwa;
 }
 
+// ---- tryb „Wskaż”: polecenie „Wskaż …” z nazwą w bierniku (Wskaż Szwecję, Wskaż Zatokę Biskajską) ----
+// Nazwy jednowyrazowe na -a to rzeczowniki żeńskie (Szwecja → Szwecję, Bratysława → Bratysławę).
+// W nazwach z żeńskim pierwszym wyrazem przymiotniki na -a dostają -ą (Cieśninę Gibraltarską).
+// Pozostałe nazwy (rodzaj męski nieżywotny, nijaki, liczba mnoga) w bierniku się nie zmieniają.
+const BIERNIK_WYJATKI = {
+  'Bośnia i Hercegowina': 'Bośnię i Hercegowinę',
+  'Macedonia Północna': 'Macedonię Północną',
+  'Wielka Brytania': 'Wielką Brytanię',
+  'Stara Płanina (Bałkany)': 'Starą Płaninę (Bałkany)',
+};
+const ZENSKIE_POCZATKI = ['Zatoka', 'Nizina', 'Wyżyna', 'Cieśnina'];
+export function biernik(nazwa) {
+  const m = nazwa.match(/^(.*?)( \((?:państwo|stolica|wyspa)\))?$/);
+  const [rdzen, dopisek = ''] = [m[1], m[2]];
+  if (BIERNIK_WYJATKI[rdzen]) return BIERNIK_WYJATKI[rdzen] + dopisek;
+  const slowa = rdzen.split(' ');
+  if (slowa.length === 1) return (/a$/.test(rdzen) ? rdzen.slice(0, -1) + 'ę' : rdzen) + dopisek;
+  if (ZENSKIE_POCZATKI.includes(slowa[0])) {
+    return [slowa[0].slice(0, -1) + 'ę', ...slowa.slice(1).map((w) => (/a$/.test(w) ? w.slice(0, -1) + 'ą' : w))].join(' ') + dopisek;
+  }
+  return rdzen + dopisek;
+}
+export function polecenieWskaz(pytanie, quizId) {
+  return 'Wskaż ' + biernik(nazwaWQuizie(pytanie, quizId));
+}
+
 // Obszary, w które kliknięcie liczy się jako trafienie. Przy stolicy wystarczy trafić
 // w jej państwo (albo w sam punkt stolicy) – nie trzeba znać dokładnego położenia miasta.
 export function panstwoStolicy(pytanie) {
