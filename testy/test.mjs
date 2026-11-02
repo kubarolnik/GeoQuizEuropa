@@ -300,15 +300,16 @@ test('złe odpowiedzi są odrzucane', () => {
   prawda(!sprawdzOdpowiedz('Monako', P('panstwo-polska'), 'panstwa'), 'inne państwo');
   prawda(!sprawdzOdpowiedz('Macedonia', P('panstwo-macedonia'), 'panstwa'), 'niepełna nazwa');
 });
-test('słowo rodzaju na początku nie jest wymagane (Biskajska, Północne, Apeniński, Bodeńskie, Gibraltarska…)', () => {
+test('słowo rodzaju na początku nie jest wymagane (Biskajska, Północne, Apeniński, Bodeńskie, Gibraltarska, Owcze…)', () => {
   const przyklady = [['zatoka-biskajska', 'zatoki', 'Biskajska'], ['morze-polnocne', 'morza', 'północne'], ['polwysep-apeninski', 'polwyspy', 'Apeniński'],
     ['jezioro-bodenskie', 'jeziora', 'Bodeńskie'], ['ciesnina-gibraltarska', 'ciesniny', 'Gibraltarska'], ['ciesnina-swietego-jerzego', 'ciesniny', 'Świętego Jerzego'],
     ['kraina-nizina-polska', 'krainy', 'Polska'], ['kraina-wyzyna-bawarska', 'krainy', 'Bawarska'], ['kraina-gory-dynarskie', 'krainy', 'Dynarskie'],
-    ['kraina-masyw-centralny', 'krainy', 'Centralny'], ['morze-srodziemne', SPRAWDZIAN, 'Śródziemne']];
+    ['kraina-masyw-centralny', 'krainy', 'Centralny'], ['morze-srodziemne', SPRAWDZIAN, 'Śródziemne'],
+    ['wyspa-wyspy-owcze', 'wyspy', 'owcze'], ['wyspa-wyspy-owcze', SPRAWDZIAN, 'Owcze']];
   for (const [id, q, w] of przyklady) prawda(sprawdzOdpowiedz(w, P(id), q), `„${w}” dla ${id}`);
   // każda nazwa ze słowem rodzaju ma też wersję bez niego
   for (const p of dane.pytania) {
-    const m = p.nazwa.match(/^(Morze|Zatoka|Półwysep|Nizina|Wyżyna|Góry|Masyw|Jezioro|Cieśnina|Kanał) (.+)$/);
+    const m = p.nazwa.match(/^(Morze|Zatoka|Półwysep|Nizina|Wyżyna|Góry|Masyw|Jezioro|Cieśnina|Kanał|Wyspy|Wyspa) (.+)$/);
     if (m) prawda(sprawdzOdpowiedz(m[2], p, p.quiz), `${p.nazwa} → „${m[2]}”`);
   }
 });

@@ -574,14 +574,13 @@ a { color: inherit; }
   opacity: .38; filter: saturate(.2); cursor: default; transform: none;
 }
 
-/* Ekran wyniku: podpowiedź klawisza w przycisku (tylko komputer z klawiaturą) */
+/* Ekran wyniku: podpowiedź klawisza pod napisem przycisku (tylko komputer z klawiaturą) */
 .klawisz { display: none; }
 @media (hover: hover) and (pointer: fine) {
+  .wynik-koncowy .przyciski .przycisk { flex-direction: column; gap: 5px; padding-block: 9px 8px; }
   .klawisz {
-    display: inline-block; margin-left: 7px; padding: 1px 5px 2px;
+    display: block; padding: 1px 6px 2px;
     border: 1px solid currentColor; border-radius: 5px; opacity: .5;
-    font-size: 10.5px; font-weight: 500; letter-spacing: .02em; line-height: 1.3; vertical-align: 1px;
+    font-size: 10.5px; font-weight: 500; letter-spacing: .02em; line-height: 1.3;
   }
-  .okno.wynik-koncowy { width: min(460px, 100%); }
-  .wynik-koncowy .przyciski .przycisk { white-space: nowrap; padding-inline: 10px; }
 }

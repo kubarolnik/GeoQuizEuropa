@@ -128,7 +128,7 @@ export function normalizujOdpowiedz(tekst) {
 
 // Słowo określające rodzaj obiektu na początku nazwy nie jest wymagane:
 // na „Jaka to zatoka?” wystarczy „Biskajska”, na „Jakie to morze?” – „Północne” itd.
-const SLOWA_RODZAJU = ['Morze', 'Zatoka', 'Półwysep', 'Nizina', 'Wyżyna', 'Góry', 'Masyw', 'Jezioro', 'Cieśnina', 'Kanał'];
+const SLOWA_RODZAJU = ['Morze', 'Zatoka', 'Półwysep', 'Nizina', 'Wyżyna', 'Góry', 'Masyw', 'Jezioro', 'Cieśnina', 'Kanał', 'Wyspy', 'Wyspa'];
 
 // Wszystkie akceptowane odpowiedzi (do porównania). Dopiski „(państwo)”, „(stolica)”, „(wyspa)”
 // nie są wymagane; przy nazwach typu „Stara Płanina (Bałkany)” wystarczy każda z części.
