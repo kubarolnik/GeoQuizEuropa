@@ -654,6 +654,24 @@ async function trasa() {
   }
 }
 
+// Sposób obsługi (do podpowiedzi klawiszy na ekranie wyniku): myszka lub klawiatura → „mysz”,
+// dotyk palcem → „dotyk”. Na starcie zgadujemy po rodzaju urządzenia.
+const korzen = document.documentElement;
+korzen.dataset.wejscie = matchMedia('(hover: hover) and (pointer: fine)').matches ? 'mysz' : 'dotyk';
+for (const typ of ['pointermove', 'pointerdown']) {
+  window.addEventListener(typ, (e) => {
+    const w = e.pointerType === 'mouse' ? 'mysz' : e.pointerType === 'touch' ? 'dotyk' : null;
+    if (w && korzen.dataset.wejscie !== w) korzen.dataset.wejscie = w;
+  }, { passive: true, capture: true });
+}
+// Klawisze z klawiatury ekranowej (pisanie odpowiedzi na telefonie/tablecie) się nie liczą:
+// przy otwartej klawiaturze ekranowej widoczna część strony jest wyraźnie niższa niż okno.
+window.addEventListener('keydown', (e) => {
+  const wPolu = e.target instanceof HTMLInputElement;
+  const ekranowa = wPolu && window.visualViewport && window.visualViewport.height < window.innerHeight * 0.85;
+  if (!ekranowa && e.key !== 'Unidentified' && e.key !== 'Process') korzen.dataset.wejscie = 'mysz';
+}, true);
+
 document.addEventListener('keydown', (e) => {
   // Ekran wyniku: spacja = „Jeszcze raz”, Enter = „Wróć do quizów”.
   const wynik = document.querySelector('.tlo-wyniku');
