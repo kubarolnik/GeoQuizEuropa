@@ -302,22 +302,32 @@ test('złe odpowiedzi są odrzucane', () => {
 });
 test('słowo rodzaju na początku nie jest wymagane (Biskajska, Północne, Apeniński, Bodeńskie, Gibraltarska, Owcze…)', () => {
   const przyklady = [['zatoka-biskajska', 'zatoki', 'Biskajska'], ['morze-polnocne', 'morza', 'północne'], ['polwysep-apeninski', 'polwyspy', 'Apeniński'],
-    ['jezioro-bodenskie', 'jeziora', 'Bodeńskie'], ['ciesnina-gibraltarska', 'ciesniny', 'Gibraltarska'], ['ciesnina-swietego-jerzego', 'ciesniny', 'Świętego Jerzego'],
+    ['jezioro-bodenskie', 'jeziora', 'Bodeńskie'], ['ciesnina-gibraltarska', 'ciesniny', 'Gibraltarska'],
     ['kraina-nizina-polska', 'krainy', 'Polska'], ['kraina-wyzyna-bawarska', 'krainy', 'Bawarska'], ['kraina-gory-dynarskie', 'krainy', 'Dynarskie'],
     ['kraina-masyw-centralny', 'krainy', 'Centralny'], ['morze-srodziemne', SPRAWDZIAN, 'Śródziemne'],
     ['wyspa-wyspy-owcze', 'wyspy', 'owcze'], ['wyspa-wyspy-owcze', SPRAWDZIAN, 'Owcze']];
   for (const [id, q, w] of przyklady) prawda(sprawdzOdpowiedz(w, P(id), q), `„${w}” dla ${id}`);
   // każda nazwa ze słowem rodzaju ma też wersję bez niego
   for (const p of dane.pytania) {
-    const m = p.nazwa.match(/^(Morze|Zatoka|Półwysep|Nizina|Wyżyna|Góry|Masyw|Jezioro|Cieśnina|Kanał|Wyspy|Wyspa) (.+)$/);
+    const m = p.nazwa.match(/^(Morze|Zatoka|Półwysep|Nizina|Wyżyna|Góry|Masyw|Jezioro|Cieśnina|Wyspy|Wyspa) (.+)$/);
     if (m) prawda(sprawdzOdpowiedz(m[2], p, p.quiz), `${p.nazwa} → „${m[2]}”`);
   }
 });
-test('inne przyjęte nazwy: Niderlandy, Reykjavík, La Manche, Morze Marmarowe', () => {
+test('inne przyjęte nazwy: Niderlandy, Reykjavík, Morze Marmarowe, Kanał św. Jerzego', () => {
   prawda(sprawdzOdpowiedz('Niderlandy', P('panstwo-holandia'), 'panstwa'), 'Niderlandy');
   prawda(sprawdzOdpowiedz('Reykjavík', P('stolica-islandia'), 'stolice'), 'Reykjavík');
-  prawda(sprawdzOdpowiedz('La Manche', P('ciesnina-la-manche'), 'ciesniny'), 'La Manche');
+  prawda(sprawdzOdpowiedz('Kanał św. Jerzego', P('ciesnina-swietego-jerzego'), 'ciesniny'), 'Kanał św. Jerzego');
   prawda(sprawdzOdpowiedz('Morze Marmarowe', P('morze-marmara'), 'morza'), 'Morze Marmarowe');
+});
+test('przy kanałach słowo „Kanał” jest wymagane, przy cieśninach słowo „Cieśnina” nie', () => {
+  for (const q of ['ciesniny', SPRAWDZIAN]) {
+    prawda(sprawdzOdpowiedz('kanal la manche', P('ciesnina-la-manche'), q), 'kanal la manche');
+    prawda(sprawdzOdpowiedz('Kanał Świętego Jerzego', P('ciesnina-swietego-jerzego'), q), 'Kanał Świętego Jerzego');
+    prawda(!sprawdzOdpowiedz('La Manche', P('ciesnina-la-manche'), q), 'samo „La Manche” nie powinno być zaliczone');
+    prawda(!sprawdzOdpowiedz('Świętego Jerzego', P('ciesnina-swietego-jerzego'), q), 'samo „Świętego Jerzego” nie powinno być zaliczone');
+    prawda(sprawdzOdpowiedz('gibraltarska', P('ciesnina-gibraltarska'), q), 'gibraltarska');
+    prawda(sprawdzOdpowiedz('Cieśnina Gibraltarska', P('ciesnina-gibraltarska'), q), 'Cieśnina Gibraltarska');
+  }
 });
 test('w żadnym quizie jedna odpowiedź nie pasuje do dwóch obiektów tego samego rodzaju', () => {
   // (W Sprawdzianie np. „Polska” to państwo i Nizina Polska, a „Monako” – państwo i stolica,

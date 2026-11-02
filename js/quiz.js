@@ -112,7 +112,6 @@ const INNE_NAZWY = {
   'panstwo-holandia': ['Niderlandy'],
   'stolica-islandia': ['Reykjavík'],
   'morze-marmara': ['Morze Marmarowe'],
-  'ciesnina-la-manche': ['La Manche'],
   'ciesnina-swietego-jerzego': ['Kanał św. Jerzego', 'Kanał Św. Jerzego'],
 };
 
@@ -128,7 +127,8 @@ export function normalizujOdpowiedz(tekst) {
 
 // Słowo określające rodzaj obiektu na początku nazwy nie jest wymagane:
 // na „Jaka to zatoka?” wystarczy „Biskajska”, na „Jakie to morze?” – „Północne” itd.
-const SLOWA_RODZAJU = ['Morze', 'Zatoka', 'Półwysep', 'Nizina', 'Wyżyna', 'Góry', 'Masyw', 'Jezioro', 'Cieśnina', 'Kanał', 'Wyspy', 'Wyspa'];
+const SLOWA_RODZAJU = ['Morze', 'Zatoka', 'Półwysep', 'Nizina', 'Wyżyna', 'Góry', 'Masyw', 'Jezioro', 'Cieśnina', 'Wyspy', 'Wyspa'];
+// Wyjątek: przy kanałach słowo „Kanał” jest wymagane („Kanał La Manche”, nie samo „La Manche”).
 
 // Wszystkie akceptowane odpowiedzi (do porównania). Dopiski „(państwo)”, „(stolica)”, „(wyspa)”
 // nie są wymagane; przy nazwach typu „Stara Płanina (Bałkany)” wystarczy każda z części.
