@@ -488,14 +488,21 @@ a { color: inherit; }
     left: max(10px, env(safe-area-inset-left));
     right: auto;
     margin: 0;
-    width: 272px; max-width: calc(100vw - 20px);
-    padding: 14px 16px 16px;
+    width: 214px; max-width: calc(100vw - 20px);
+    padding: 10px 12px 12px; border-radius: 14px;
     max-height: calc(100% - 20px); overflow-y: auto;
   }
-  .panel-gora { flex-wrap: wrap; row-gap: 8px; }
-  .panel-gora .etykieta { max-width: 100%; flex: 0 1 auto; }
-  .cel { overflow-wrap: normal; hyphens: manual; }
-  .odpowiedz { grid-template-columns: 1fr; grid-template-areas: "fraza" "przyn" "dalej"; row-gap: 10px; }
+  .panel-gora { flex-wrap: wrap; row-gap: 4px; gap: 8px; }
+  .panel-gora .etykieta { max-width: 100%; flex: 0 1 auto; height: 22px; padding: 0 8px; font-size: 11px; }
+  .licznik { font-size: 12px; }
+  .zakoncz { min-height: 28px; font-size: 12px; }
+  .cel { margin-top: 6px; font-size: 22px; overflow-wrap: normal; hyphens: manual; }
+  .odpowiedz { margin-top: 8px; grid-template-columns: 1fr; grid-template-areas: "fraza" "przyn" "dalej"; row-gap: 8px; }
+  .fraza { font-size: 15px; gap: 8px; }
+  .znak { width: 20px; height: 20px; }
+  .znak svg { width: 13px; height: 13px; }
+  .przynaleznosc { margin-left: 28px; font-size: 12px; }
+  .dalej { min-height: 36px; font-size: 14px; }
   .przynaleznosc { margin-top: 0; }
   .dalej { justify-self: stretch; }
 }
