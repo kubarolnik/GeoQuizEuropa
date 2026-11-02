@@ -3,7 +3,8 @@
 /* global L */
 
 const KAFELKI = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}';
-const ZASIEG_MAPY = [[25, -35], [84, 90]];
+// Cały świat – dzięki temu każdy obiekt da się przesunąć nad klawiaturę telefonu.
+const ZASIEG_MAPY = [[-85, -180], [85, 180]];
 const WIDOK_EUROPY = [[35, -12], [71, 45]];
 
 // Tolerancja kliknięcia (piksele ekranu).

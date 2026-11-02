@@ -439,9 +439,14 @@ async function widokWypisz(quizId) {
   const kartaWRogu = window.matchMedia('(orientation: landscape) and (max-height: 500px) and (pointer: coarse)');
   const marginesyPanelu = () => { const r = panel.getBoundingClientRect(); return kartaWRogu.matches ? [0, r.right] : [r.bottom, 0]; };
   // Wysokość dołu ekranu zasłoniętego przez klawiaturę telefonu (0, gdy klawiatura jest schowana).
+  // Niektóre przeglądarki (np. strona osadzona w ramce) nie podają wysokości klawiatury –
+  // wtedy, gdy pole ma fokus na telefonie, przyjmujemy typową wysokość klawiatury.
   const zaslonietyDol = () => {
     const vv = window.visualViewport;
-    return vv ? Math.max(0, Math.round(window.innerHeight - (vv.offsetTop + vv.height))) : 0;
+    const zmierzone = vv ? Math.max(0, Math.round(window.innerHeight - (vv.offsetTop + vv.height))) : 0;
+    if (zmierzone >= 50 || !dotyk.matches || document.activeElement !== pole) return zmierzone;
+    const poziomo = window.innerWidth > window.innerHeight;
+    return Math.round(window.innerHeight * (poziomo ? 0.55 : 0.42));
   };
   // Odsłania obiekt w części mapy, której nie zasłania panel ani klawiatura.
   function odslon(id) {
@@ -453,6 +458,7 @@ async function widokWypisz(quizId) {
   let czekaj = null;
   const poZmianieEkranu = () => { clearTimeout(czekaj); czekaj = setTimeout(() => { if (v.isConnected && doOdsloniecia) odslon(doOdsloniecia); }, 150); };
   window.visualViewport?.addEventListener('resize', poZmianieEkranu);
+  pole.addEventListener('focus', poZmianieEkranu);
 
   let pytania, nr, poprawne, odpowiedziano;
   let klawiaturaPrzedBledem = false; // czy przed błędną odpowiedzią klawiatura była otwarta (telefon)
