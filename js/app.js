@@ -212,9 +212,11 @@ async function widokQuiz(quizId) {
 
   // Część mapy zasłonięta przez panel: zwykle pas u góry, a na telefonie trzymanym
   // poziomo (panel w lewym górnym rogu) – pas po lewej stronie.
+  // Ten sam warunek co w CSS dla karty w rogu (telefon trzymany poziomo).
+  const kartaWRogu = window.matchMedia('(orientation: landscape) and (max-height: 500px) and (pointer: coarse)');
   function marginesyPanelu() {
     const r = panel.getBoundingClientRect();
-    return r.width < window.innerWidth / 2 ? [0, r.right] : [r.bottom, 0];
+    return kartaWRogu.matches ? [0, r.right] : [r.bottom, 0];
   }
 
   function start() {
