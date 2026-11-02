@@ -188,7 +188,7 @@ const dane = {
   opis: 'Wszystkie pytania quizów „Europa”. Polskie nazwy wpisane ręcznie. Geometrie w data/geometrie.geojson (pole „geometria” = id obiektu). „Sprawdzian” = wszystkie pytania z quizów 1–10.',
   frazy: {
     trafione: ['Trafione!', 'Doskonale!', 'Dobrze!', 'Fenomenalnie!', 'Brawo, kalafiorku!', 'Bombastycznie!'],
-    pudlo: ['Błąd!', 'Ale pech!', 'Nie tym razem.', 'Słabiutko.', 'Pudło!', 'Wisisz Kubie dychę!'],
+    pudlo: ['Błąd!', 'Ale pech!', 'Nie tym razem', 'Słabiutko', 'Pudło!', 'Wisisz Kubie dychę'],
   },
   quizy,
   pytania,

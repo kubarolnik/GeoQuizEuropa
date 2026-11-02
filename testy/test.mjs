@@ -39,7 +39,7 @@ const OCZEKIWANE = {
 };
 const PRZYNALEZNOSC = { Spitsbergen: 'Norwegia', 'Wyspy Owcze': 'Dania', Szetlandy: 'Wielka Brytania', Zelandia: 'Dania', Gotlandia: 'Szwecja', Sarema: 'Estonia', Baleary: 'Hiszpania', Majorka: 'Hiszpania', Minorka: 'Hiszpania', Ibiza: 'Hiszpania', Sardynia: 'Włochy', Korsyka: 'Francja', Sycylia: 'Włochy', Kreta: 'Grecja', 'Cypr (wyspa)': 'Cypr' };
 const TRAFIONE = ['Trafione!', 'Doskonale!', 'Dobrze!', 'Fenomenalnie!', 'Brawo, kalafiorku!', 'Bombastycznie!'];
-const PUDLO = ['Błąd!', 'Ale pech!', 'Nie tym razem.', 'Słabiutko.', 'Pudło!', 'Wisisz Kubie dychę!'];
+const PUDLO = ['Błąd!', 'Ale pech!', 'Nie tym razem', 'Słabiutko', 'Pudło!', 'Wisisz Kubie dychę'];
 
 // ---- geometria (bez bibliotek) ----
 function punktWPierscieniu([x, y], r) {
