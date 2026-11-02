@@ -116,10 +116,14 @@ const INNE_NAZWY = {
   'ciesnina-swietego-jerzego': ['Kanał św. Jerzego', 'Kanał Św. Jerzego'],
 };
 
-// Porównanie bez względu na wielkość liter, zbędne spacje i kropkę/wykrzyknik na końcu.
-// Polskie znaki są wymagane („Lodz” ≠ „Łódź”).
+// Porównanie bez względu na wielkość liter, zbędne spacje, kropkę/wykrzyknik na końcu
+// i polskie znaki („macedonia polnocna” = „Macedonia Północna”, „Ladoga” = „Ładoga”).
+const BEZ_OGONKOW = { ą: 'a', ć: 'c', ę: 'e', ł: 'l', ń: 'n', ó: 'o', ś: 's', ź: 'z', ż: 'z' };
 export function normalizujOdpowiedz(tekst) {
-  return String(tekst).normalize('NFC').toLocaleLowerCase('pl').replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '').trim();
+  return String(tekst).normalize('NFC').toLocaleLowerCase('pl')
+    .replace(/[ąćęłńóśźż]/g, (z) => BEZ_OGONKOW[z])
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // pozostałe znaki diakrytyczne, np. „í” w „Reykjavík”
+    .replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '').trim();
 }
 
 // Słowo określające rodzaj obiektu na początku nazwy nie jest wymagane:

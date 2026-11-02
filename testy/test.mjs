@@ -3,7 +3,7 @@
 //   node testy/test.mjs
 
 import { readFileSync } from 'node:fs';
-import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaWQuizie, geometrieTrafienia, sprawdzOdpowiedz, poprawneOdpowiedzi, pytanieORodzaj, SPRAWDZIAN } from '../js/quiz.js';
+import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaWQuizie, geometrieTrafienia, sprawdzOdpowiedz, poprawneOdpowiedzi, pytanieORodzaj, normalizujOdpowiedz, SPRAWDZIAN } from '../js/quiz.js';
 
 const czytaj = (p) => JSON.parse(readFileSync(new URL('../' + p, import.meta.url), 'utf8'));
 const dane = czytaj('data/europa.json');
@@ -272,12 +272,24 @@ test('dopiski w nawiasach nie są wymagane; „Stara Płanina” i „Bałkany�
   prawda(sprawdzOdpowiedz('Stara Płanina', P('kraina-balkany'), SPRAWDZIAN), 'Stara Płanina');
   prawda(sprawdzOdpowiedz('Warszawa.', P('stolica-polska'), 'stolice'), 'kropka na końcu');
 });
-test('polskie znaki są wymagane, a złe odpowiedzi odrzucane', () => {
-  prawda(!sprawdzOdpowiedz('Ladoga', P('jezioro-ladoga'), 'jeziora'), '„Ladoga” bez „Ł” nie może przejść');
+test('polskie znaki nie są wymagane („macedonia polnocna”, „Ladoga”, „wieden”…)', () => {
+  prawda(sprawdzOdpowiedz('macedonia polnocna', P('panstwo-macedonia'), 'panstwa'), 'macedonia polnocna');
+  prawda(sprawdzOdpowiedz('Ladoga', P('jezioro-ladoga'), 'jeziora'), 'Ladoga');
+  prawda(sprawdzOdpowiedz('Bialorus', P('panstwo-bialorus'), 'panstwa'), 'Bialorus');
+  prawda(sprawdzOdpowiedz('wieden', P('stolica-austria'), 'stolice'), 'wieden');
+  prawda(sprawdzOdpowiedz('Srodziemne', P('morze-srodziemne'), 'morza'), 'Srodziemne');
+  prawda(sprawdzOdpowiedz('zatoka finska', P('zatoka-finska'), 'zatoki'), 'zatoka finska');
+  prawda(sprawdzOdpowiedz('Reykjavik', P('stolica-islandia'), 'stolice'), 'Reykjavik');
+  // każda nazwa bez polskich znaków jest zaliczana
+  const bez = (t) => t.replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, (z) => ({ ą: 'a', ć: 'c', ę: 'e', ł: 'l', ń: 'n', ó: 'o', ś: 's', ź: 'z', ż: 'z' })[z.toLowerCase()]);
+  for (const p of dane.pytania) prawda(sprawdzOdpowiedz(bez(nazwaWQuizie(p, p.quiz)), p, p.quiz), `${p.nazwa} bez polskich znaków`);
+});
+test('złe odpowiedzi są odrzucane', () => {
   prawda(!sprawdzOdpowiedz('Krakow', P('stolica-polska'), 'stolice'), 'zła stolica');
   prawda(!sprawdzOdpowiedz('Zatoka', P('zatoka-biskajska'), 'zatoki'), 'samo słowo „Zatoka”');
   prawda(!sprawdzOdpowiedz('', P('morze-polnocne'), 'morza'), 'puste');
   prawda(!sprawdzOdpowiedz('Monako', P('panstwo-polska'), 'panstwa'), 'inne państwo');
+  prawda(!sprawdzOdpowiedz('Macedonia', P('panstwo-macedonia'), 'panstwa'), 'niepełna nazwa');
 });
 test('słowo rodzaju na początku nie jest wymagane (Biskajska, Północne, Apeniński, Bodeńskie, Gibraltarska…)', () => {
   const przyklady = [['zatoka-biskajska', 'zatoki', 'Biskajska'], ['morze-polnocne', 'morza', 'północne'], ['polwysep-apeninski', 'polwyspy', 'Apeniński'],
@@ -303,7 +315,7 @@ test('w żadnym quizie jedna odpowiedź nie pasuje do dwóch obiektów tego same
   for (const q of [...dane.quizy.map((x) => x.id), SPRAWDZIAN]) {
     const kto = new Map();
     for (const p of pytaniaQuizu(dane, q)) for (const o of poprawneOdpowiedzi(p, q)) {
-      const k = pytanieORodzaj(p) + '|' + o.toLocaleLowerCase('pl');
+      const k = pytanieORodzaj(p) + '|' + normalizujOdpowiedz(o);
       if (kto.has(k) && kto.get(k) !== p.id) prawda(false, `${q}: „${o}” pasuje do ${kto.get(k)} i ${p.id}`);
       kto.set(k, p.id);
     }
