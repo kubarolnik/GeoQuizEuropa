@@ -8,6 +8,7 @@ import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import * as turf from '@turf/turf';
+import { ZASIEG, zasiegBliski, czyBliski } from './panstwa-bliskie.mjs';
 
 const NE = process.argv[2];
 if (!NE) { console.error('Podaj katalog z plikami Natural Earth.'); process.exit(1); }
@@ -16,21 +17,26 @@ const DANE = new URL('../data/', import.meta.url);
 
 // Tło budowane od nowa w jednym przebiegu mapshapera (wspólna topologia = brak szczelin
 // między sąsiadami). Każde państwo dzielone jest na część w prostokącie ZASIEG (dokładnie,
-// ~400 m) i resztę świata (zgrubnie, ~5 km). Części w ZASIEGU państw z pytań pomijamy –
-// rysuje je data/geometrie.geojson. Linie podziału nie są rysowane jako granice (js/mapa.js).
-const ZASIEG = [-35, 25, 90, 85];
+// ~400 m) i resztę świata (zgrubnie, ~5 km). Państwa z pytań rysuje data/geometrie.geojson
+// (w całości, bez dalekich terytoriów – panstwa-bliskie.mjs); tu zostają tylko te dalekie
+// terytoria. Linie podziału nie są rysowane jako granice (js/mapa.js).
+// Azjatyccy sąsiedzi Rosji dokładnie (400 m) – ich granica zgadza się z geometrią Rosji.
+const DOKLADNIE = new Set(['CHN', 'MNG', 'PRK', 'KAZ']);
 const POZA = [[-180, -90, ZASIEG[0], 90], [ZASIEG[2], -90, 180, 90], [ZASIEG[0], -90, ZASIEG[2], ZASIEG[1]], [ZASIEG[0], ZASIEG[3], ZASIEG[2], 90]];
+const europa = JSON.parse(readFileSync(new URL('europa.json', DANE), 'utf8'));
+const isoPytan = new Set(europa.pytania.filter((p) => p.iso).map((p) => p.iso));
 const czesci = (g) => (g.geometry.type === 'Polygon' ? [g.geometry.coordinates] : g.geometry.type === 'MultiPolygon' ? g.geometry.coordinates : []);
 const dobre = (c) => c.length && c[0].length >= 4 && turf.area(turf.polygon(c)) > 0;
 function podziel(f, props) {
   const w = czesci(turf.bboxClip(f, ZASIEG)).filter(dobre);
   const z = POZA.flatMap((b) => czesci(turf.bboxClip(f, b))).filter(dobre);
   const mp = (c, d) => ({ type: 'Feature', properties: { ...props, d }, geometry: { type: 'MultiPolygon', coordinates: c } });
-  return [...(w.length ? [mp(w, 400)] : []), ...(z.length ? [mp(z, 5000)] : [])];
+  const daleko = DOKLADNIE.has(props.iso) || isoPytan.has(props.iso) ? 400 : 5000;
+  return [...(w.length ? [mp(w, 400)] : []), ...(z.length ? [mp(z, daleko)] : [])];
 }
-const europa = JSON.parse(readFileSync(new URL('europa.json', DANE), 'utf8'));
-const isoPytan = new Set(europa.pytania.filter((p) => p.iso).map((p) => p.iso));
-const panstwa = wczytaj('ne_10m_admin_0_countries_pol').features.filter((f) => f.geometry)
+const panstwaNE = wczytaj('ne_10m_admin_0_countries_pol').features.filter((f) => f.geometry);
+const bliskiePytan = new Map(panstwaNE.filter((f) => isoPytan.has(f.properties.ADM0_A3)).map((f) => [f.properties.ADM0_A3, zasiegBliski(f.geometry)]));
+const panstwa = panstwaNE
   .flatMap((f) => podziel(f, { iso: f.properties.ADM0_A3 }));
 const jeziora = wczytaj('ne_10m_lakes').features.filter((f) => f.geometry)
   .flatMap((f) => podziel(f, { jezioro: true }))
@@ -54,8 +60,12 @@ function zaokraglij(f, krok) {
 
 const wynik = [...uprosc(panstwa, 'panstwa'), ...uprosc(jeziora, 'jeziora')]
   .filter((f) => f.geometry && f.geometry.coordinates.length)
-  .filter((f) => !(f.properties.d === 400 && isoPytan.has(f.properties.iso)))
-  .map((f) => { const { d, ...props } = f.properties; return zaokraglij({ ...f, properties: props }, d === 400 ? 0.0001 : 0.01); })
+  // Z państw z pytań zostają tylko dalekie terytoria.
+  .map((f) => (isoPytan.has(f.properties.iso)
+    ? { ...f, geometry: { type: 'MultiPolygon', coordinates: czesci(f).filter((c) => !czyBliski(c, bliskiePytan.get(f.properties.iso))) } }
+    : f))
+  .filter((f) => f.geometry.coordinates.length)
+  .map((f) => { const { d, ...props } = f.properties; return zaokraglij({ ...f, properties: props }, d === 5000 ? 0.01 : 0.0001); })
   // Kawałki jednego państwa łączymy w jeden obiekt – rysowany jedną ścieżką nie ma szczeliny na styku.
   .reduce((acc, f) => {
     const poprz = f.properties.iso && acc.find((g) => g.properties.iso === f.properties.iso);

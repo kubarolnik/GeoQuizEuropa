@@ -46,7 +46,7 @@ export function utworzMape(element, { geometrie, tlo }) {
   const map = L.map(element, {
     zoomControl: false,
     attributionControl: true,
-    minZoom: 3,
+    minZoom: 1, // tyle, żeby nawet cała Rosja zmieściła się na ekranie telefonu
     maxZoom: 12,
     maxBounds: ZASIEG_MAPY,
     maxBoundsViscosity: 0.8,

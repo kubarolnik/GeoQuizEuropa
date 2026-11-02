@@ -13,6 +13,7 @@ import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import * as turf from '@turf/turf';
+import { panstwoBliskie } from './panstwa-bliskie.mjs';
 import { RECZNE } from './reczne.mjs';
 
 const NE = process.argv[2];
@@ -231,7 +232,8 @@ function zbuduj(p) {
     const [lat, lng] = p.wspolrzedne;
     return { geom: turf.point([lng, lat]), zrodlo: 'ręcznie: współrzędne centrum miasta' };
   }
-  if (p.rodzaj === 'państwo') return { geom: przytnijDoZasiegu(panstwo(p.iso)), zrodlo: 'Natural Earth (granice w ujęciu Polski)' };
+  // Państwo w całości (np. cała Rosja), bez dalekich terytoriów zamorskich.
+  if (p.rodzaj === 'państwo') return { geom: panstwoBliskie(panstwo(p.iso)), zrodlo: 'Natural Earth (granice w ujęciu Polski)' };
   if (RZEKI[id]) return zbudujRzeke(id);
   if (RECZNE[id]) return zbudujReczny(id);
   if (MORZA[id]) {
