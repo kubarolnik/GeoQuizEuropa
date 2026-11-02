@@ -159,7 +159,7 @@ lista('krainy', 'kraina', [
   ['kraina-alpy', 'Alpy', NE],
   ['kraina-pireneje', 'Pireneje', NE],
   ['kraina-gory-betyckie', 'Góry Betyckie', R],
-  ['kraina-balkany', 'Bałkany', NE],
+  ['kraina-balkany', 'Stara Płanina (Bałkany)', NE],
   ['kraina-harz', 'Harz', NE],
 ]);
 

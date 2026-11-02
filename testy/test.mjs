@@ -32,7 +32,7 @@ const OCZEKIWANE = {
   zatoki: ['Zatoka Botnicka', 'Zatoka Fińska', 'Zatoka Biskajska', 'Zatoka Wenecka', 'Zatoka Genueńska'],
   polwyspy: ['Półwysep Skandynawski', 'Półwysep Kolski', 'Półwysep Jutlandzki', 'Półwysep Bretoński', 'Półwysep Iberyjski', 'Półwysep Apeniński', 'Półwysep Bałkański', 'Półwysep Krymski'],
   wyspy: ['Spitsbergen', 'Wyspy Owcze', 'Szetlandy', 'Zelandia', 'Gotlandia', 'Sarema', 'Baleary', 'Majorka', 'Minorka', 'Ibiza', 'Sardynia', 'Korsyka', 'Sycylia', 'Kreta', 'Cypr (wyspa)'],
-  krainy: ['Nizina Wschodnioeuropejska', 'Nizina Nadkaspijska', 'Nizina Polska', 'Nizina Niemiecka', 'Nizina Francuska', 'Nizina Węgierska', 'Nizina Padańska', 'Nizina Czarnomorska', 'Masyw Centralny', 'Wyżyna Wołyńska', 'Wyżyna Bawarska', 'Góry Skandynawskie', 'Ural', 'Karpaty', 'Sudety', 'Góry Dynarskie', 'Apeniny', 'Alpy', 'Pireneje', 'Góry Betyckie', 'Bałkany', 'Harz'],
+  krainy: ['Nizina Wschodnioeuropejska', 'Nizina Nadkaspijska', 'Nizina Polska', 'Nizina Niemiecka', 'Nizina Francuska', 'Nizina Węgierska', 'Nizina Padańska', 'Nizina Czarnomorska', 'Masyw Centralny', 'Wyżyna Wołyńska', 'Wyżyna Bawarska', 'Góry Skandynawskie', 'Ural', 'Karpaty', 'Sudety', 'Góry Dynarskie', 'Apeniny', 'Alpy', 'Pireneje', 'Góry Betyckie', 'Stara Płanina (Bałkany)', 'Harz'],
   rzeki: ['Wołga', 'Dniepr', 'Dniestr', 'Niemen', 'Tamiza', 'Sekwana', 'Dunaj', 'Pad', 'Ren', 'Rodan', 'Tag', 'Tyber'],
   jeziora: ['Jezioro Bodeńskie', 'Jezioro Como', 'Jezioro Genewskie', 'Onega', 'Ładoga', 'Balaton'],
   ciesniny: ['Skagerrak', 'Kattegat', 'Cieśnina Kaletańska', 'Cieśnina Gibraltarska', 'Cieśnina Sycylijska', 'Bosfor', 'Dardanele', 'Kanał La Manche', 'Kanał Świętego Jerzego'],
@@ -133,10 +133,10 @@ test('w quizie „Wyspy i Przynależności” Cypr bez dopisku „(wyspa)”, w 
   rowne(new Set(wQuizie).size, wQuizie.length, 'nazwy w quizie wysp muszą być unikalne:');
   rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'wyspa-cypr'), SPRAWDZIAN), 'Cypr (wyspa)');
 });
-test('Bałkany: w Sprawdzianie „Stara Płanina (Bałkany)”, w quizie krain „Bałkany”', () => {
+test('Bałkany: „Stara Płanina (Bałkany)” w Sprawdzianie i w quizie krain', () => {
   const b = dane.pytania.find((p) => p.id === 'kraina-balkany');
   rowne(nazwaWQuizie(b, SPRAWDZIAN), 'Stara Płanina (Bałkany)');
-  rowne(nazwaWQuizie(b, 'krainy'), 'Bałkany');
+  rowne(nazwaWQuizie(b, 'krainy'), 'Stara Płanina (Bałkany)');
   const wSprawdzianie = pytaniaQuizu(dane, SPRAWDZIAN).map((p) => nazwaWQuizie(p, SPRAWDZIAN));
   rowne(new Set(wSprawdzianie).size, wSprawdzianie.length, 'nazwy w Sprawdzianie muszą być unikalne:');
 });
