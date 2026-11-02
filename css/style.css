@@ -304,7 +304,7 @@ a { color: inherit; }
 @keyframes wejscie { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 .odpowiedz { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "fraza dalej" "przyn ."; align-items: center; column-gap: 12px; margin-top: 12px; animation: wejscie 240ms var(--krzywa) both; }
 .odpowiedz[hidden] { display: none; }
-.fraza { grid-area: fraza; display: flex; align-items: center; gap: 10px; margin: 0; font-size: var(--t-m); font-weight: 600; letter-spacing: -.01em; }
+.fraza { grid-area: fraza; position: relative; top: 3px; /* optyczne wyrównanie do przycisku „Dalej” */ display: flex; align-items: center; gap: 10px; margin: 0; font-size: var(--t-m); font-weight: 600; letter-spacing: -.01em; }
 .przynaleznosc { grid-area: przyn; margin: 4px 0 0 34px; font-size: var(--t-xs); opacity: .8; }
 .przynaleznosc strong { font-weight: 600; }
 .przynaleznosc[hidden] { display: none; }
