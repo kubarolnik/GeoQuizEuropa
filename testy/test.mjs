@@ -3,7 +3,7 @@
 //   node testy/test.mjs
 
 import { readFileSync } from 'node:fs';
-import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaWQuizie, geometrieTrafienia, SPRAWDZIAN } from '../js/quiz.js';
+import { tasuj, losujFraze, procent, pytaniaQuizu, nazwaWQuizie, geometrieTrafienia, sprawdzOdpowiedz, poprawneOdpowiedzi, pytanieORodzaj, SPRAWDZIAN } from '../js/quiz.js';
 
 const czytaj = (p) => JSON.parse(readFileSync(new URL('../' + p, import.meta.url), 'utf8'));
 const dane = czytaj('data/europa.json');
@@ -251,6 +251,63 @@ test('migracja: stary wynik połączonego quizu „Państwa i Stolice” jest us
   rowne(wczytajWyniki(mag), { morza: 58 });
   mag.setItem('europa-wyniki', JSON.stringify({ panstwa: 70, morza: 58 })); // nowy wynik po migracji zostaje
   rowne(wczytajWyniki(mag), { panstwa: 70, morza: 58 });
+});
+
+console.log('\nTryb „Wypisz”');
+const P = (id) => dane.pytania.find((p) => p.id === id);
+test('każda nazwa wpisana dokładnie (także małymi literami) jest uznana w swoim quizie i w Sprawdzianie', () => {
+  for (const q of [...dane.quizy.map((x) => x.id), SPRAWDZIAN]) {
+    for (const p of pytaniaQuizu(dane, q)) {
+      const n = nazwaWQuizie(p, q);
+      prawda(sprawdzOdpowiedz(n, p, q), `${q}: „${n}” nie przechodzi`);
+      prawda(sprawdzOdpowiedz('  ' + n.toLocaleLowerCase('pl') + '  ', p, q), `${q}: „${n}” małymi literami nie przechodzi`);
+    }
+  }
+});
+test('dopiski w nawiasach nie są wymagane; „Stara Płanina” i „Bałkany” oba poprawne', () => {
+  prawda(sprawdzOdpowiedz('Monako', P('stolica-monako'), SPRAWDZIAN), 'Monako (stolica)');
+  prawda(sprawdzOdpowiedz('Monako', P('panstwo-monako'), SPRAWDZIAN), 'Monako (państwo)');
+  prawda(sprawdzOdpowiedz('Cypr', P('wyspa-cypr'), SPRAWDZIAN), 'Cypr (wyspa)');
+  prawda(sprawdzOdpowiedz('bałkany', P('kraina-balkany'), 'krainy'), 'Bałkany');
+  prawda(sprawdzOdpowiedz('Stara Płanina', P('kraina-balkany'), SPRAWDZIAN), 'Stara Płanina');
+  prawda(sprawdzOdpowiedz('Warszawa.', P('stolica-polska'), 'stolice'), 'kropka na końcu');
+});
+test('polskie znaki są wymagane, a złe odpowiedzi odrzucane', () => {
+  prawda(!sprawdzOdpowiedz('Ladoga', P('jezioro-ladoga'), 'jeziora'), '„Ladoga” bez „Ł” nie może przejść');
+  prawda(!sprawdzOdpowiedz('Krakow', P('stolica-polska'), 'stolice'), 'zła stolica');
+  prawda(!sprawdzOdpowiedz('Północne', P('morze-polnocne'), 'morza'), 'bez słowa „Morze”');
+  prawda(!sprawdzOdpowiedz('', P('morze-polnocne'), 'morza'), 'puste');
+  prawda(!sprawdzOdpowiedz('Monako', P('panstwo-polska'), 'panstwa'), 'inne państwo');
+});
+test('inne przyjęte nazwy: Niderlandy, Reykjavík, La Manche, Morze Marmarowe', () => {
+  prawda(sprawdzOdpowiedz('Niderlandy', P('panstwo-holandia'), 'panstwa'), 'Niderlandy');
+  prawda(sprawdzOdpowiedz('Reykjavík', P('stolica-islandia'), 'stolice'), 'Reykjavík');
+  prawda(sprawdzOdpowiedz('La Manche', P('ciesnina-la-manche'), 'ciesniny'), 'La Manche');
+  prawda(sprawdzOdpowiedz('Morze Marmarowe', P('morze-marmara'), 'morza'), 'Morze Marmarowe');
+});
+test('żadna odpowiedź nie pasuje do dwóch różnych obiektów w jednym quizie (poza tą samą nazwą państwa i stolicy w Sprawdzianie)', () => {
+  for (const q of [...dane.quizy.map((x) => x.id), SPRAWDZIAN]) {
+    const kto = new Map();
+    for (const p of pytaniaQuizu(dane, q)) for (const o of poprawneOdpowiedzi(p, q)) {
+      const k = o.toLocaleLowerCase('pl');
+      if (kto.has(k) && kto.get(k) !== p.id) {
+        const para = [kto.get(k), p.id].sort().join(' / ');
+        prawda(q === SPRAWDZIAN && /stolica-|panstwo-|wyspa-cypr/.test(para), `${q}: „${o}” pasuje do ${para}`);
+      }
+      kto.set(k, p.id);
+    }
+  }
+});
+test('każdy rodzaj obiektu ma pytanie („Jakie to państwo?” itd.)', () => {
+  for (const p of dane.pytania) prawda(pytanieORodzaj(p) !== 'Co to za miejsce?', p.rodzaj);
+});
+test('wyniki trybów „Wskaż” i „Wypisz” zapisują się osobno', async () => {
+  const { zapiszWynik, wczytajWyniki } = await import('../js/quiz.js');
+  const mag = { d: {}, getItem(k) { return this.d[k] ?? null; }, setItem(k, v) { this.d[k] = v; } };
+  zapiszWynik('morza', 70, mag);
+  zapiszWynik('morza', 30, mag, 'wypisz');
+  rowne(wczytajWyniki(mag), { morza: 70 });
+  rowne(wczytajWyniki(mag, 'wypisz'), { morza: 30 });
 });
 
 console.log(`\n${testy - bledy}/${testy} testów zaliczonych.`);

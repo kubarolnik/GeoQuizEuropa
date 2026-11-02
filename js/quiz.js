@@ -59,7 +59,10 @@ export function nazwaQuizu(dane, quizId) {
 }
 
 // ---- wyniki (tylko ostatnie ukończone podejście) ----
+// Tryby: „wskaz” (kliknij miejsce na mapie) i „wypisz” (wpisz nazwę podświetlonego miejsca).
+// Wyniki obu trybów są zapisywane osobno.
 const KLUCZ_WYNIKOW = 'europa-wyniki';
+const kluczWynikow = (tryb) => (tryb === 'wypisz' ? KLUCZ_WYNIKOW + '-wypisz' : KLUCZ_WYNIKOW);
 
 // Wersja 2: quiz „Państwa i Stolice” podzielony na „Państwa” i „Stolice”.
 // Stary wynik pod kluczem „panstwa” dotyczył połączonego quizu (92 pytania),
@@ -75,13 +78,66 @@ function migruj(magazyn) {
   } catch { /* brak dostępu do magazynu */ }
 }
 
-export function wczytajWyniki(magazyn = globalThis.localStorage) {
-  migruj(magazyn);
-  try { return JSON.parse(magazyn.getItem(KLUCZ_WYNIKOW) || '{}') || {}; } catch { return {}; }
+export function wczytajWyniki(magazyn = globalThis.localStorage, tryb = 'wskaz') {
+  if (tryb !== 'wypisz') migruj(magazyn);
+  try { return JSON.parse(magazyn.getItem(kluczWynikow(tryb)) || '{}') || {}; } catch { return {}; }
 }
 
-export function zapiszWynik(quizId, wartoscProcent, magazyn = globalThis.localStorage) {
-  const w = wczytajWyniki(magazyn); // (wczytanie wykonuje też migrację)
+export function zapiszWynik(quizId, wartoscProcent, magazyn = globalThis.localStorage, tryb = 'wskaz') {
+  const w = wczytajWyniki(magazyn, tryb); // (wczytanie wykonuje też migrację)
   w[quizId] = wartoscProcent; // nadpisuje poprzedni wynik
-  try { magazyn.setItem(KLUCZ_WYNIKOW, JSON.stringify(w)); } catch { /* ignoruj */ }
+  try { magazyn.setItem(kluczWynikow(tryb), JSON.stringify(w)); } catch { /* ignoruj */ }
+}
+
+// ---- tryb „Wypisz”: sprawdzanie wpisanej nazwy ----
+// Pytanie wyświetlane nad polem do wpisania, zależnie od rodzaju obiektu.
+const PYTANIA_O_RODZAJ = {
+  'państwo': 'Jakie to państwo?',
+  stolica: 'Jaka to stolica?',
+  morze: 'Jakie to morze?',
+  zatoka: 'Jaka to zatoka?',
+  'półwysep': 'Jaki to półwysep?',
+  wyspa: 'Jaka to wyspa lub archipelag?',
+  kraina: 'Jaka to kraina geograficzna?',
+  rzeka: 'Jaka to rzeka?',
+  jezioro: 'Jakie to jezioro?',
+  'cieśnina': 'Jaka to cieśnina lub kanał?',
+};
+export function pytanieORodzaj(pytanie) {
+  return PYTANIA_O_RODZAJ[pytanie.rodzaj] || 'Co to za miejsce?';
+}
+
+// Inne poprawne, powszechnie używane polskie nazwy.
+const INNE_NAZWY = {
+  'panstwo-holandia': ['Niderlandy'],
+  'stolica-islandia': ['Reykjavík'],
+  'morze-marmara': ['Morze Marmarowe'],
+  'ciesnina-la-manche': ['La Manche'],
+  'ciesnina-swietego-jerzego': ['Kanał św. Jerzego', 'Kanał Św. Jerzego'],
+};
+
+// Porównanie bez względu na wielkość liter, zbędne spacje i kropkę/wykrzyknik na końcu.
+// Polskie znaki są wymagane („Lodz” ≠ „Łódź”).
+export function normalizujOdpowiedz(tekst) {
+  return String(tekst).normalize('NFC').toLocaleLowerCase('pl').replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '').trim();
+}
+
+// Wszystkie akceptowane odpowiedzi (do porównania). Dopiski „(państwo)”, „(stolica)”, „(wyspa)”
+// nie są wymagane; przy nazwach typu „Stara Płanina (Bałkany)” wystarczy każda z części.
+export function poprawneOdpowiedzi(pytanie, quizId) {
+  const wyniki = new Set([nazwaWQuizie(pytanie, quizId), pytanie.nazwa, ...(INNE_NAZWY[pytanie.id] || [])]);
+  for (const n of [...wyniki]) {
+    const m = n.match(/^(.*?)\s*\((.+)\)$/);
+    if (m) {
+      wyniki.add(m[1]);
+      if (!['państwo', 'stolica', 'wyspa'].includes(m[2])) wyniki.add(m[2]);
+    }
+  }
+  return [...wyniki];
+}
+
+export function sprawdzOdpowiedz(wpis, pytanie, quizId) {
+  const w = normalizujOdpowiedz(wpis);
+  if (!w) return false;
+  return poprawneOdpowiedzi(pytanie, quizId).some((o) => normalizujOdpowiedz(o) === w);
 }

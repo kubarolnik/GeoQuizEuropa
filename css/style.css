@@ -506,3 +506,60 @@ a { color: inherit; }
   .przynaleznosc { margin-top: 0; }
   .dalej { justify-self: stretch; }
 }
+
+/* ---------------------------------------------------------- wybór trybu */
+.widok-wybor .start-srodek { gap: 18px; }
+.wybor-naglowek {
+  margin: 0; color: #fff; font-size: 15px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  opacity: .85; text-shadow: 0 1px 10px rgba(0, 0, 0, .4);
+}
+.tryby { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+.widok-start .kategoria.tryb {
+  width: 236px; min-height: 168px; padding: 18px 18px 20px;
+  flex-direction: column; gap: 6px; font-size: 30px; line-height: 1.1;
+}
+.tryb-ikona { display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 4px; border-radius: 12px; background: rgba(var(--akcent-rgb), .22); }
+.tryb-ikona svg { width: 21px; height: 21px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.tryb-opis { max-width: 190px; font-size: 13px; font-weight: 500; line-height: 1.35; opacity: .85; text-align: center; letter-spacing: 0; }
+.wybor-wroc {
+  position: absolute; z-index: 2; top: max(16px, env(safe-area-inset-top)); left: max(16px, env(safe-area-inset-left));
+  background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .5); color: #fff;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.wybor-wroc:hover { background: rgba(255, 255, 255, .22); }
+@media (max-width: 540px) {
+  .tryby { flex-direction: column; align-items: center; gap: 12px; }
+  .widok-start .kategoria.tryb { width: 260px; min-height: 0; padding: 16px 18px; }
+}
+.pasek-tryb { font-weight: 400; opacity: .6; }
+
+/* ----------------------------------------------------- quiz „Wypisz” */
+.wpisz { display: flex; gap: 8px; margin-top: 12px; }
+.wpisz[hidden] { display: none; }
+.pole {
+  flex: 1; min-width: 0; height: 44px; padding: 0 14px;
+  border: 1px solid var(--ramka-mocna); border-radius: var(--r-s);
+  background: rgba(var(--akcent-rgb), .06); color: var(--akcent);
+  font: inherit; font-size: 16px; /* 16 px: telefon nie przybliża strony przy pisaniu */
+  outline: none; transition: border-color var(--czas), box-shadow var(--czas), background-color var(--czas);
+}
+.pole::placeholder { color: var(--akcent); opacity: .45; }
+.pole:focus { border-color: var(--akcent); box-shadow: 0 0 0 3px rgba(var(--akcent-rgb), .18); }
+.pole.dobrze { border-color: var(--trafione); box-shadow: 0 0 0 3px rgba(31, 164, 99, .25); }
+.pole.zle { border-color: var(--pudlo); }
+.sprawdz { flex: none; }
+.panel-wypisz .odpowiedz { grid-template-areas: "fraza dalej" "popr dalej" "przyn dalej"; }
+.poprawna { grid-area: popr; margin: 4px 0 0 34px; font-size: var(--t-s); }
+.poprawna strong { font-weight: 700; }
+@media (min-width: 720px) and (hover: hover) and (pointer: fine) {
+  .pole { height: 40px; }
+  .wpisz { margin-top: 10px; }
+  .poprawna { margin-left: 30px; font-size: 14px; }
+}
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) {
+  .wpisz { flex-direction: column; margin-top: 8px; }
+  .pole { height: 38px; }
+  .sprawdz { min-height: 36px; font-size: 14px; }
+  .panel-wypisz .odpowiedz { grid-template-areas: "fraza" "popr" "przyn" "dalej"; }
+  .poprawna { margin-left: 28px; font-size: 13px; }
+}

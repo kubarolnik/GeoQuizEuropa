@@ -46,6 +46,15 @@ narzedzia/              skrypty przygotowujące dane (niepotrzebne do działania
 testy/test.mjs          testy
 ```
 
+## Tryby quizów
+
+Po kliknięciu „Europa” wybiera się tryb:
+
+- **Wskaż** – quiz podaje nazwę, a ty klikasz to miejsce na mapie (przy stolicach wystarczy trafić w ich państwo).
+- **Wypisz** – na mapie podświetla się obiekt, a ty wpisujesz jego nazwę. Wielkość liter, zbędne spacje i kropka na końcu nie mają znaczenia; polskie znaki są wymagane. Dopiski w nawiasach („(państwo)”, „(stolica)”, „(wyspa)”) nie są potrzebne, a przy „Stara Płanina (Bałkany)” wystarczy jedna z nazw. Przyjmowane są też: Niderlandy, Reykjavík, La Manche, Morze Marmarowe, Kanał św. Jerzego.
+
+Wyniki obu trybów zapisują się osobno.
+
 ## Mapa
 
 - Podkład: **Esri World Shaded Relief** – sam relief, bez żadnych napisów. Kafelki są nakładane w trybie „multiply” na własne tło (morze/ląd), więc morze ma zawsze jednolity kolor. Rysowane są tylko granice państw i jeziora – bez nazw, bez rzek, bez punktów.
