@@ -158,7 +158,7 @@ async function widokLista() {
       <div class="siatka">
         ${dane.quizy.map((q) => `
           <a class="przycisk kafel" href="#quiz-${q.id}">
-            <span class="kafel-foto" style="background-image:url(img/kafel-${q.id}.jpg)"><span class="kafel-numer">${q.numer}</span></span>
+            <span class="kafel-foto" style="background-image:url(img/kafel-${q.id}.jpg?v=2)"><span class="kafel-numer">${q.numer}</span></span>
             <span class="kafel-tresc">
               <span class="kafel-naglowek">${symbol(q.id)}<span class="kafel-nazwa">${q.nazwa}</span></span>
               ${dolKafla(q.id)}
