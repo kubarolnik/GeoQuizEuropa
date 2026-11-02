@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cut">
+  <meta name="theme-color" content="#0f1d2b">
+  <title>Geografia Europy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <script>
+    // Motyw ustawiany przed wyrenderowaniem strony, żeby nie było mignięcia.
+    (function () {
+      var r = document.documentElement, tlo = 'ciemne', akcent = '#91a17d';
+      try {
+        var m = JSON.parse(localStorage.getItem('europa-motyw') || 'null');
+        if (m && m.motyw === 'czarny-bialy') akcent = '#eceef1';
+        if (m && /^bialy/.test(m.motyw)) { tlo = 'jasne'; akcent = '#1d2127'; }
+        if (m && /wlasny$/.test(m.motyw) && /^#[0-9a-f]{6}$/i.test(m.kolor)) akcent = m.kolor;
+      } catch (e) {}
+      r.dataset.tlo = tlo;
+      r.style.setProperty('--akcent', akcent);
+    })();
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="lib/leaflet/leaflet.js"></script>
+  <script type="module" src="js/app.js?v=4"></script>
+</body>
+</html>

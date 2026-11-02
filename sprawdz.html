@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pl" data-tlo="jasne">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Sprawdzanie danych – Europa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lib/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root { --akcent: #111; --akcent-rgb: 17, 17, 17; }
+    body { overflow: hidden; }
+    .uklad { position: fixed; inset: 0; display: grid; grid-template-columns: 340px 1fr; }
+    .mapa { position: relative; }
+    .bok { display: flex; flex-direction: column; gap: 10px; padding: 14px; border-right: 1px solid #ddd; overflow: hidden; font-size: .85rem; }
+    .bok h1 { margin: 0; font-size: 1.1rem; }
+    .bok p { margin: 0; color: #555; line-height: 1.4; }
+    .bok select, .bok input[type=search] { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid #bbb; border-radius: 10px; background: #fff; color: #111; }
+    .bok label { display: flex; gap: 6px; align-items: center; }
+    .lista { overflow: auto; flex: 1; margin: 0; padding: 0; list-style: none; border: 1px solid #e3e3e3; border-radius: 12px; }
+    .lista li { display: flex; gap: 8px; align-items: baseline; padding: 6px 10px; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
+    .lista li:hover { background: #f5f7fa; }
+    .lista .r { margin-left: auto; font-size: .72rem; color: #666; white-space: nowrap; }
+    .lista .reczne { color: #b45309; font-weight: 600; }
+    .kropka { width: 10px; height: 10px; border-radius: 50%; flex: none; transform: translateY(1px); }
+    .wynik-klik { min-height: 3.2em; padding: 8px 10px; border-radius: 10px; background: #f5f7fa; line-height: 1.4; }
+    .podpis { background: rgba(255,255,255,.92); border: 1px solid rgba(0,0,0,.25); border-radius: 6px; box-shadow: none; padding: 1px 5px; font: 600 11px/1.3 Inter, sans-serif; color: #111; white-space: nowrap; }
+    .podpis::before { display: none; }
+    .leaflet-tooltip.szczegoly { font: 12px/1.4 Inter, sans-serif; max-width: 320px; white-space: normal; }
+    @media (max-width: 760px) { .uklad { grid-template-columns: 1fr; grid-template-rows: 42vh 1fr; } .bok { order: 2; border-right: 0; border-top: 1px solid #ddd; } }
+  </style>
+</head>
+<body>
+  <div class="uklad">
+    <aside class="bok">
+      <h1>Sprawdzanie danych</h1>
+      <p>Wszystkie obiekty quizów z podpisami. Pomarańczowe „ręcznie” = geometria przygotowana ręcznie. Kliknij w mapę, żeby zobaczyć, które odpowiedzi zostałyby tam uznane za trafione (przy obecnym przybliżeniu).</p>
+      <select id="filtr"><option value="">Wszystkie quizy</option></select>
+      <input id="szukaj" type="search" placeholder="Szukaj nazwy…">
+      <label><input id="podpisy" type="checkbox" checked> Pokaż podpisy</label>
+      <div class="wynik-klik" id="klik">Kliknij w mapę…</div>
+      <ul class="lista" id="lista"></ul>
+    </aside>
+    <div class="mapa" id="mapa"></div>
+  </div>
+  <script src="lib/leaflet/leaflet.js"></script>
+  <script type="module">
+    import { utworzMape } from './js/mapa.js';
+    const pobierz = (u) => fetch(u).then((r) => r.json());
+    const [dane, geometrie, tlo] = await Promise.all([pobierz('data/europa.json'), pobierz('data/geometrie.geojson'), pobierz('data/tlo.geojson')]);
+    const mapa = utworzMape(document.getElementById('mapa'), { geometrie, tlo });
+    const { map } = mapa;
+    const KOLORY = { panstwa: '#2563eb', morza: '#0891b2', zatoki: '#0d9488', polwyspy: '#9333ea', wyspy: '#db2777', krainy: '#a16207', rzeki: '#1d4ed8', jeziora: '#0284c7', ciesniny: '#dc2626' };
+    const filtr = document.getElementById('filtr');
+    dane.quizy.forEach((q) => filtr.append(new Option(`${q.numer}. ${q.nazwa}`, q.id)));
+    const warstwa = L.layerGroup().addTo(map);
+    const podpisy = L.layerGroup().addTo(map);
+    const lista = document.getElementById('lista');
+    const reczne = (p) => p.zrodlo.startsWith('ręcznie') && p.rodzaj !== 'stolica';
+
+    function rysuj() {
+      warstwa.clearLayers(); podpisy.clearLayers(); lista.innerHTML = '';
+      const q = filtr.value, s = document.getElementById('szukaj').value.trim().toLowerCase();
+      const pytania = dane.pytania.filter((p) => (!q || p.quiz === q) && (!s || p.nazwa.toLowerCase().includes(s)));
+      // obszary najpierw (od największych), potem linie i punkty – żeby małe były na wierzchu
+      const kol = (p) => KOLORY[p.quiz];
+      const posort = [...pytania].sort((a, b) => waga(b) - waga(a));
+      function waga(p) { const g = mapa.indeks.get(p.geometria).geometry.type; return g === 'Point' ? 0 : g.includes('Line') ? 1 : 2 + (p.rodzaj === 'państwo' ? 1 : 0); }
+      for (const p of posort) {
+        const f = mapa.indeks.get(p.geometria);
+        const opis = `<b>${p.nazwa}</b><br>${p.rodzaj}${p.przynaleznosc ? ' · przynależność: ' + (p.przynaleznoscOpis || p.przynaleznosc) : ''}<br><small>${p.zrodlo}</small>`;
+        const l = L.geoJSON(f, {
+          style: { color: kol(p), weight: f.geometry.type.includes('Line') ? 3 : 1.5, fillOpacity: p.rodzaj === 'państwo' ? 0.06 : 0.22, dashArray: reczne(p) ? '5 4' : null },
+          pointToLayer: (_, ll) => L.circleMarker(ll, { radius: 5, color: '#fff', weight: 2, fillColor: kol(p), fillOpacity: 1 }),
+        }).bindTooltip(opis, { className: 'szczegoly', sticky: true }).addTo(warstwa);
+        const [lng, lat] = f.properties.etykieta;
+        L.tooltip({ permanent: true, direction: 'center', className: 'podpis', interactive: false })
+          .setLatLng([lat, lng]).setContent(p.nazwa).addTo(podpisy);
+      }
+      for (const p of pytania) {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="kropka" style="background:${kol(p)}"></span><span>${p.nazwa}</span><span class="r ${reczne(p) ? 'reczne' : ''}">${reczne(p) ? 'ręcznie' : p.rodzaj}</span>`;
+        li.title = p.zrodlo;
+        li.addEventListener('click', () => {
+          const f = mapa.indeks.get(p.geometria);
+          if (f.geometry.type === 'Point') map.flyTo([f.geometry.coordinates[1], f.geometry.coordinates[0]], 9);
+          else map.flyToBounds(L.geoJSON(f).getBounds(), { padding: [30, 30], maxZoom: 10 });
+          mapa.wyczysc(); mapa.podswietl(p.geometria);
+        });
+        lista.append(li);
+      }
+      if (!document.getElementById('podpisy').checked) map.removeLayer(podpisy);
+    }
+    filtr.addEventListener('change', rysuj);
+    document.getElementById('szukaj').addEventListener('input', rysuj);
+    document.getElementById('podpisy').addEventListener('change', (e) => e.target.checked ? podpisy.addTo(map) : map.removeLayer(podpisy));
+    mapa.naKlikniecie((ll) => {
+      const traf = dane.pytania.filter((p) => mapa.trafia(p.geometria, ll)).map((p) => p.nazwa);
+      document.getElementById('klik').innerHTML = `<b>${ll.lat.toFixed(3)}, ${ll.lng.toFixed(3)}</b> (przybliżenie ${map.getZoom()})<br>` + (traf.length ? 'Trafione byłyby: ' + traf.join(', ') : 'Żadna odpowiedź nie byłaby tu trafiona.');
+    });
+    rysuj();
+    window.mapa = mapa; window.dane = dane;
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "europa-narzedzia",
+  "private": true,
+  "type": "module",
+  "description": "Skrypty budujące data/geometrie.geojson z danych Natural Earth (tylko do przygotowania danych, strona ich nie potrzebuje).",
+  "devDependencies": {
+    "@turf/turf": "^7.4.0",
+    "mapshaper": "^0.6.121"
+  }
+}

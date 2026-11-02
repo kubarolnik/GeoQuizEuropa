@@ -1,0 +1,51 @@
+// Logika quizu – czyste funkcje (bez DOM), testowane w testy/test.mjs.
+
+export const SPRAWDZIAN = 'sprawdzian';
+
+// Tasowanie Fishera-Yatesa. Zwraca nową tablicę.
+export function tasuj(tablica, losuj = Math.random) {
+  const a = tablica.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(losuj() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Każda fraza z puli z równym prawdopodobieństwem.
+export function losujFraze(pula, losuj = Math.random) {
+  return pula[Math.floor(losuj() * pula.length)];
+}
+
+// Procent zaokrąglony do liczby całkowitej (7 z 12 = 58%).
+export function procent(poprawne, wszystkie) {
+  if (!wszystkie) return 0;
+  return Math.round((poprawne / wszystkie) * 100);
+}
+
+// Pytania danego quizu; „Sprawdzian” = wszystkie pytania z quizów 1–9.
+export function pytaniaQuizu(dane, quizId) {
+  if (quizId === SPRAWDZIAN) {
+    const quizy = new Set(dane.quizy.map((q) => q.id));
+    return dane.pytania.filter((p) => quizy.has(p.quiz));
+  }
+  return dane.pytania.filter((p) => p.quiz === quizId);
+}
+
+export function nazwaQuizu(dane, quizId) {
+  if (quizId === SPRAWDZIAN) return 'Sprawdzian';
+  return dane.quizy.find((q) => q.id === quizId)?.nazwa ?? '';
+}
+
+// ---- wyniki (tylko ostatnie ukończone podejście) ----
+const KLUCZ_WYNIKOW = 'europa-wyniki';
+
+export function wczytajWyniki(magazyn = globalThis.localStorage) {
+  try { return JSON.parse(magazyn.getItem(KLUCZ_WYNIKOW) || '{}') || {}; } catch { return {}; }
+}
+
+export function zapiszWynik(quizId, wartoscProcent, magazyn = globalThis.localStorage) {
+  const w = wczytajWyniki(magazyn);
+  w[quizId] = wartoscProcent; // nadpisuje poprzedni wynik
+  try { magazyn.setItem(KLUCZ_WYNIKOW, JSON.stringify(w)); } catch { /* ignoruj */ }
+}

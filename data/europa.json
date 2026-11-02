@@ -1,0 +1,1834 @@
+{
+ "opis": "Wszystkie pytania quizów „Europa”. Polskie nazwy wpisane ręcznie. Geometrie w data/geometrie.geojson (pole „geometria” = id obiektu). „Sprawdzian” = wszystkie pytania z quizów 1–9.",
+ "frazy": {
+  "trafione": [
+   "Trafione!",
+   "Doskonale!",
+   "Dobrze!",
+   "Fenomenalnie!",
+   "Brawo, kalafiorku!",
+   "Bombastycznie!"
+  ],
+  "pudlo": [
+   "Błąd!",
+   "Ale pech!",
+   "Nie tym razem.",
+   "Słabiutko.",
+   "Pudło!",
+   "Wisisz Kubie dychę!"
+  ]
+ },
+ "quizy": [
+  {
+   "id": "panstwa",
+   "numer": 1,
+   "nazwa": "Państwa i Stolice"
+  },
+  {
+   "id": "morza",
+   "numer": 2,
+   "nazwa": "Morza"
+  },
+  {
+   "id": "zatoki",
+   "numer": 3,
+   "nazwa": "Zatoki"
+  },
+  {
+   "id": "polwyspy",
+   "numer": 4,
+   "nazwa": "Półwyspy"
+  },
+  {
+   "id": "wyspy",
+   "numer": 5,
+   "nazwa": "Wyspy + Przynależności"
+  },
+  {
+   "id": "krainy",
+   "numer": 6,
+   "nazwa": "Krainy Geograficzne"
+  },
+  {
+   "id": "rzeki",
+   "numer": 7,
+   "nazwa": "Rzeki"
+  },
+  {
+   "id": "jeziora",
+   "numer": 8,
+   "nazwa": "Jeziora"
+  },
+  {
+   "id": "ciesniny",
+   "numer": 9,
+   "nazwa": "Cieśniny"
+  }
+ ],
+ "pytania": [
+  {
+   "id": "panstwo-albania",
+   "nazwa": "Albania",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-albania",
+   "iso": "ALB",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-albania",
+   "nazwa": "Tirana",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-albania",
+   "panstwo": "Albania",
+   "wspolrzedne": [
+    41.3275,
+    19.8187
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-andora",
+   "nazwa": "Andora (państwo)",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-andora",
+   "iso": "AND",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-andora",
+   "nazwa": "Andora (stolica)",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-andora",
+   "panstwo": "Andora",
+   "wspolrzedne": [
+    42.5063,
+    1.5218
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-austria",
+   "nazwa": "Austria",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-austria",
+   "iso": "AUT",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-austria",
+   "nazwa": "Wiedeń",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-austria",
+   "panstwo": "Austria",
+   "wspolrzedne": [
+    48.2082,
+    16.3738
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-belgia",
+   "nazwa": "Belgia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-belgia",
+   "iso": "BEL",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-belgia",
+   "nazwa": "Bruksela",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-belgia",
+   "panstwo": "Belgia",
+   "wspolrzedne": [
+    50.8466,
+    4.3528
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-bialorus",
+   "nazwa": "Białoruś",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-bialorus",
+   "iso": "BLR",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-bialorus",
+   "nazwa": "Mińsk",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-bialorus",
+   "panstwo": "Białoruś",
+   "wspolrzedne": [
+    53.9045,
+    27.5615
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-bosnia",
+   "nazwa": "Bośnia i Hercegowina",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-bosnia",
+   "iso": "BIH",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-bosnia",
+   "nazwa": "Sarajewo",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-bosnia",
+   "panstwo": "Bośnia i Hercegowina",
+   "wspolrzedne": [
+    43.8563,
+    18.4131
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-bulgaria",
+   "nazwa": "Bułgaria",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-bulgaria",
+   "iso": "BGR",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-bulgaria",
+   "nazwa": "Sofia",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-bulgaria",
+   "panstwo": "Bułgaria",
+   "wspolrzedne": [
+    42.6977,
+    23.3219
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-chorwacja",
+   "nazwa": "Chorwacja",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-chorwacja",
+   "iso": "HRV",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-chorwacja",
+   "nazwa": "Zagrzeb",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-chorwacja",
+   "panstwo": "Chorwacja",
+   "wspolrzedne": [
+    45.815,
+    15.9819
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-cypr",
+   "nazwa": "Cypr (państwo)",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-cypr",
+   "iso": "CYP",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-cypr",
+   "nazwa": "Nikozja",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-cypr",
+   "panstwo": "Cypr",
+   "wspolrzedne": [
+    35.1856,
+    33.3823
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-czarnogora",
+   "nazwa": "Czarnogóra",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-czarnogora",
+   "iso": "MNE",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-czarnogora",
+   "nazwa": "Podgorica",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-czarnogora",
+   "panstwo": "Czarnogóra",
+   "wspolrzedne": [
+    42.4304,
+    19.2594
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-czechy",
+   "nazwa": "Czechy",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-czechy",
+   "iso": "CZE",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-czechy",
+   "nazwa": "Praga",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-czechy",
+   "panstwo": "Czechy",
+   "wspolrzedne": [
+    50.0755,
+    14.4378
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-dania",
+   "nazwa": "Dania",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-dania",
+   "iso": "DNK",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-dania",
+   "nazwa": "Kopenhaga",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-dania",
+   "panstwo": "Dania",
+   "wspolrzedne": [
+    55.6761,
+    12.5683
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-estonia",
+   "nazwa": "Estonia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-estonia",
+   "iso": "EST",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-estonia",
+   "nazwa": "Tallinn",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-estonia",
+   "panstwo": "Estonia",
+   "wspolrzedne": [
+    59.437,
+    24.7536
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-finlandia",
+   "nazwa": "Finlandia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-finlandia",
+   "iso": "FIN",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-finlandia",
+   "nazwa": "Helsinki",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-finlandia",
+   "panstwo": "Finlandia",
+   "wspolrzedne": [
+    60.1699,
+    24.9384
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-francja",
+   "nazwa": "Francja",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-francja",
+   "iso": "FRA",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-francja",
+   "nazwa": "Paryż",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-francja",
+   "panstwo": "Francja",
+   "wspolrzedne": [
+    48.8566,
+    2.3522
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-grecja",
+   "nazwa": "Grecja",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-grecja",
+   "iso": "GRC",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-grecja",
+   "nazwa": "Ateny",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-grecja",
+   "panstwo": "Grecja",
+   "wspolrzedne": [
+    37.9838,
+    23.7275
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-hiszpania",
+   "nazwa": "Hiszpania",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-hiszpania",
+   "iso": "ESP",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-hiszpania",
+   "nazwa": "Madryt",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-hiszpania",
+   "panstwo": "Hiszpania",
+   "wspolrzedne": [
+    40.4168,
+    -3.7038
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-holandia",
+   "nazwa": "Holandia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-holandia",
+   "iso": "NLD",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-holandia",
+   "nazwa": "Amsterdam",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-holandia",
+   "panstwo": "Holandia",
+   "wspolrzedne": [
+    52.3676,
+    4.9041
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-irlandia",
+   "nazwa": "Irlandia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-irlandia",
+   "iso": "IRL",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-irlandia",
+   "nazwa": "Dublin",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-irlandia",
+   "panstwo": "Irlandia",
+   "wspolrzedne": [
+    53.3498,
+    -6.2603
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-islandia",
+   "nazwa": "Islandia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-islandia",
+   "iso": "ISL",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-islandia",
+   "nazwa": "Reykjavik",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-islandia",
+   "panstwo": "Islandia",
+   "wspolrzedne": [
+    64.1466,
+    -21.9426
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-kosowo",
+   "nazwa": "Kosowo",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-kosowo",
+   "iso": "KOS",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-kosowo",
+   "nazwa": "Prisztina",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-kosowo",
+   "panstwo": "Kosowo",
+   "wspolrzedne": [
+    42.6629,
+    21.1655
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-liechtenstein",
+   "nazwa": "Liechtenstein",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-liechtenstein",
+   "iso": "LIE",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-liechtenstein",
+   "nazwa": "Vaduz",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-liechtenstein",
+   "panstwo": "Liechtenstein",
+   "wspolrzedne": [
+    47.141,
+    9.5209
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-litwa",
+   "nazwa": "Litwa",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-litwa",
+   "iso": "LTU",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-litwa",
+   "nazwa": "Wilno",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-litwa",
+   "panstwo": "Litwa",
+   "wspolrzedne": [
+    54.6872,
+    25.2797
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-luksemburg",
+   "nazwa": "Luksemburg (państwo)",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-luksemburg",
+   "iso": "LUX",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-luksemburg",
+   "nazwa": "Luksemburg (stolica)",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-luksemburg",
+   "panstwo": "Luksemburg",
+   "wspolrzedne": [
+    49.6116,
+    6.1319
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-lotwa",
+   "nazwa": "Łotwa",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-lotwa",
+   "iso": "LVA",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-lotwa",
+   "nazwa": "Ryga",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-lotwa",
+   "panstwo": "Łotwa",
+   "wspolrzedne": [
+    56.9496,
+    24.1052
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-macedonia",
+   "nazwa": "Macedonia Północna",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-macedonia",
+   "iso": "MKD",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-macedonia",
+   "nazwa": "Skopje",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-macedonia",
+   "panstwo": "Macedonia Północna",
+   "wspolrzedne": [
+    41.9981,
+    21.4254
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-malta",
+   "nazwa": "Malta",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-malta",
+   "iso": "MLT",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-malta",
+   "nazwa": "Valletta",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-malta",
+   "panstwo": "Malta",
+   "wspolrzedne": [
+    35.8989,
+    14.5146
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-moldawia",
+   "nazwa": "Mołdawia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-moldawia",
+   "iso": "MDA",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-moldawia",
+   "nazwa": "Kiszyniów",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-moldawia",
+   "panstwo": "Mołdawia",
+   "wspolrzedne": [
+    47.0105,
+    28.8638
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-monako",
+   "nazwa": "Monako (państwo)",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-monako",
+   "iso": "MCO",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-monako",
+   "nazwa": "Monako (stolica)",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-monako",
+   "panstwo": "Monako",
+   "wspolrzedne": [
+    43.7384,
+    7.4246
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-niemcy",
+   "nazwa": "Niemcy",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-niemcy",
+   "iso": "DEU",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-niemcy",
+   "nazwa": "Berlin",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-niemcy",
+   "panstwo": "Niemcy",
+   "wspolrzedne": [
+    52.52,
+    13.405
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-norwegia",
+   "nazwa": "Norwegia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-norwegia",
+   "iso": "NOR",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-norwegia",
+   "nazwa": "Oslo",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-norwegia",
+   "panstwo": "Norwegia",
+   "wspolrzedne": [
+    59.9139,
+    10.7522
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-polska",
+   "nazwa": "Polska",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-polska",
+   "iso": "POL",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-polska",
+   "nazwa": "Warszawa",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-polska",
+   "panstwo": "Polska",
+   "wspolrzedne": [
+    52.2297,
+    21.0122
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-portugalia",
+   "nazwa": "Portugalia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-portugalia",
+   "iso": "PRT",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-portugalia",
+   "nazwa": "Lizbona",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-portugalia",
+   "panstwo": "Portugalia",
+   "wspolrzedne": [
+    38.7223,
+    -9.1393
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-rosja",
+   "nazwa": "Rosja",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-rosja",
+   "iso": "RUS",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-rosja",
+   "nazwa": "Moskwa",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-rosja",
+   "panstwo": "Rosja",
+   "wspolrzedne": [
+    55.7558,
+    37.6173
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-rumunia",
+   "nazwa": "Rumunia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-rumunia",
+   "iso": "ROU",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-rumunia",
+   "nazwa": "Bukareszt",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-rumunia",
+   "panstwo": "Rumunia",
+   "wspolrzedne": [
+    44.4268,
+    26.1025
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-san-marino",
+   "nazwa": "San Marino (państwo)",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-san-marino",
+   "iso": "SMR",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-san-marino",
+   "nazwa": "San Marino (stolica)",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-san-marino",
+   "panstwo": "San Marino",
+   "wspolrzedne": [
+    43.9356,
+    12.4473
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-serbia",
+   "nazwa": "Serbia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-serbia",
+   "iso": "SRB",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-serbia",
+   "nazwa": "Belgrad",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-serbia",
+   "panstwo": "Serbia",
+   "wspolrzedne": [
+    44.8125,
+    20.4612
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-slowacja",
+   "nazwa": "Słowacja",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-slowacja",
+   "iso": "SVK",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-slowacja",
+   "nazwa": "Bratysława",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-slowacja",
+   "panstwo": "Słowacja",
+   "wspolrzedne": [
+    48.1486,
+    17.1077
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-slowenia",
+   "nazwa": "Słowenia",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-slowenia",
+   "iso": "SVN",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-slowenia",
+   "nazwa": "Lublana",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-slowenia",
+   "panstwo": "Słowenia",
+   "wspolrzedne": [
+    46.0569,
+    14.5058
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-szwajcaria",
+   "nazwa": "Szwajcaria",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-szwajcaria",
+   "iso": "CHE",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-szwajcaria",
+   "nazwa": "Berno",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-szwajcaria",
+   "panstwo": "Szwajcaria",
+   "wspolrzedne": [
+    46.948,
+    7.4474
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-szwecja",
+   "nazwa": "Szwecja",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-szwecja",
+   "iso": "SWE",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-szwecja",
+   "nazwa": "Sztokholm",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-szwecja",
+   "panstwo": "Szwecja",
+   "wspolrzedne": [
+    59.3293,
+    18.0686
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-ukraina",
+   "nazwa": "Ukraina",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-ukraina",
+   "iso": "UKR",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-ukraina",
+   "nazwa": "Kijów",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-ukraina",
+   "panstwo": "Ukraina",
+   "wspolrzedne": [
+    50.4501,
+    30.5234
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-watykan",
+   "nazwa": "Watykan (państwo)",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-watykan",
+   "iso": "VAT",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-watykan",
+   "nazwa": "Watykan (stolica)",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-watykan",
+   "panstwo": "Watykan",
+   "wspolrzedne": [
+    41.9029,
+    12.4534
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-wegry",
+   "nazwa": "Węgry",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-wegry",
+   "iso": "HUN",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-wegry",
+   "nazwa": "Budapeszt",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-wegry",
+   "panstwo": "Węgry",
+   "wspolrzedne": [
+    47.4979,
+    19.0402
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-wielka-brytania",
+   "nazwa": "Wielka Brytania",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-wielka-brytania",
+   "iso": "GBR",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-wielka-brytania",
+   "nazwa": "Londyn",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-wielka-brytania",
+   "panstwo": "Wielka Brytania",
+   "wspolrzedne": [
+    51.5074,
+    -0.1278
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "panstwo-wlochy",
+   "nazwa": "Włochy",
+   "rodzaj": "państwo",
+   "quiz": "panstwa",
+   "geometria": "panstwo-wlochy",
+   "iso": "ITA",
+   "zrodlo": "Natural Earth (granice w ujęciu Polski)"
+  },
+  {
+   "id": "stolica-wlochy",
+   "nazwa": "Rzym",
+   "rodzaj": "stolica",
+   "quiz": "panstwa",
+   "geometria": "stolica-wlochy",
+   "panstwo": "Włochy",
+   "wspolrzedne": [
+    41.8933,
+    12.4829
+   ],
+   "zrodlo": "ręcznie: współrzędne centrum miasta"
+  },
+  {
+   "id": "morze-barentsa",
+   "nazwa": "Morze Barentsa",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-barentsa",
+   "zrodlo": "Natural Earth (Barents Sea)"
+  },
+  {
+   "id": "morze-biale",
+   "nazwa": "Morze Białe",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-biale",
+   "zrodlo": "Natural Earth (White Sea)"
+  },
+  {
+   "id": "morze-grenlandzkie",
+   "nazwa": "Morze Grenlandzkie",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-grenlandzkie",
+   "zrodlo": "Natural Earth (Greenland Sea)"
+  },
+  {
+   "id": "morze-norweskie",
+   "nazwa": "Morze Norweskie",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-norweskie",
+   "zrodlo": "Natural Earth (Norwegian Sea)"
+  },
+  {
+   "id": "morze-polnocne",
+   "nazwa": "Morze Północne",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-polnocne",
+   "zrodlo": "Natural Earth (North Sea + Waddenzee)"
+  },
+  {
+   "id": "morze-baltyckie",
+   "nazwa": "Morze Bałtyckie",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-baltyckie",
+   "zrodlo": "Natural Earth (Baltic Sea + Gulf of Bothnia + Gulf of Finland + Gulf of Riga + Mecklenburger Bucht + Øresund + cieśniny duńskie)"
+  },
+  {
+   "id": "morze-srodziemne",
+   "nazwa": "Morze Śródziemne",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-srodziemne",
+   "zrodlo": "Natural Earth (Mediterranean Sea + Adriatic Sea + Ionian Sea + Tyrrhenian Sea + Ligurian Sea + Balearic Sea + Alboran Sea + Aegean Sea + Sea of Crete + Golfe du Lion + Gulf of Sidra + Gulf of Gabès)"
+  },
+  {
+   "id": "morze-egejskie",
+   "nazwa": "Morze Egejskie",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-egejskie",
+   "zrodlo": "Natural Earth (Aegean Sea + Sea of Crete)"
+  },
+  {
+   "id": "morze-adriatyckie",
+   "nazwa": "Morze Adriatyckie",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-adriatyckie",
+   "zrodlo": "Natural Earth (Adriatic Sea)"
+  },
+  {
+   "id": "morze-liguryjskie",
+   "nazwa": "Morze Liguryjskie",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-liguryjskie",
+   "zrodlo": "Natural Earth (Ligurian Sea)"
+  },
+  {
+   "id": "morze-tyrrenskie",
+   "nazwa": "Morze Tyrreńskie",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-tyrrenskie",
+   "zrodlo": "Natural Earth (Tyrrhenian Sea)"
+  },
+  {
+   "id": "morze-jonskie",
+   "nazwa": "Morze Jońskie",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-jonskie",
+   "zrodlo": "Natural Earth (Ionian Sea)"
+  },
+  {
+   "id": "morze-marmara",
+   "nazwa": "Morze Marmara",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-marmara",
+   "zrodlo": "Natural Earth (Sea of Marmara)"
+  },
+  {
+   "id": "morze-czarne",
+   "nazwa": "Morze Czarne",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-czarne",
+   "zrodlo": "Natural Earth (Black Sea)"
+  },
+  {
+   "id": "morze-azowskie",
+   "nazwa": "Morze Azowskie",
+   "rodzaj": "morze",
+   "quiz": "morza",
+   "geometria": "morze-azowskie",
+   "zrodlo": "Natural Earth (Sea of Azov)"
+  },
+  {
+   "id": "zatoka-botnicka",
+   "nazwa": "Zatoka Botnicka",
+   "rodzaj": "zatoka",
+   "quiz": "zatoki",
+   "geometria": "zatoka-botnicka",
+   "zrodlo": "Natural Earth (Gulf of Bothnia)"
+  },
+  {
+   "id": "zatoka-finska",
+   "nazwa": "Zatoka Fińska",
+   "rodzaj": "zatoka",
+   "quiz": "zatoki",
+   "geometria": "zatoka-finska",
+   "zrodlo": "Natural Earth (Gulf of Finland)"
+  },
+  {
+   "id": "zatoka-biskajska",
+   "nazwa": "Zatoka Biskajska",
+   "rodzaj": "zatoka",
+   "quiz": "zatoki",
+   "geometria": "zatoka-biskajska",
+   "zrodlo": "Natural Earth (Bay of Biscay)"
+  },
+  {
+   "id": "zatoka-wenecka",
+   "nazwa": "Zatoka Wenecka",
+   "rodzaj": "zatoka",
+   "quiz": "zatoki",
+   "geometria": "zatoka-wenecka",
+   "zrodlo": "ręcznie: Północny Adriatyk na północ od linii delta Padu – płd. kraniec Istrii. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "zatoka-genuenska",
+   "nazwa": "Zatoka Genueńska",
+   "rodzaj": "zatoka",
+   "quiz": "zatoki",
+   "geometria": "zatoka-genuenska",
+   "zrodlo": "ręcznie: Północna część Morza Liguryjskiego na północ od linii Imperia – La Spezia. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "polwysep-skandynawski",
+   "nazwa": "Półwysep Skandynawski",
+   "rodzaj": "półwysep",
+   "quiz": "polwyspy",
+   "geometria": "polwysep-skandynawski",
+   "zrodlo": "ręcznie: Ląd na zachód od linii Tornio – Varangerfjord (bez wysp). Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "polwysep-kolski",
+   "nazwa": "Półwysep Kolski",
+   "rodzaj": "półwysep",
+   "quiz": "polwyspy",
+   "geometria": "polwysep-kolski",
+   "zrodlo": "Natural Earth („KOLA PENINSULA”)"
+  },
+  {
+   "id": "polwysep-jutlandzki",
+   "nazwa": "Półwysep Jutlandzki",
+   "rodzaj": "półwysep",
+   "quiz": "polwyspy",
+   "geometria": "polwysep-jutlandzki",
+   "zrodlo": "ręcznie: Ląd na północ od linii ujście Łaby – Hamburg – Lubeka (bez wysp). Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "polwysep-bretonski",
+   "nazwa": "Półwysep Bretoński",
+   "rodzaj": "półwysep",
+   "quiz": "polwyspy",
+   "geometria": "polwysep-bretonski",
+   "zrodlo": "ręcznie: Ląd na zachód od linii ujście Loary – zatoka Mont-Saint-Michel. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "polwysep-iberyjski",
+   "nazwa": "Półwysep Iberyjski",
+   "rodzaj": "półwysep",
+   "quiz": "polwyspy",
+   "geometria": "polwysep-iberyjski",
+   "zrodlo": "Natural Earth (kontynentalna część Hiszpanii, Portugalii, Andory i Gibraltaru)"
+  },
+  {
+   "id": "polwysep-apeninski",
+   "nazwa": "Półwysep Apeniński",
+   "rodzaj": "półwysep",
+   "quiz": "polwyspy",
+   "geometria": "polwysep-apeninski",
+   "zrodlo": "ręcznie: Ląd na południe od linii Genua – Bolonia – Rimini (bez wysp). Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "polwysep-balkanski",
+   "nazwa": "Półwysep Bałkański",
+   "rodzaj": "półwysep",
+   "quiz": "polwyspy",
+   "geometria": "polwysep-balkanski",
+   "zrodlo": "Natural Earth („BALKAN PEN.”)"
+  },
+  {
+   "id": "polwysep-krymski",
+   "nazwa": "Półwysep Krymski",
+   "rodzaj": "półwysep",
+   "quiz": "polwyspy",
+   "geometria": "polwysep-krymski",
+   "zrodlo": "Natural Earth („CRIMEA”)"
+  },
+  {
+   "id": "wyspa-spitsbergen",
+   "nazwa": "Spitsbergen",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-spitsbergen",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „SVALBARD”)",
+   "przynaleznosc": "Norwegia"
+  },
+  {
+   "id": "wyspa-wyspy-owcze",
+   "nazwa": "Wyspy Owcze",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-wyspy-owcze",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Føroyar”)",
+   "przynaleznosc": "Dania"
+  },
+  {
+   "id": "wyspa-szetlandy",
+   "nazwa": "Szetlandy",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-szetlandy",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Shetland Is.”)",
+   "przynaleznosc": "Wielka Brytania"
+  },
+  {
+   "id": "wyspa-zelandia",
+   "nazwa": "Zelandia",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-zelandia",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Zealand”)",
+   "przynaleznosc": "Dania"
+  },
+  {
+   "id": "wyspa-gotlandia",
+   "nazwa": "Gotlandia",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-gotlandia",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Gotland”)",
+   "przynaleznosc": "Szwecja"
+  },
+  {
+   "id": "wyspa-sarema",
+   "nazwa": "Sarema",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-sarema",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Saaremaa”)",
+   "przynaleznosc": "Estonia"
+  },
+  {
+   "id": "wyspa-baleary",
+   "nazwa": "Baleary",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-baleary",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Balearic Islands”)",
+   "przynaleznosc": "Hiszpania"
+  },
+  {
+   "id": "wyspa-majorka",
+   "nazwa": "Majorka",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-majorka",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Mallorca”)",
+   "przynaleznosc": "Hiszpania"
+  },
+  {
+   "id": "wyspa-minorka",
+   "nazwa": "Minorka",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-minorka",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Menorca”)",
+   "przynaleznosc": "Hiszpania"
+  },
+  {
+   "id": "wyspa-ibiza",
+   "nazwa": "Ibiza",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-ibiza",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Ibiza”)",
+   "przynaleznosc": "Hiszpania"
+  },
+  {
+   "id": "wyspa-sardynia",
+   "nazwa": "Sardynia",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-sardynia",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Sardegna”)",
+   "przynaleznosc": "Włochy"
+  },
+  {
+   "id": "wyspa-korsyka",
+   "nazwa": "Korsyka",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-korsyka",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Corse”)",
+   "przynaleznosc": "Francja"
+  },
+  {
+   "id": "wyspa-sycylia",
+   "nazwa": "Sycylia",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-sycylia",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Sicilia”)",
+   "przynaleznosc": "Włochy"
+  },
+  {
+   "id": "wyspa-kreta",
+   "nazwa": "Kreta",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-kreta",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Crete”)",
+   "przynaleznosc": "Grecja"
+  },
+  {
+   "id": "wyspa-cypr",
+   "nazwa": "Cypr (wyspa)",
+   "rodzaj": "wyspa",
+   "quiz": "wyspy",
+   "geometria": "wyspa-cypr",
+   "zrodlo": "Natural Earth (ląd; wyspy w obszarze „Cyprus”)",
+   "przynaleznosc": "Cypr",
+   "przynaleznoscOpis": "Cypr (osobne państwo)"
+  },
+  {
+   "id": "kraina-nizina-wschodnioeuropejska",
+   "nazwa": "Nizina Wschodnioeuropejska",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-nizina-wschodnioeuropejska",
+   "zrodlo": "ręcznie: Od granicy Polski i Karpat po Ural; bez Karelii i Płw. Kolskiego. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "kraina-nizina-nadkaspijska",
+   "nazwa": "Nizina Nadkaspijska",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-nizina-nadkaspijska",
+   "zrodlo": "Natural Earth („CASPIAN DEPRESSION”)"
+  },
+  {
+   "id": "kraina-nizina-polska",
+   "nazwa": "Nizina Polska",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-nizina-polska",
+   "zrodlo": "ręcznie: Polska na północ od linii Sudety – Wyżyna Śląska – Wyżyna Małopolska – Wyżyna Lubelska. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "kraina-nizina-niemiecka",
+   "nazwa": "Nizina Niemiecka",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-nizina-niemiecka",
+   "zrodlo": "ręcznie: Niemcy na północ od linii średniogórzy (Bonn – Hanower – Harz – Lipsk – Zgorzelec). Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "kraina-nizina-francuska",
+   "nazwa": "Nizina Francuska",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-nizina-francuska",
+   "zrodlo": "ręcznie: Basen Paryski i dolina środkowej Loary (bez Bretanii, Ardenów, Wogezów, Masywu Centralnego). Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "kraina-nizina-wegierska",
+   "nazwa": "Nizina Węgierska",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-nizina-wegierska",
+   "zrodlo": "Natural Earth („Alföld”)"
+  },
+  {
+   "id": "kraina-nizina-padanska",
+   "nazwa": "Nizina Padańska",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-nizina-padanska",
+   "zrodlo": "ręcznie: Dolina Padu między podnóżem Alp a podnóżem Apenin. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "kraina-nizina-czarnomorska",
+   "nazwa": "Nizina Czarnomorska",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-nizina-czarnomorska",
+   "zrodlo": "ręcznie: Północne wybrzeże Morza Czarnego od Dunaju po Morze Azowskie, bez Krymu. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "kraina-masyw-centralny",
+   "nazwa": "Masyw Centralny",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-masyw-centralny",
+   "zrodlo": "Natural Earth („Massif Central”)"
+  },
+  {
+   "id": "kraina-wyzyna-wolynska",
+   "nazwa": "Wyżyna Wołyńska",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-wyzyna-wolynska",
+   "zrodlo": "ręcznie: Między Bugiem a Horyniem (okolice Łucka, Włodzimierza, Równego). Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "kraina-wyzyna-bawarska",
+   "nazwa": "Wyżyna Bawarska",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-wyzyna-bawarska",
+   "zrodlo": "ręcznie: Między Dunajem a Alpami, od Iller po Inn i Salzach. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "kraina-gory-skandynawskie",
+   "nazwa": "Góry Skandynawskie",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-gory-skandynawskie",
+   "zrodlo": "Natural Earth („KJØLEN MOUNTAINS”)"
+  },
+  {
+   "id": "kraina-ural",
+   "nazwa": "Ural",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-ural",
+   "zrodlo": "Natural Earth („URAL MOUNTAINS”)"
+  },
+  {
+   "id": "kraina-karpaty",
+   "nazwa": "Karpaty",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-karpaty",
+   "zrodlo": "Natural Earth („CARPATHIAN MOUNTAINS”)"
+  },
+  {
+   "id": "kraina-sudety",
+   "nazwa": "Sudety",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-sudety",
+   "zrodlo": "Natural Earth („Sudetes Mts.”)"
+  },
+  {
+   "id": "kraina-gory-dynarskie",
+   "nazwa": "Góry Dynarskie",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-gory-dynarskie",
+   "zrodlo": "Natural Earth („Dinaric Alps”)"
+  },
+  {
+   "id": "kraina-apeniny",
+   "nazwa": "Apeniny",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-apeniny",
+   "zrodlo": "Natural Earth („APPENNINI”)"
+  },
+  {
+   "id": "kraina-alpy",
+   "nazwa": "Alpy",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-alpy",
+   "zrodlo": "Natural Earth („ALPS”)"
+  },
+  {
+   "id": "kraina-pireneje",
+   "nazwa": "Pireneje",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-pireneje",
+   "zrodlo": "Natural Earth („PYRENEES”)"
+  },
+  {
+   "id": "kraina-gory-betyckie",
+   "nazwa": "Góry Betyckie",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-gory-betyckie",
+   "zrodlo": "ręcznie: Południowo-wschodnia Hiszpania: od Gibraltaru po przylądek La Nao, na południe od Gwadalkiwiru. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "kraina-balkany",
+   "nazwa": "Bałkany",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-balkany",
+   "zrodlo": "Natural Earth („Balkan Mts.”)"
+  },
+  {
+   "id": "kraina-harz",
+   "nazwa": "Harz",
+   "rodzaj": "kraina",
+   "quiz": "krainy",
+   "geometria": "kraina-harz",
+   "zrodlo": "Natural Earth („Harz”)"
+  },
+  {
+   "id": "rzeka-wolga",
+   "nazwa": "Wołga",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-wolga",
+   "zrodlo": "Natural Earth (rzeki: Volga)"
+  },
+  {
+   "id": "rzeka-dniepr",
+   "nazwa": "Dniepr",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-dniepr",
+   "zrodlo": "Natural Earth (rzeki: Dnipro, Dnepre)"
+  },
+  {
+   "id": "rzeka-dniestr",
+   "nazwa": "Dniestr",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-dniestr",
+   "zrodlo": "Natural Earth (rzeki: Dniester)"
+  },
+  {
+   "id": "rzeka-niemen",
+   "nazwa": "Niemen",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-niemen",
+   "zrodlo": "ręcznie: górny bieg (Uzda – Stołpce – Lubcza – Mosty – Grodno – Druskieniki – Olita – Kowno) wyznaczony ręcznie; dolny bieg (od Kowna) z Natural Earth."
+  },
+  {
+   "id": "rzeka-tamiza",
+   "nazwa": "Tamiza",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-tamiza",
+   "zrodlo": "Natural Earth (rzeki: Thames)"
+  },
+  {
+   "id": "rzeka-sekwana",
+   "nazwa": "Sekwana",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-sekwana",
+   "zrodlo": "Natural Earth (rzeki: Seine)"
+  },
+  {
+   "id": "rzeka-dunaj",
+   "nazwa": "Dunaj",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-dunaj",
+   "zrodlo": "Natural Earth (rzeki: Danube, Donau, Bratul Chillia, Bratul Sulina, Bratul Sfintu Gheorghe)"
+  },
+  {
+   "id": "rzeka-pad",
+   "nazwa": "Pad",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-pad",
+   "zrodlo": "Natural Earth (rzeki: Po)"
+  },
+  {
+   "id": "rzeka-ren",
+   "nazwa": "Ren",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-ren",
+   "zrodlo": "Natural Earth (rzeki: Rhein, Rhin, Rhine)"
+  },
+  {
+   "id": "rzeka-rodan",
+   "nazwa": "Rodan",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-rodan",
+   "zrodlo": "Natural Earth (rzeki: Rhône)"
+  },
+  {
+   "id": "rzeka-tag",
+   "nazwa": "Tag",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-tag",
+   "zrodlo": "Natural Earth (rzeki: Tajo, Tejo)"
+  },
+  {
+   "id": "rzeka-tyber",
+   "nazwa": "Tyber",
+   "rodzaj": "rzeka",
+   "quiz": "rzeki",
+   "geometria": "rzeka-tyber",
+   "zrodlo": "Natural Earth (rzeki: Tevere)"
+  },
+  {
+   "id": "jezioro-bodenskie",
+   "nazwa": "Jezioro Bodeńskie",
+   "rodzaj": "jezioro",
+   "quiz": "jeziora",
+   "geometria": "jezioro-bodenskie",
+   "zrodlo": "Natural Earth („Bodensee”)"
+  },
+  {
+   "id": "jezioro-como",
+   "nazwa": "Jezioro Como",
+   "rodzaj": "jezioro",
+   "quiz": "jeziora",
+   "geometria": "jezioro-como",
+   "zrodlo": "Natural Earth („Lago di Como”)"
+  },
+  {
+   "id": "jezioro-genewskie",
+   "nazwa": "Jezioro Genewskie",
+   "rodzaj": "jezioro",
+   "quiz": "jeziora",
+   "geometria": "jezioro-genewskie",
+   "zrodlo": "Natural Earth („Lake Geneva”)"
+  },
+  {
+   "id": "jezioro-onega",
+   "nazwa": "Onega",
+   "rodzaj": "jezioro",
+   "quiz": "jeziora",
+   "geometria": "jezioro-onega",
+   "zrodlo": "Natural Earth („Lake Onega”)"
+  },
+  {
+   "id": "jezioro-ladoga",
+   "nazwa": "Ładoga",
+   "rodzaj": "jezioro",
+   "quiz": "jeziora",
+   "geometria": "jezioro-ladoga",
+   "zrodlo": "Natural Earth („Lake Ladoga”)"
+  },
+  {
+   "id": "jezioro-balaton",
+   "nazwa": "Balaton",
+   "rodzaj": "jezioro",
+   "quiz": "jeziora",
+   "geometria": "jezioro-balaton",
+   "zrodlo": "Natural Earth („Lake Balaton”)"
+  },
+  {
+   "id": "ciesnina-skagerrak",
+   "nazwa": "Skagerrak",
+   "rodzaj": "cieśnina",
+   "quiz": "ciesniny",
+   "geometria": "ciesnina-skagerrak",
+   "zrodlo": "Natural Earth (Skagerrak)"
+  },
+  {
+   "id": "ciesnina-kattegat",
+   "nazwa": "Kattegat",
+   "rodzaj": "cieśnina",
+   "quiz": "ciesniny",
+   "geometria": "ciesnina-kattegat",
+   "zrodlo": "Natural Earth (Kattegat)"
+  },
+  {
+   "id": "ciesnina-kaletanska",
+   "nazwa": "Cieśnina Kaletańska",
+   "rodzaj": "cieśnina",
+   "quiz": "ciesniny",
+   "geometria": "ciesnina-kaletanska",
+   "zrodlo": "ręcznie: Między linią Dungeness – Gris-Nez a linią Leathercoat Point – Walde. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "ciesnina-gibraltarska",
+   "nazwa": "Cieśnina Gibraltarska",
+   "rodzaj": "cieśnina",
+   "quiz": "ciesniny",
+   "geometria": "ciesnina-gibraltarska",
+   "zrodlo": "ręcznie: Między linią przylądek Trafalgar – przylądek Spartel a linią Europa Point – Punta Almina (Ceuta). Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "ciesnina-sycylijska",
+   "nazwa": "Cieśnina Sycylijska",
+   "rodzaj": "cieśnina",
+   "quiz": "ciesniny",
+   "geometria": "ciesnina-sycylijska",
+   "zrodlo": "ręcznie: Między zachodnią Sycylią a przylądkiem Bon w Tunezji. Linia brzegowa / granice: Natural Earth."
+  },
+  {
+   "id": "ciesnina-bosfor",
+   "nazwa": "Bosfor",
+   "rodzaj": "cieśnina",
+   "quiz": "ciesniny",
+   "geometria": "ciesnina-bosfor",
+   "zrodlo": "Natural Earth (Bosporus)"
+  },
+  {
+   "id": "ciesnina-dardanele",
+   "nazwa": "Dardanele",
+   "rodzaj": "cieśnina",
+   "quiz": "ciesniny",
+   "geometria": "ciesnina-dardanele",
+   "zrodlo": "Natural Earth (Dardanelles)"
+  },
+  {
+   "id": "ciesnina-la-manche",
+   "nazwa": "Kanał La Manche",
+   "rodzaj": "cieśnina",
+   "quiz": "ciesniny",
+   "geometria": "ciesnina-la-manche",
+   "zrodlo": "Natural Earth (English Channel)"
+  },
+  {
+   "id": "ciesnina-swietego-jerzego",
+   "nazwa": "Kanał Świętego Jerzego",
+   "rodzaj": "cieśnina",
+   "quiz": "ciesniny",
+   "geometria": "ciesnina-swietego-jerzego",
+   "zrodlo": "ręcznie: Między Irlandią a Walią: od linii Carnsore Point – St David’s Head do linii Arklow – Bardsey. Linia brzegowa / granice: Natural Earth."
+  }
+ ]
+}
