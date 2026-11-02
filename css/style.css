@@ -607,3 +607,5 @@ a { color: inherit; }
 .okno-bledy .naglowek-bledow .etykieta { color: var(--pudlo); background: rgba(224, 72, 72, .14); }
 .grupa-bledow h3 .numer { opacity: .6; }
 :root[data-tlo="jasne"] .okno-bledy { color: #1d2127; }
+.okno-bledy .grupa-bledow li { color: #d4d8dd; } /* odpowiedzi trochę ciemniejsze niż białe kategorie */
+:root[data-tlo="jasne"] .okno-bledy .grupa-bledow li { color: #3a4048; }
