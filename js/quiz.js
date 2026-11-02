@@ -32,13 +32,14 @@ export function pytaniaQuizu(dane, quizId) {
   return dane.pytania.filter((p) => p.quiz === quizId);
 }
 
-// Nazwa pytania wyświetlana w danym quizie. W quizach „Państwa” i „Stolice” dopiski
-// „(państwo)” / „(stolica)” są zbędne (Andora, Cypr, Luksemburg, Monako, San Marino, Watykan),
-// więc je pomijamy. W Sprawdzianie zostają, bo tam obok siebie są np. „Monako (państwo)”
+// Nazwa pytania wyświetlana w danym quizie. W quizach „Państwa”, „Stolice” oraz „Wyspy
+// i Przynależności” dopiski „(państwo)” / „(stolica)” / „(wyspa)” są zbędne (Andora, Cypr,
+// Luksemburg, Monako, San Marino, Watykan), więc je pomijamy. W Sprawdzianie zostają, bo tam obok siebie są np. „Monako (państwo)”
 // i „Monako (stolica)”, a także „Cypr (państwo)” i „Cypr (wyspa)”.
 export function nazwaWQuizie(pytanie, quizId) {
   if (quizId === 'stolice' && pytanie.rodzaj === 'stolica') return pytanie.nazwa.replace(/ \(stolica\)$/, '');
   if (quizId === 'panstwa' && pytanie.rodzaj === 'państwo') return pytanie.nazwa.replace(/ \(państwo\)$/, '');
+  if (quizId === 'wyspy' && pytanie.rodzaj === 'wyspa') return pytanie.nazwa.replace(/ \(wyspa\)$/, '');
   return pytanie.nazwa;
 }
 
