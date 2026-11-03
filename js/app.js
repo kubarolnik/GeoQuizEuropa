@@ -170,11 +170,12 @@ async function widokLista(tryb = 'wskaz') {
   // Kafelek: zdjęcie przechodzące w rozmyte tło w jego kolorach, nazwa, liczba pytań, wynik z paskiem.
   // Wynik pokazujemy tylko dla quizów już ukończonych.
   const stan = (id) => (!(id in wyniki) ? 'Nowy' : wyniki[id] === 100 ? 'Ukończony' : 'W trakcie');
+  // Nazwa w dwóch liniach (Wyspy i Przynależności, Krainy Geograficzne): bez opisu, żeby wynik się zmieścił.
   const karta = (q) => {
     const zdjecie = `img/kafel-${q.id}.jpg?v=2`;
     const w = wyniki[q.id];
     return `
-          <a class="karta" href="${T.quiz(q.id)}">
+          <a class="karta${q.nazwa.length > 16 ? ' karta-dluga' : ''}" href="${T.quiz(q.id)}">
             <span class="karta-tlo" style="background-image:url(${zdjecie})" aria-hidden="true"></span>
             <span class="karta-zdjecie" style="background-image:url(${zdjecie})"><span class="karta-numer">${q.numer}</span></span>
             <span class="karta-tresc">
