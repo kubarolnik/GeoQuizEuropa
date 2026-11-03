@@ -21,20 +21,19 @@ const ikona = {
   zamknij: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   ok: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
 };
-// Liniowe symbole kategorii (rysowane kolorem przewodnim).
-const SYMBOLE = {
-  panstwa: '<path d="M5 21V4"/><path d="M5 4.5c2.5-1.6 5-1.6 7.5 0s5 1.6 7 0v9c-2 1.6-4.5 1.6-7 0s-5-1.6-7.5 0"/>',
-  stolice: '<path d="M12 21s-6.5-5.6-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.2"/>',
-  morza: '<path d="M3 9.5c1.5-1.3 3-1.3 4.5 0s3 1.3 4.5 0 3-1.3 4.5 0 3 1.3 4.5 0M3 15c1.5-1.3 3-1.3 4.5 0s3 1.3 4.5 0 3-1.3 4.5 0 3 1.3 4.5 0"/>',
-  zatoki: '<path d="M3 5h4.5c0 6.5 9 6.5 9 0H21"/><path d="M5 17c1.4-1.1 2.8-1.1 4.2 0s2.8 1.1 4.2 0 2.8-1.1 4.2 0"/>',
-  polwyspy: '<path d="M3 5h18"/><path d="M9 5c0 5.5 1 10.5 3 15 2-4.5 3-9.5 3-15"/>',
-  wyspy: '<path d="M6 11.5c0-2.6 2.7-4.5 6-4.5s6 1.9 6 4.5-2.7 3.5-6 3.5-6-.9-6-3.5z"/><path d="M3 19c1.5-1.2 3-1.2 4.5 0s3 1.2 4.5 0 3-1.2 4.5 0 3 1.2 4.5 0"/>',
-  krainy: '<path d="M2.5 19l6-10 4 6 3-4.5 6 8.5z"/>',
-  rzeki: '<path d="M9 3c-3 4 5 5.5 3 9.5S6 17 8 21"/><path d="M16 3c-1.5 3 2 4.5 1 7.5"/>',
-  jeziora: '<path d="M4.5 12.5c0-3.8 3.2-6 7.5-6s7.5 2.2 7.5 6-3.2 5.5-7.5 5.5-7.5-1.7-7.5-5.5z"/><path d="M9.5 12.5h5"/>',
-  ciesniny: '<path d="M3 4c4 2 6.5 5.5 6.5 8S7 18 3 20M21 4c-4 2-6.5 5.5-6.5 8s2.5 6 6.5 8"/>',
+// Krótkie opisy kategorii na kafelkach (na telefonie ukryte).
+const OPISY_QUIZOW = {
+  panstwa: 'Wszystkie państwa Europy.',
+  stolice: 'Od Lizbony po Moskwę.',
+  morza: 'Od Morza Barentsa po Azowskie.',
+  zatoki: 'Botnicka, Biskajska, Wenecka…',
+  polwyspy: 'Od Skandynawii po Krym.',
+  wyspy: 'Wyspy i państwa, do których należą.',
+  krainy: 'Niziny, wyżyny i łańcuchy górskie.',
+  rzeki: 'Od Wołgi po Tamizę.',
+  jeziora: 'Od Ładogi po Balaton.',
+  ciesniny: 'Cieśniny i kanały między morzami.',
 };
-const symbol = (id) => `<span class="kafel-ikona"><svg viewBox="0 0 24 24" aria-hidden="true">${SYMBOLE[id] || ''}</svg></span>`;
 const odmianaPytan = (n) => (n === 1 ? 'pytanie' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 'pytania' : 'pytań');
 
 async function wczytajDane() {
@@ -168,10 +167,26 @@ async function widokLista(tryb = 'wskaz') {
   await wczytajDane();
   const wyniki = wczytajWyniki(undefined, tryb);
   const ile = (id) => pytaniaQuizu(dane, id).length;
+  // Kafelek: zdjęcie przechodzące w rozmyte tło w jego kolorach, nazwa, liczba pytań, wynik z paskiem.
   // Wynik pokazujemy tylko dla quizów już ukończonych.
-  const dolKafla = (id) => `
-    <span class="kafel-meta"><span class="liczba">${ile(id)} ${odmianaPytan(ile(id))}</span>${id in wyniki ? `<span class="wynik">${wyniki[id]}%</span>` : ''}</span>
-    <span class="pasek-wyniku${id in wyniki ? '' : ' pusty'}" aria-hidden="true">${id in wyniki ? `<span style="width:${wyniki[id]}%"></span>` : ''}</span>`;
+  const stan = (id) => (!(id in wyniki) ? 'Nowy' : wyniki[id] === 100 ? 'Ukończony' : 'W trakcie');
+  const karta = (q) => {
+    const zdjecie = `img/kafel-${q.id}.jpg?v=2`;
+    const w = wyniki[q.id];
+    return `
+          <a class="karta" href="${T.quiz(q.id)}">
+            <span class="karta-tlo" style="background-image:url(${zdjecie})" aria-hidden="true"></span>
+            <span class="karta-zdjecie" style="background-image:url(${zdjecie})"><span class="karta-numer">${q.numer}</span></span>
+            <span class="karta-tresc">
+              <span class="karta-tytul"><span class="karta-liczba">${ile(q.id)} pyt.</span><span class="karta-nazwa">${q.nazwa}</span></span>
+              <span class="karta-opis">${OPISY_QUIZOW[q.id] || ''}</span>
+              <span class="karta-info">
+                <span class="karta-stan">${stan(q.id)}</span>
+                <span class="karta-wynik">${w === undefined ? 'Brak wyniku' : `Wynik ${w}%`}<span class="karta-pasek" aria-hidden="true"><span style="width:${w ?? 0}%"></span></span></span>
+              </span>
+            </span>
+          </a>`;
+  };
   app.innerHTML = '';
   app.append(el(`
     <main class="widok widok-lista">
@@ -190,14 +205,7 @@ async function widokLista(tryb = 'wskaz') {
         ${SPRAWDZIAN in wyniki ? `<span class="pasek-wyniku" aria-hidden="true"><span style="width:${wyniki[SPRAWDZIAN]}%"></span></span>` : ''}
       </a>
       <div class="siatka">
-        ${dane.quizy.map((q) => `
-          <a class="przycisk kafel" href="${T.quiz(q.id)}">
-            <span class="kafel-foto" style="background-image:url(img/kafel-${q.id}.jpg?v=2)"><span class="kafel-numer">${q.numer}</span></span>
-            <span class="kafel-tresc">
-              <span class="kafel-naglowek">${symbol(q.id)}<span class="kafel-nazwa">${q.nazwa}</span></span>
-              ${dolKafla(q.id)}
-            </span>
-          </a>`).join('')}
+        ${dane.quizy.map(karta).join('')}
       </div>
     </main>`));
 }
