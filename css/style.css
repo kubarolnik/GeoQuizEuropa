@@ -831,8 +831,16 @@ a { color: inherit; }
   transition: transform 260ms cubic-bezier(.3, 1.6, .5, 1), filter 220ms, box-shadow 180ms;
 }
 .zagadnienie::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 0, 0, .05), rgba(0, 0, 0, .65)); }
-/* efekt wciśnięcia tylko na komputerze (delikatny); na telefonie bez zmniejszania */
-@media (hover: hover) and (pointer: fine) { .zagadnienie:active { transform: scale(.975); transition-duration: 90ms; transition-timing-function: ease-out; } }
+/* komputer: delikatne, szybkie wciśnięcie przy kliknięciu */
+@media (hover: hover) and (pointer: fine) {
+  .zagadnienie { transition: transform 140ms cubic-bezier(.3, 1.5, .5, 1), filter 160ms, box-shadow 140ms; }
+  .zagadnienie:active { transform: scale(.975); transition-duration: 50ms; transition-timing-function: ease-out; }
+}
+/* telefon: bez wciśnięcia; niewybrane kafelki są mniejsze, wybrany „wysuwa się” do pełnego rozmiaru */
+@media not ((hover: hover) and (pointer: fine)) {
+  .zagadnienie { transition: transform 280ms cubic-bezier(.3, 1.5, .5, 1), filter 220ms, box-shadow 180ms; }
+  .zagadnienie[aria-pressed="false"] { transform: scale(.92); }
+}
 .zagadnienie[aria-pressed="false"] { filter: grayscale(1) brightness(.55); }
 .zagadnienie[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--akcent); }
 .zagadnienie:focus-visible { outline: 2px solid var(--akcent); outline-offset: 3px; }
