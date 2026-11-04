@@ -87,8 +87,8 @@ function widokStart() {
             ${KONTYNENTY.map((k) => `<a class="cta" href="${k.href}" data-kontynent="${k.id}">${k.nazwa}<span class="cta-strzalka">${strzalka}</span></a>`).join('')}
           </div>
           <div class="glowna-staty">
-            <div><b class="stat-quizy">–</b><span>quizy</span></div>
             <div><b class="stat-miejsca">–</b><span class="stat-miejsca-slowo">miejsc</span></div>
+            <div><b class="stat-quizy">–</b><span>quizy</span></div>
             <div><b class="stat-ukonczone">–</b><span>ukończone</span></div>
           </div>
         </div>
