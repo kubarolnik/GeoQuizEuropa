@@ -770,3 +770,16 @@ a { color: inherit; }
 }
 @media (prefers-reduced-motion: reduce) { .wiersz, .wiersz:hover { transform: none; transition: none; } }
 .glowna-wroc svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* jasny motyw strony głównej i wyboru trybu: przygaszone, ciepłoszare tło (bez razącej bieli) i wyraźniejsza mapa */
+:root[data-tlo="jasne"] .widok-glowna {
+  --g-karta: rgba(250, 249, 246, .72); --g-linia: rgba(20, 25, 30, .12);
+  background: radial-gradient(80% 70% at 85% 40%, rgba(255, 255, 255, .35), transparent 70%), #e4e2dc;
+}
+:root[data-tlo="jasne"] .glowna-mapa { background: rgba(255, 255, 255, .18); }
+:root[data-tlo="jasne"] .glowna-mapa .siatka { stroke-opacity: .12; }
+:root[data-tlo="jasne"] .glowna-mapa .lad { fill-opacity: .06; stroke-opacity: .42; }
+:root[data-tlo="jasne"] .glowna-mapa[data-kontynent="europa"] .kont-europa { fill-opacity: .16; stroke-opacity: .9; }
+:root[data-tlo="jasne"] .tryby-mapa[data-kontynent] .kont-europa { fill-opacity: .09; stroke-opacity: .6; }
+:root[data-tlo="jasne"] .wiersz:hover, :root[data-tlo="jasne"] .wiersz:focus-visible { background: rgba(250, 249, 246, .92); border-color: rgba(var(--akcent-rgb), .45); }
+:root[data-tlo="jasne"] .wiersz-ikona { background: rgba(var(--akcent-rgb), .08); }
