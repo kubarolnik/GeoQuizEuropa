@@ -820,31 +820,32 @@ a { color: inherit; }
 .okno-zagadnien .okno-pytanie { font-size: var(--t-l); letter-spacing: -.02em; }
 .okno-zagadnien .okno-opis { margin-top: 4px; }
 .okno-zagadnien .zaznacz-wszystkie { position: absolute; top: var(--o-3); right: var(--o-3); font-size: 13px; }
-/* zagadnienia jako przyciski-przełączniki (jak filtry w aplikacjach Apple/Google):
-   wybrany – wypełniony kolorem z ✓; naciśnięcie lekko „wciska” przycisk (zmniejsza go) */
-.lista-zagadnien { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: var(--o-2); }
+/* zagadnienia jako kafelki ze zdjęciem kategorii: wybrane – pełne kolory, obwódka i ✓;
+   niewybrane – czarno-białe i przyciemnione. Naciśnięcie lekko „wciska” kafelek (zmniejsza go). */
+.lista-zagadnien { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: var(--o-2); }
 .zagadnienie {
-  position: relative; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 10px; row-gap: 1px; align-items: center;
-  min-height: 58px; padding: 10px 12px; border-radius: 14px; text-align: left; font: inherit; color: inherit; cursor: pointer;
-  border: 1.5px solid rgba(var(--akcent-rgb), .16); background: rgba(var(--akcent-rgb), .03);
+  position: relative; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; column-gap: 8px; align-content: end;
+  min-height: 74px; padding: 10px 12px; border: 0; border-radius: 16px; overflow: hidden; isolation: isolate;
+  text-align: left; font: inherit; color: #fff; cursor: pointer; background-color: #15202b; background-size: cover; background-position: center;
   -webkit-tap-highlight-color: transparent; user-select: none;
-  transition: transform 260ms cubic-bezier(.3, 1.6, .5, 1), background-color 180ms, border-color 180ms, opacity 180ms;
+  transition: transform 260ms cubic-bezier(.3, 1.6, .5, 1), filter 220ms, box-shadow 180ms;
 }
+.zagadnienie::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 0, 0, .05), rgba(0, 0, 0, .65)); }
 .zagadnienie:active { transform: scale(.95); transition-duration: 90ms; transition-timing-function: ease-out; }
-.zagadnienie[aria-pressed="true"] { background: rgba(var(--akcent-rgb), .14); border-color: rgba(var(--akcent-rgb), .75); }
-.zagadnienie:focus-visible { outline: 2px solid var(--akcent); outline-offset: 2px; }
-@media (hover: hover) and (pointer: fine) { .zagadnienie:hover { border-color: rgba(var(--akcent-rgb), .45); } .zagadnienie[aria-pressed="true"]:hover { border-color: var(--akcent); } }
+.zagadnienie[aria-pressed="false"] { filter: grayscale(1) brightness(.55); }
+.zagadnienie[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--akcent); }
+.zagadnienie:focus-visible { outline: 2px solid var(--akcent); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .zagadnienie[aria-pressed="false"]:hover { filter: grayscale(.6) brightness(.75); } }
 .zagadnienie-znak {
-  grid-row: 1 / 3; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
-  border: 1.5px solid rgba(var(--akcent-rgb), .35); transition: background-color 180ms, border-color 180ms;
+  grid-column: 2; grid-row: 1 / 3; align-self: center; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  border: 1.5px solid rgba(255, 255, 255, .8); transition: background-color 180ms, border-color 180ms;
 }
-.zagadnienie-znak svg { width: 14px; height: 14px; fill: none; stroke: var(--tlo); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transform: scale(.4); transition: opacity 160ms, transform 260ms cubic-bezier(.3, 1.6, .5, 1); }
-.zagadnienie[aria-pressed="true"] .zagadnienie-znak { background: var(--akcent); border-color: var(--akcent); }
+.zagadnienie-znak svg { width: 14px; height: 14px; fill: none; stroke: #111; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transform: scale(.4); transition: opacity 160ms, transform 260ms cubic-bezier(.3, 1.6, .5, 1); }
+.zagadnienie[aria-pressed="true"] .zagadnienie-znak { background: #fff; border-color: #fff; }
 .zagadnienie[aria-pressed="true"] .zagadnienie-znak svg { opacity: 1; transform: none; }
-.zagadnienie-nazwa { font-size: 14.5px; font-weight: 600; line-height: 1.2; }
-.zagadnienie-nazwa .numer { opacity: .55; font-variant-numeric: tabular-nums; }
-.zagadnienie-ile { font-size: 12px; opacity: .6; font-variant-numeric: tabular-nums; }
-.zagadnienie[aria-pressed="false"] .zagadnienie-nazwa, .zagadnienie[aria-pressed="false"] .zagadnienie-ile { opacity: .55; }
+.zagadnienie-nazwa { grid-column: 1; grid-row: 1; font-size: 14.5px; font-weight: 600; line-height: 1.2; text-shadow: 0 1px 6px rgba(0, 0, 0, .5); }
+.zagadnienie-nazwa .numer { display: none; }
+.zagadnienie-ile { grid-column: 1; grid-row: 2; font-size: 12px; opacity: .85; font-variant-numeric: tabular-nums; text-shadow: 0 1px 4px rgba(0, 0, 0, .5); }
 .okno-zagadnien { width: min(460px, 100%); }
 @media (prefers-reduced-motion: reduce) { .zagadnienie, .zagadnienie:active { transform: none; } }
 .okno-zagadnien .przyciski .rozpocznij:disabled { opacity: .4; cursor: default; transform: none; }

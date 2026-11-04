@@ -298,7 +298,7 @@ function oknoWyboruZagadnien(T) {
         <button class="przycisk-tekst zaznacz-wszystkie" type="button">Odznacz wszystkie</button>
         <div class="lista-zagadnien">
           ${dane.quizy.map((q) => `
-            <button class="zagadnienie" type="button" aria-pressed="true" data-id="${q.id}">
+            <button class="zagadnienie" type="button" aria-pressed="true" data-id="${q.id}" style="background-image:url(img/kafel-${q.id}.jpg?v=2)">
               <span class="zagadnienie-znak" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
               <span class="zagadnienie-nazwa"><span class="numer">${q.numer}.</span> ${q.nazwa}</span>
               <span class="zagadnienie-ile">${ile(q.id)} ${odmianaPytan(ile(q.id))}</span>
