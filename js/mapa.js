@@ -137,6 +137,18 @@ export function utworzMape(element, { geometrie, tlo }) {
 
   // ---- warstwa podświetleń ----
   const warstwa = L.layerGroup().addTo(map);
+  // Podświetlenia rysujemy z dużym zapasem poza widocznym fragmentem mapy (2 ekrany w każdą stronę).
+  // Przy domyślnym zapasie (10%) duży obszar (np. Rosja, Morze Śródziemne) podczas przesuwania
+  // i oddalania mapy pojawiał się w dwóch częściach – resztę Leaflet dorysowywał dopiero po ruchu.
+  const rendererPodswietlen = L.svg({ padding: 2 });
+  // Leaflet przerysowuje warstwę dopiero po zakończeniu ruchu, więc obszar daleko poza ekranem
+  // (np. następne pytanie po drugiej stronie Europy) pojawiałby się dopiero po locie mapy.
+  // W trakcie lotu i przesuwania przerysowujemy podświetlenia w każdej klatce – są zawsze całe.
+  let klatka = 0;
+  map.on('move zoom', () => {
+    if (klatka || !Object.keys(rendererPodswietlen._layers || {}).length) return;
+    klatka = requestAnimationFrame(() => { klatka = 0; if (rendererPodswietlen._map) rendererPodswietlen._reset(); });
+  });
 
   function wyczysc() { warstwa.clearLayers(); }
 
@@ -147,20 +159,20 @@ export function utworzMape(element, { geometrie, tlo }) {
     const typ = f.geometry.type;
     if (typ === 'Point') {
       const [lng, lat] = f.geometry.coordinates;
-      L.circleMarker([lat, lng], { radius: 7, color: '#fff', weight: 2.5, fillColor: kolor, fillOpacity: 1, interactive: false, className: 'podswietlenie' }).addTo(warstwa);
+      L.circleMarker([lat, lng], { radius: 7, color: '#fff', weight: 2.5, fillColor: kolor, fillOpacity: 1, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen }).addTo(warstwa);
       L.marker([lat, lng], { icon: L.divIcon({ className: 'puls', html: `<span style="--kolor:${kolor}"></span>`, iconSize: [44, 44] }), interactive: false, keyboard: false }).addTo(warstwa);
       return;
     }
     if (typ.includes('LineString')) {
-      L.geoJSON(f, { style: { color: '#ffffff', weight: 8, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie' }).addTo(warstwa);
-      L.geoJSON(f, { style: { color: kolor, weight: 4.5, opacity: 1, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie' }).addTo(warstwa);
+      L.geoJSON(f, { style: { color: '#ffffff', weight: 8, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen }).addTo(warstwa);
+      L.geoJSON(f, { style: { color: kolor, weight: 4.5, opacity: 1, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen }).addTo(warstwa);
       return;
     }
     if (slabo) {
-      L.geoJSON(f, { style: { color: kolor, weight: 1.5, opacity: 0.8, fillColor: kolor, fillOpacity: 0.16 }, interactive: false, className: 'podswietlenie' }).addTo(warstwa);
+      L.geoJSON(f, { style: { color: kolor, weight: 1.5, opacity: 0.8, fillColor: kolor, fillOpacity: 0.16 }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen }).addTo(warstwa);
       return;
     }
-    L.geoJSON(f, { style: { color: kolor, weight: 2.5, opacity: 1, fillColor: kolor, fillOpacity: 0.38 }, interactive: false, className: 'podswietlenie' }).addTo(warstwa);
+    L.geoJSON(f, { style: { color: kolor, weight: 2.5, opacity: 1, fillColor: kolor, fillOpacity: 0.38 }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen }).addTo(warstwa);
     // Bardzo małe obszary (np. Watykan, Monako) dostają dodatkowo pierścień, żeby były widoczne.
     const b = L.geoJSON(f).getBounds();
     const p1 = map.latLngToContainerPoint(b.getSouthWest()), p2 = map.latLngToContainerPoint(b.getNorthEast());
