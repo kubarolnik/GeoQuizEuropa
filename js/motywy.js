@@ -10,8 +10,8 @@ export const MOTYWY = [
 ];
 
 const TLO = { jasne: '#f6f5f2', ciemne: '#0f1d2b' };
-// Domyślnie: granat + szałwiowa zieleń (jak w makiecie z Canvy).
-const DOMYSLNY = { motyw: 'czarny-wlasny', kolor: '#91a17d' };
+// Domyślnie: czarne tło, biały kolor. Kolor #91a17d (szałwiowa zieleń) to podpowiedź dla własnego koloru.
+const DOMYSLNY = { motyw: 'czarny-bialy', kolor: '#91a17d' };
 
 export function wczytajMotyw() {
   try {
