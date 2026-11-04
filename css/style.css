@@ -836,10 +836,23 @@ a { color: inherit; }
   .zagadnienie { transition: transform 140ms cubic-bezier(.3, 1.5, .5, 1), filter 160ms, box-shadow 140ms; }
   .zagadnienie:active { transform: scale(.975); transition-duration: 50ms; transition-timing-function: ease-out; }
 }
-/* telefon: bez wciśnięcia; niewybrane kafelki są mniejsze, wybrany „wysuwa się” do pełnego rozmiaru */
+/* telefon: bez wciśnięcia; niewybrane kafelki są mniejsze, wybrany „wysuwa się” do pełnego rozmiaru.
+   Płynność: zamiast animować filtr (ciężki dla telefonu) szarość i przyciemnienie robią nakładki,
+   a animowane są tylko skala, przezroczystość i cień – jedna wspólna, miękka krzywa bez odbicia. */
 @media not ((hover: hover) and (pointer: fine)) {
-  .zagadnienie { transition: transform 280ms cubic-bezier(.3, 1.5, .5, 1), filter 220ms, box-shadow 180ms; }
-  .zagadnienie[aria-pressed="false"] { transform: scale(.92); }
+  .zagadnienie, .zagadnienie[aria-pressed="false"] { filter: none; }
+  .zagadnienie {
+    will-change: transform; transform: translateZ(0);
+    box-shadow: 0 0 0 2px var(--akcent), inset 0 0 0 300px rgba(0, 0, 0, 0);
+    transition: transform 380ms cubic-bezier(.22, 1, .36, 1), box-shadow 380ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .zagadnienie[aria-pressed="false"] { transform: translateZ(0) scale(.92); box-shadow: 0 0 0 2px transparent, inset 0 0 0 300px rgba(0, 0, 0, .45); }
+  .zagadnienie::after {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: hsl(0 0% 50%); mix-blend-mode: saturation; opacity: 0; transition: opacity 380ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .zagadnienie[aria-pressed="false"]::after { opacity: 1; }
+  .zagadnienie-znak, .zagadnienie-znak svg { transition-duration: 300ms; transition-timing-function: cubic-bezier(.22, 1, .36, 1); }
 }
 .zagadnienie[aria-pressed="false"] { filter: grayscale(1) brightness(.55); }
 .zagadnienie[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--akcent); }
