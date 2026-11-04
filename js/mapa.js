@@ -148,6 +148,7 @@ export function utworzMape(element, { geometrie, tlo }) {
       if (this._map._animatingZoom && this._bounds) return;
       L.Renderer.prototype._update.call(this);
       const mapa = this._map, b = this._bounds;
+      this._poczatek = mapa.getPixelOrigin(); // układ pikseli, w którym powstał rysunek
       const widokMin = b.min.clone(), widokMax = b.max.clone();
       for (const id in this._layers) {
         const w = this._layers[id];
@@ -164,6 +165,16 @@ export function utworzMape(element, { geometrie, tlo }) {
       svg.setAttribute('viewBox', [b.min.x, b.min.y, rozmiar.x, rozmiar.y].join(' '));
       this.fire('update');
     },
+    // W trakcie lotu Leaflet przesuwa i skaluje gotowy rysunek. Domyślny wzór zakłada, że rysunek
+    // ma rozmiar ekranu (+ zapas) – przy rysunku obejmującym cały obiekt dawało to złe położenie
+    // (np. Morze Barentsa na lądzie), poprawiane dopiero po zatrzymaniu kamery. Tu liczymy położenie
+    // od faktycznego lewego górnego rogu rysunku.
+    _updateTransform(srodek, zoom) {
+      if (!this._bounds || !this._poczatek) return;
+      const skala = this._map.getZoomScale(zoom, this._zoom);
+      const rog = this._bounds.min.add(this._poczatek).multiplyBy(skala).subtract(this._map._getNewPixelOrigin(srodek, zoom));
+      if (L.Browser.any3d) L.DomUtil.setTransform(this._container, rog, skala); else L.DomUtil.setPosition(this._container, rog);
+    },
   });
   const rendererPodswietlen = new RendererCalosci({ padding: 0.5 });
   // Po dodaniu nowych podświetleń jednorazowo przeliczamy obszar rysowania, żeby objął cały obiekt.
@@ -179,20 +190,20 @@ export function utworzMape(element, { geometrie, tlo }) {
     const typ = f.geometry.type;
     if (typ === 'Point') {
       const [lng, lat] = f.geometry.coordinates;
-      L.circleMarker([lat, lng], { radius: 7, color: '#fff', weight: 2.5, fillColor: kolor, fillOpacity: 1, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen }).addTo(warstwa);
+      L.circleMarker([lat, lng], { radius: 7, color: '#fff', weight: 2.5, fillColor: kolor, fillOpacity: 1, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.3 }).addTo(warstwa);
       L.marker([lat, lng], { icon: L.divIcon({ className: 'puls', html: `<span style="--kolor:${kolor}"></span>`, iconSize: [44, 44] }), interactive: false, keyboard: false }).addTo(warstwa);
       return;
     }
     if (typ.includes('LineString')) {
-      L.geoJSON(f, { style: { color: '#ffffff', weight: 8, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen }).addTo(warstwa);
-      L.geoJSON(f, { style: { color: kolor, weight: 4.5, opacity: 1, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen }).addTo(warstwa);
+      L.geoJSON(f, { style: { color: '#ffffff', weight: 8, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.3 }).addTo(warstwa);
+      L.geoJSON(f, { style: { color: kolor, weight: 4.5, opacity: 1, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.3 }).addTo(warstwa);
       return;
     }
     if (slabo) {
-      L.geoJSON(f, { style: { color: kolor, weight: 1.5, opacity: 0.8, fillColor: kolor, fillOpacity: 0.16 }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen }).addTo(warstwa);
+      L.geoJSON(f, { style: { color: kolor, weight: 1.5, opacity: 0.8, fillColor: kolor, fillOpacity: 0.16 }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.3 }).addTo(warstwa);
       return;
     }
-    L.geoJSON(f, { style: { color: kolor, weight: 2.5, opacity: 1, fillColor: kolor, fillOpacity: 0.38 }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen }).addTo(warstwa);
+    L.geoJSON(f, { style: { color: kolor, weight: 2.5, opacity: 1, fillColor: kolor, fillOpacity: 0.38 }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.3 }).addTo(warstwa);
     // Bardzo małe obszary (np. Watykan, Monako) dostają dodatkowo pierścień, żeby były widoczne.
     const b = L.geoJSON(f).getBounds();
     const p1 = map.latLngToContainerPoint(b.getSouthWest()), p2 = map.latLngToContainerPoint(b.getNorthEast());
