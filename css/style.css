@@ -664,7 +664,7 @@ a { color: inherit; }
   .karta { height: auto; }
   .karta-zdjecie { height: 107px; }
   .karta-numer { top: 8px; left: 8px; width: 26px; height: 26px; font-size: 12px; }
-  .karta-tresc { justify-content: flex-end; gap: 6px; padding: 7px 11px 10px; }
+  .karta-tresc { justify-content: center; gap: 6px; padding: 7px 11px 10px; }
   .karta-tytul { display: block; }
   .karta-tytul::after { content: ''; display: block; clear: both; }
   .karta-liczba { float: right; margin: 1px 0 0 6px; padding: 1px 5px; border-width: 1px; font-size: 10px; }
