@@ -298,11 +298,11 @@ function oknoWyboruZagadnien(T) {
         <button class="przycisk-tekst zaznacz-wszystkie" type="button">Odznacz wszystkie</button>
         <div class="lista-zagadnien">
           ${dane.quizy.map((q) => `
-            <label class="zagadnienie">
-              <input type="checkbox" value="${q.id}" checked>
+            <button class="zagadnienie" type="button" aria-pressed="true" data-id="${q.id}">
+              <span class="zagadnienie-znak" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
               <span class="zagadnienie-nazwa"><span class="numer">${q.numer}.</span> ${q.nazwa}</span>
-              <span class="zagadnienie-ile">${ile(q.id)}</span>
-            </label>`).join('')}
+              <span class="zagadnienie-ile">${ile(q.id)} ${odmianaPytan(ile(q.id))}</span>
+            </button>`).join('')}
         </div>
         <p class="zagadnienia-podsumowanie"></p>
         <div class="przyciski">
@@ -311,22 +311,25 @@ function oknoWyboruZagadnien(T) {
         </div>
       </section>
     </div>`);
-  const pola = [...okno.querySelectorAll('input[type="checkbox"]')];
+  // Przyciski-przełączniki (aria-pressed) zamiast pól wyboru.
+  const pola = [...okno.querySelectorAll('.zagadnienie')];
+  const wl = (x) => x.getAttribute('aria-pressed') === 'true';
+  const ustaw = (x, v) => x.setAttribute('aria-pressed', String(v));
   const rozpocznij = okno.querySelector('.rozpocznij'), wszystkie = okno.querySelector('.zaznacz-wszystkie');
   const odswiez = () => {
-    const wybrane = pola.filter((x) => x.checked);
-    const n = wybrane.reduce((s, x) => s + ile(x.value), 0);
+    const wybrane = pola.filter(wl);
+    const n = wybrane.reduce((s, x) => s + ile(x.dataset.id), 0);
     rozpocznij.disabled = !wybrane.length;
     const k = wybrane.length, slowoK = k === 1 ? 'zagadnienie' : k >= 2 && k <= 4 ? 'zagadnienia' : 'zagadnień';
     okno.querySelector('.zagadnienia-podsumowanie').textContent = k ? `Wybrano ${k} ${slowoK} · ${n} ${odmianaPytan(n)}` : 'Zaznacz co najmniej jedno zagadnienie';
     wszystkie.textContent = wybrane.length === pola.length ? 'Odznacz wszystkie' : 'Zaznacz wszystkie';
   };
-  pola.forEach((x) => x.addEventListener('change', odswiez));
-  wszystkie.addEventListener('click', () => { const zazn = !pola.every((x) => x.checked); pola.forEach((x) => { x.checked = zazn; }); odswiez(); });
+  pola.forEach((x) => x.addEventListener('click', () => { ustaw(x, !wl(x)); odswiez(); }));
+  wszystkie.addEventListener('click', () => { const zazn = !pola.every(wl); pola.forEach((x) => ustaw(x, zazn)); odswiez(); });
   okno.querySelector('.anuluj').addEventListener('click', () => okno.remove());
   okno.addEventListener('click', (e) => { if (e.target === okno) okno.remove(); });
   rozpocznij.addEventListener('click', () => {
-    const wybrane = pola.filter((x) => x.checked).map((x) => x.value);
+    const wybrane = pola.filter(wl).map((x) => x.dataset.id);
     if (!wybrane.length) return;
     location.hash = T.quiz(wybrane.length === pola.length ? SPRAWDZIAN : `${SPRAWDZIAN}~${wybrane.join(',')}`);
   });
