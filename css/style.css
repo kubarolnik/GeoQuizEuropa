@@ -684,7 +684,7 @@ a { color: inherit; }
   --g-mocny: #eef2f5; --g-slaby: #a9b4bd; --g-cichy: #8b97a1; --g-karta: rgba(22, 36, 50, .78); --g-linia: rgba(255, 255, 255, .09);
   position: relative; min-height: 100vh; min-height: 100dvh; overflow-x: hidden;
   padding: 0 max(clamp(20px, 6vw, 88px), env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(clamp(20px, 6vw, 88px), env(safe-area-inset-left));
-  background: radial-gradient(80% 70% at 85% 40%, rgba(var(--akcent-rgb), .10), transparent 70%), var(--tlo);
+  background: var(--tlo);
   color: var(--g-mocny);
 }
 :root[data-tlo="jasne"] .widok-glowna { --g-mocny: #15191e; --g-slaby: #5b646d; --g-cichy: #78818a; --g-karta: rgba(255, 255, 255, .85); --g-linia: rgba(20, 25, 30, .1); }
@@ -712,7 +712,7 @@ a { color: inherit; }
   animation: pojaw 360ms var(--krzywa) backwards; /* backwards: po animacji działa przesunięcie przy najechaniu */
 }
 .wiersz + .wiersz { animation-delay: 60ms; }
-.wiersz:hover, .wiersz:focus-visible { border-color: rgba(var(--akcent-rgb), .6); background: linear-gradient(90deg, rgba(var(--akcent-rgb), .13), var(--g-karta)); transform: translateX(3px); outline: none; }
+.wiersz:hover, .wiersz:focus-visible { border-color: rgba(var(--akcent-rgb), .6); background: rgba(var(--akcent-rgb), .09); transform: translateX(3px); outline: none; }
 .wiersz:active { transform: scale(.99); }
 .wiersz-kropka { width: 12px; height: 12px; border-radius: 50%; background: var(--akcent); box-shadow: 0 0 0 5px rgba(var(--akcent-rgb), .12); }
 .kropka-azja { background: #d9a85b; box-shadow: 0 0 0 5px rgba(217, 168, 91, .14); }
@@ -727,7 +727,7 @@ a { color: inherit; }
 /* mapa kontynentów (img/kontynenty.svg wstawiony do strony, żeby kolorować go zmiennymi motywu) */
 .glowna-mapa {
   position: relative; height: min(72vh, 620px); border-radius: 28px; overflow: hidden;
-  border: 1px solid var(--g-linia); background: linear-gradient(160deg, rgba(var(--akcent-rgb), .04), transparent);
+  border: 1px solid var(--g-linia); background: rgba(var(--akcent-rgb), .02);
   animation: pojaw-mapa 600ms var(--krzywa) both;
 }
 .glowna-mapa svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; }
@@ -774,7 +774,7 @@ a { color: inherit; }
 /* jasny motyw strony głównej i wyboru trybu: przygaszone, ciepłoszare tło (bez razącej bieli) i wyraźniejsza mapa */
 :root[data-tlo="jasne"] .widok-glowna {
   --g-karta: rgba(250, 249, 246, .72); --g-linia: rgba(20, 25, 30, .12);
-  background: radial-gradient(80% 70% at 85% 40%, rgba(255, 255, 255, .35), transparent 70%), #e4e2dc;
+  background: #e4e2dc;
 }
 :root[data-tlo="jasne"] .glowna-mapa { background: rgba(255, 255, 255, .18); }
 :root[data-tlo="jasne"] .glowna-mapa .siatka { stroke-opacity: .12; }
