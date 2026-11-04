@@ -506,7 +506,8 @@ async function widokWypisz(quizId) {
     doOdsloniecia = panstwo || p.geometria;
     const obiekt = doOdsloniecia;
     wracaDoEuropy = true;
-    mapa.wrocDoEuropy().then(() => { wracaDoEuropy = false; requestAnimationFrame(() => { if (doOdsloniecia === obiekt) odslon(obiekt); }); });
+    const [gora0, lewo0] = marginesyPanelu();
+    mapa.wrocDoEuropy(obiekt, { gornyMargines: gora0, lewyMargines: lewo0, dolnyMargines: zaslonietyDol() }).then(() => { wracaDoEuropy = false; requestAnimationFrame(() => { if (doOdsloniecia === obiekt) odslon(obiekt); }); });
     // Na komputerze kursor od razu w polu. Na telefonie klawiatura otwiera się po pierwszym
     // stuknięciu w pole i potem zostaje otwarta – pole nie traci fokusu między pytaniami.
     if (!dotyk.matches || document.activeElement === pole) pole.focus({ preventScroll: true });

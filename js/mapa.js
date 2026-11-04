@@ -182,17 +182,28 @@ export function utworzMape(element, { geometrie, tlo }) {
   // Zwraca obietnicę spełnianą, gdy mapa skończy się przesuwać (od razu, jeśli nie trzeba jej ruszać).
   // przyblizMale: false – nie przybliżaj małych obiektów (przy trafieniu obiekt jest już pod kursorem).
   // Gdy obiekt wymaga oddalenia mapy poniżej widoku Europy (Rosja, Morze Barentsa,
-  // Grenlandzkie, Norweskie…), przy następnym pytaniu wracamy do widoku jak po wejściu w quiz.
+  // Grenlandzkie, Norweskie…), przy następnym pytaniu wracamy do przybliżenia jak po wejściu w quiz (wrocDoEuropy).
   let oddalono = false;
-  function wrocDoEuropy() {
+  // Bez obiektu (tryb „Wskaż” – nie zdradzamy położenia): widok Europy jak po wejściu w quiz.
+  // Z obiektem (tryb „Wypisz”): to samo przybliżenie co widok Europy, ale wyśrodkowane na obiekcie
+  // następnego pytania, w części mapy niezasłoniętej przez panel i klawiaturę.
+  function wrocDoEuropy(id, { gornyMargines = 0, lewyMargines = 0, dolnyMargines = 0 } = {}) {
     if (!oddalono) return Promise.resolve();
     oddalono = false;
+    const f = id && indeks.get(id);
     return new Promise((gotowe) => {
       let zakonczone = false;
       const koniec = () => { if (zakonczone) return; zakonczone = true; map.off('moveend', koniec); gotowe(); };
       map.once('moveend', koniec);
       setTimeout(koniec, 2500);
-      map.flyToBounds(WIDOK_EUROPY, { duration: 0.9 });
+      if (!f) { map.flyToBounds(WIDOK_EUROPY, { duration: 0.9 }); return; }
+      const zoom = map.getBoundsZoom(WIDOK_EUROPY);
+      const rozmiar = map.getSize(), m = 24;
+      // środek widocznej części mapy (piksele kontenera) i jego przesunięcie względem środka kontenera
+      const sx = (lewyMargines + m + rozmiar.x - m - 48) / 2, sy = (gornyMargines + m + rozmiar.y - dolnyMargines - m) / 2;
+      const obiekt = map.project(granicaKadru(f).getCenter(), zoom);
+      const srodek = map.unproject(obiekt.subtract(L.point(sx - rozmiar.x / 2, sy - rozmiar.y / 2)), zoom);
+      map.flyTo(srodek, zoom, { duration: 0.9 });
     });
   }
 
