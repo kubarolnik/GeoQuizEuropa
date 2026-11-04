@@ -783,3 +783,28 @@ a { color: inherit; }
 :root[data-tlo="jasne"] .tryby-mapa[data-kontynent] .kont-europa { fill-opacity: .09; stroke-opacity: .6; }
 :root[data-tlo="jasne"] .wiersz:hover, :root[data-tlo="jasne"] .wiersz:focus-visible { background: rgba(250, 249, 246, .92); border-color: rgba(var(--akcent-rgb), .45); }
 :root[data-tlo="jasne"] .wiersz-ikona { background: rgba(var(--akcent-rgb), .08); }
+
+/* strona główna: wypełniony przycisk kontynentu i statystyki pod nim */
+.glowna-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.cta {
+  display: inline-flex; align-items: center; gap: 14px; padding: 16px 18px 16px 28px; border-radius: 14px;
+  background: var(--akcent); color: var(--tlo); text-decoration: none; font-size: 18px; font-weight: 650; letter-spacing: -.01em;
+  box-shadow: 0 10px 24px rgba(var(--akcent-rgb), .18);
+  transition: transform var(--czas) var(--krzywa), box-shadow var(--czas), filter var(--czas);
+  animation: pojaw 360ms var(--krzywa) backwards;
+}
+.cta:hover, .cta:focus-visible { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(var(--akcent-rgb), .26); filter: brightness(1.05); outline: none; }
+.cta:active { transform: scale(.98); }
+.cta-strzalka { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: rgba(0, 0, 0, .12); }
+:root[data-tlo="jasne"] .cta-strzalka { background: rgba(255, 255, 255, .14); }
+.cta-strzalka svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform var(--czas) var(--krzywa); }
+.cta:hover .cta-strzalka svg { transform: translateX(2px); }
+.glowna-staty { display: flex; gap: 36px; max-width: 440px; margin-top: 44px; padding-top: 22px; border-top: 1px solid var(--g-linia); }
+.glowna-staty b { display: block; font-size: 24px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--g-mocny); }
+.glowna-staty span { font-size: 12.5px; color: var(--g-cichy); }
+@media (max-width: 719px) {
+  .glowna-cta { margin-top: 26px; }
+  .cta { flex: 1 1 100%; justify-content: space-between; }
+  .glowna-staty { gap: 26px; margin-top: 30px; }
+}
+@media (prefers-reduced-motion: reduce) { .cta, .cta:hover { transform: none; transition: none; } }

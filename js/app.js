@@ -83,14 +83,13 @@ function widokStart() {
           <span class="glowna-nad">Geografia · quizy z mapą</span>
           <h1>Naucz się mapy<br>świata.</h1>
           <p class="glowna-lead">Wybierz kontynent – państwa, stolice, morza, rzeki i góry na czystej mapie bez podpisów.</p>
-          <div class="glowna-lista">
-            ${KONTYNENTY.map((k) => `
-              <a class="wiersz" href="${k.href}" data-kontynent="${k.id}">
-                <span class="wiersz-kropka kropka-${k.id}" aria-hidden="true"></span>
-                <span class="wiersz-tekst"><b>${k.nazwa}</b><span class="wiersz-opis"></span></span>
-                <span class="wiersz-postep"></span>
-                <span class="wiersz-strzalka">${strzalka}</span>
-              </a>`).join('')}
+          <div class="glowna-cta">
+            ${KONTYNENTY.map((k) => `<a class="cta" href="${k.href}" data-kontynent="${k.id}">${k.nazwa}<span class="cta-strzalka">${strzalka}</span></a>`).join('')}
+          </div>
+          <div class="glowna-staty">
+            <div><b class="stat-quizy">–</b><span>quizów</span></div>
+            <div><b class="stat-miejsca">–</b><span class="stat-miejsca-slowo">miejsc</span></div>
+            <div><b class="stat-ukonczone">–</b><span>ukończone</span></div>
           </div>
         </div>
         <div class="glowna-mapa" data-kontynent="${KONTYNENTY[0].id}"><span class="glowna-mapa-podpis">${KONTYNENTY[0].nazwa}</span></div>
@@ -101,7 +100,7 @@ function widokStart() {
   const mapa = v.querySelector('.glowna-mapa');
   wstawMapeKontynentow(mapa);
   // Komputer: wskazany kontynent podświetla się na mapie (na telefonie nie – patrz CSS).
-  for (const w of v.querySelectorAll('.wiersz')) {
+  for (const w of v.querySelectorAll('.cta')) {
     w.addEventListener('pointerenter', () => {
       const k = KONTYNENTY.find((x) => x.id === w.dataset.kontynent);
       mapa.dataset.kontynent = k.id;
@@ -110,10 +109,12 @@ function widokStart() {
   }
   wczytajDane().then(() => {
     if (!v.isConnected) return;
-    const ile = dane.quizy.length + 1;
-    const wiersz = v.querySelector('.wiersz[data-kontynent="europa"]');
-    wiersz.querySelector('.wiersz-opis').textContent = `Sprawdzian i ${dane.quizy.length} quizów · ${dane.pytania.length} miejsca`;
-    wiersz.querySelector('.wiersz-postep').textContent = `${ukonczoneWTrybie('wskaz') + ukonczoneWTrybie('wypisz')}/${ile * 2}`;
+    const ile = dane.quizy.length + 1; // Sprawdzian + quizy
+    v.querySelector('.stat-quizy').textContent = ile;
+    v.querySelector('.stat-miejsca').textContent = dane.pytania.length;
+    const n = dane.pytania.length;
+    v.querySelector('.stat-miejsca-slowo').textContent = n === 1 ? 'miejsce' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 'miejsca' : 'miejsc';
+    v.querySelector('.stat-ukonczone').textContent = `${ukonczoneWTrybie('wskaz') + ukonczoneWTrybie('wypisz')}/${ile * 2}`;
   }).catch(() => {});
 }
 
