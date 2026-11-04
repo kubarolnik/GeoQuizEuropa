@@ -138,7 +138,8 @@ const INNE_NAZWY = {
   'panstwo-holandia': ['Niderlandy'],
   'stolica-islandia': ['Reykjavík'],
   'morze-marmara': ['Morze Marmarowe'],
-  'ciesnina-swietego-jerzego': ['Kanał św. Jerzego', 'Kanał Św. Jerzego'],
+  // „św” bez kropki też (polskie znaki i wielkość liter nie mają znaczenia, więc działa też „sw”).
+  'ciesnina-swietego-jerzego': ['Kanał św. Jerzego', 'Kanał św Jerzego'],
 };
 
 // Porównanie bez względu na wielkość liter, zbędne spacje, kropkę/wykrzyknik na końcu

@@ -317,6 +317,8 @@ test('inne przyjęte nazwy: Niderlandy, Reykjavík, Morze Marmarowe, Kanał św.
   prawda(sprawdzOdpowiedz('Niderlandy', P('panstwo-holandia'), 'panstwa'), 'Niderlandy');
   prawda(sprawdzOdpowiedz('Reykjavík', P('stolica-islandia'), 'stolice'), 'Reykjavík');
   prawda(sprawdzOdpowiedz('Kanał św. Jerzego', P('ciesnina-swietego-jerzego'), 'ciesniny'), 'Kanał św. Jerzego');
+  for (const w of ['Kanał św Jerzego', 'kanal sw jerzego', 'kanał sw. jerzego', 'Kanał Św Jerzego']) prawda(sprawdzOdpowiedz(w, P('ciesnina-swietego-jerzego'), 'ciesniny'), w);
+  prawda(!sprawdzOdpowiedz('sw jerzego', P('ciesnina-swietego-jerzego'), 'ciesniny'), 'bez słowa „Kanał” nie zaliczamy');
   prawda(sprawdzOdpowiedz('Morze Marmarowe', P('morze-marmara'), 'morza'), 'Morze Marmarowe');
 });
 test('tryb „Wskaż”: polecenie „Wskaż …” z nazwą w bierniku (wszystkie 184 nazwy)', () => {
