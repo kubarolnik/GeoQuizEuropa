@@ -808,3 +808,9 @@ a { color: inherit; }
   .glowna-staty { gap: 26px; margin-top: 30px; }
 }
 @media (prefers-reduced-motion: reduce) { .cta, .cta:hover { transform: none; transition: none; } }
+
+/* ciemne motywy: wyraźniejsza mapa na stronie głównej i przy wyborze trybu */
+:root:not([data-tlo="jasne"]) .glowna-mapa .siatka { stroke-opacity: .1; }
+:root:not([data-tlo="jasne"]) .glowna-mapa .lad { fill-opacity: .07; stroke-opacity: .42; }
+:root:not([data-tlo="jasne"]) .glowna-mapa[data-kontynent="europa"] .kont-europa { fill-opacity: .24; stroke-opacity: .95; }
+:root:not([data-tlo="jasne"]) .tryby-mapa[data-kontynent] .kont-europa { fill-opacity: .13; stroke-opacity: .65; }
