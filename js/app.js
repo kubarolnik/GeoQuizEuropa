@@ -254,7 +254,10 @@ async function widokLista(tryb = 'wskaz') {
             <span class="kafel-nazwa">Sprawdzian</span>
             <span class="kafel-opis">${ile(SPRAWDZIAN)} ${odmianaPytan(ile(SPRAWDZIAN))} · wszystkie kategorie</span>
           </span>
-          ${SPRAWDZIAN in wyniki ? `<span class="wynik-duzy">${wyniki[SPRAWDZIAN]}%<small>ostatni wynik</small></span>` : ''}
+          <span class="wyniki-sprawdzianu">
+            ${SPRAWDZIAN in wyniki ? `<span class="wynik-duzy">${wyniki[SPRAWDZIAN]}%<small>cały sprawdzian</small></span>` : ''}
+            ${'sprawdzian-ostatni' in wyniki ? `<span class="wynik-duzy wynik-ostatni">${wyniki['sprawdzian-ostatni']}%<small>ostatnie podejście${wyniki['sprawdzian-ostatni-zakres'] < dane.quizy.length ? ` · ${wyniki['sprawdzian-ostatni-zakres']}\u00a0z\u00a0${dane.quizy.length}` : ''}</small></span>` : ''}
+          </span>
         </span>
         ${SPRAWDZIAN in wyniki ? `<span class="pasek-wyniku" aria-hidden="true"><span style="width:${wyniki[SPRAWDZIAN]}%"></span></span>` : ''}
       </a>
@@ -263,6 +266,13 @@ async function widokLista(tryb = 'wskaz') {
       </div>
     </main>`));
   app.querySelector('.kafel-sprawdzian').addEventListener('click', (e) => { e.preventDefault(); oknoWyboruZagadnien(T); });
+}
+
+// Ostatnie podejście do Sprawdzianu (pełnego albo z wybranych zagadnień) – drugi wskaźnik na kafelku.
+// Zapis obok wyników: „sprawdzian-ostatni” (procent) i „sprawdzian-ostatni-zakres” (liczba zagadnień).
+function zapiszOstatniSprawdzian(proc, kategorie, tryb) {
+  zapiszWynik('sprawdzian-ostatni', proc, undefined, tryb);
+  zapiszWynik('sprawdzian-ostatni-zakres', kategorie ? kategorie.length : dane.quizy.length, undefined, tryb);
 }
 
 // ---- Sprawdzian z wybranych zagadnień ----
@@ -459,6 +469,7 @@ async function widokQuiz(adres) {
   function pokazWynik() {
     const proc = procent(poprawne, pytania.length);
     if (!kategorie) zapiszWynik(quizId, proc); // nadpisuje poprzedni wynik (Sprawdzian z wybranych zagadnień nie jest zapisywany)
+    if (quizId === SPRAWDZIAN) zapiszOstatniSprawdzian(proc, kategorie);
     mapa.wyczysc();
     const okno = el(`
       <div class="tlo-okna tlo-wyniku">
@@ -696,6 +707,7 @@ async function widokWypisz(adres) {
   function pokazWynik() {
     const proc = procent(poprawne, pytania.length);
     if (!kategorie) zapiszWynik(quizId, proc, undefined, 'wypisz'); // jw., w trybie „Wypisz”
+    if (quizId === SPRAWDZIAN) zapiszOstatniSprawdzian(proc, kategorie, 'wypisz');
     mapa.wyczysc();
     pole.blur();
     const okno = el(`

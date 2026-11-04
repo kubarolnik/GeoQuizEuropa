@@ -839,3 +839,12 @@ a { color: inherit; }
 .okno-zagadnien .przyciski .rozpocznij:disabled { opacity: .4; cursor: default; transform: none; }
 .zagadnienia-podsumowanie { margin: var(--o-2) 0 0; font-size: 13px; opacity: .7; text-align: center; font-variant-numeric: tabular-nums; }
 .okno-zagadnien .przyciski { margin-top: 10px; }
+
+/* kafelek Sprawdzianu: wynik całego sprawdzianu i wynik ostatniego podejścia obok siebie */
+.wyniki-sprawdzianu { display: flex; align-items: flex-start; gap: 28px; }
+.kafel-sprawdzian .wynik-ostatni { opacity: .82; }
+@media (max-width: 719px) {
+  .wyniki-sprawdzianu { flex-direction: column; align-items: flex-end; gap: 10px; flex: none; }
+  .wyniki-sprawdzianu .wynik-duzy { font-size: 26px; text-align: right; }
+  .wyniki-sprawdzianu .wynik-duzy small { white-space: normal; max-width: 96px; margin-left: auto; font-size: 9.5px; line-height: 1.3; }
+}
