@@ -53,7 +53,7 @@ Po kliknięciu „Europa” wybiera się tryb:
 - **Wskaż** – quiz podaje nazwę, a ty klikasz to miejsce na mapie (przy stolicach wystarczy trafić w ich państwo).
 - **Wypisz** – na mapie podświetla się obiekt, a ty wpisujesz jego nazwę. Wielkość liter, zbędne spacje, kropka na końcu i polskie znaki nie mają znaczenia (np. „macedonia polnocna” jest poprawne). Dopiski w nawiasach („(państwo)”, „(stolica)”, „(wyspa)”) nie są potrzebne, a przy „Stara Płanina (Bałkany)” wystarczy jedna z nazw. Słowo określające rodzaj na początku nazwy też nie jest wymagane: wystarczy „Biskajska”, „Północne”, „Apeniński”, „Bodeńskie” (dotyczy słów: Morze, Zatoka, Półwysep, Nizina, Wyżyna, Góry, Masyw, Jezioro, Cieśnina, Wyspy, Wyspa – np. „Owcze”). Wyjątek: przy kanałach słowo „Kanał” jest wymagane („Kanał La Manche”, nie samo „La Manche”). Przyjmowane są też: Niderlandy, Reykjavík, Morze Marmarowe, Kanał św. Jerzego.
 
-Wyniki obu trybów zapisują się osobno. Po Sprawdzianie pod wynikiem pojawia się lista błędów pogrupowana według kategorii (z numerami jak na liście quizów). Na ekranie wyniku spacja = „Jeszcze raz”, Enter = „Wróć do quizów”.
+Wyniki obu trybów zapisują się osobno. Przed Sprawdzianem można wybrać zagadnienia (wynik zapisuje się tylko dla Sprawdzianu ze wszystkich zagadnień). Po Sprawdzianie pod wynikiem pojawia się lista błędów pogrupowana według kategorii (z numerami jak na liście quizów). Na ekranie wyniku spacja = „Jeszcze raz”, Enter = „Wróć do quizów”.
 
 ## Mapa
 

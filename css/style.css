@@ -810,7 +810,27 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) { .cta, .cta:hover { transform: none; transition: none; } }
 
 /* ciemne motywy: wyraźniejsza mapa na stronie głównej i przy wyborze trybu */
-:root:not([data-tlo="jasne"]) .glowna-mapa .siatka { stroke-opacity: .1; }
 :root:not([data-tlo="jasne"]) .glowna-mapa .lad { fill-opacity: .07; stroke-opacity: .42; }
 :root:not([data-tlo="jasne"]) .glowna-mapa[data-kontynent="europa"] .kont-europa { fill-opacity: .24; stroke-opacity: .95; }
 :root:not([data-tlo="jasne"]) .tryby-mapa[data-kontynent] .kont-europa { fill-opacity: .13; stroke-opacity: .65; }
+
+/* Sprawdzian: okno wyboru zagadnień */
+.tlo-okna.tlo-wyboru { position: fixed; overflow-y: auto; }
+.okno-zagadnien { position: relative; text-align: left; }
+.okno-zagadnien .okno-pytanie { font-size: var(--t-l); letter-spacing: -.02em; }
+.okno-zagadnien .okno-opis { margin-top: 4px; }
+.okno-zagadnien .zaznacz-wszystkie { position: absolute; top: var(--o-3); right: var(--o-3); font-size: 13px; }
+.lista-zagadnien { display: grid; gap: 2px; margin-top: var(--o-2); }
+.zagadnienie {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 10px;
+  cursor: pointer; transition: background-color var(--czas);
+}
+.zagadnienie:hover { background: rgba(var(--akcent-rgb), .07); }
+.zagadnienie input { width: 18px; height: 18px; margin: 0; accent-color: var(--akcent); cursor: pointer; }
+.zagadnienie-nazwa { font-size: var(--t-s); font-weight: 500; }
+.zagadnienie-nazwa .numer { opacity: .55; font-variant-numeric: tabular-nums; }
+.zagadnienie-ile { font-size: 12.5px; opacity: .6; font-variant-numeric: tabular-nums; }
+.zagadnienie:has(input:not(:checked)) .zagadnienie-nazwa { opacity: .55; }
+.okno-zagadnien .przyciski .rozpocznij:disabled { opacity: .4; cursor: default; transform: none; }
+.zagadnienia-podsumowanie { margin: var(--o-2) 0 0; font-size: 13px; opacity: .7; text-align: center; font-variant-numeric: tabular-nums; }
+.okno-zagadnien .przyciski { margin-top: 10px; }

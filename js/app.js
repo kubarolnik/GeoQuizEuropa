@@ -87,7 +87,7 @@ function widokStart() {
             ${KONTYNENTY.map((k) => `<a class="cta" href="${k.href}" data-kontynent="${k.id}">${k.nazwa}<span class="cta-strzalka">${strzalka}</span></a>`).join('')}
           </div>
           <div class="glowna-staty">
-            <div><b class="stat-quizy">–</b><span>quizów</span></div>
+            <div><b class="stat-quizy">–</b><span>Quizy</span></div>
             <div><b class="stat-miejsca">–</b><span class="stat-miejsca-slowo">miejsc</span></div>
             <div><b class="stat-ukonczone">–</b><span>ukończone</span></div>
           </div>
@@ -262,14 +262,79 @@ async function widokLista(tryb = 'wskaz') {
         ${dane.quizy.map(karta).join('')}
       </div>
     </main>`));
+  app.querySelector('.kafel-sprawdzian').addEventListener('click', (e) => { e.preventDefault(); oknoWyboruZagadnien(T); });
+}
+
+// ---- Sprawdzian z wybranych zagadnień ----
+// Adres quizu: „sprawdzian” (wszystkie zagadnienia) albo „sprawdzian~morza,rzeki” (tylko wybrane).
+function rozbierzAdresQuizu(adres) {
+  const [quizId, wybor] = String(adres).split('~');
+  if (quizId !== SPRAWDZIAN || !wybor) return { quizId, kategorie: null };
+  const kategorie = dane.quizy.map((q) => q.id).filter((id) => wybor.split(',').includes(id));
+  return { quizId, kategorie: kategorie.length && kategorie.length < dane.quizy.length ? kategorie : null };
+}
+function pytaniaSprawdzianu(quizId, kategorie) {
+  const wszystkie = pytaniaQuizu(dane, quizId);
+  return kategorie ? wszystkie.filter((p) => kategorie.includes(p.quiz)) : wszystkie;
+}
+// Okno wyboru zagadnień przed Sprawdzianem (wszystkie zaznaczone na start).
+function oknoWyboruZagadnien(T) {
+  const ile = (id) => pytaniaQuizu(dane, id).length;
+  const okno = el(`
+    <div class="tlo-okna tlo-wyboru">
+      <section class="okno okno-zagadnien" role="dialog" aria-label="Wybierz zagadnienia">
+        <p class="okno-pytanie">Sprawdzian</p>
+        <p class="okno-opis">Wybierz zagadnienia do testu</p>
+        <button class="przycisk-tekst zaznacz-wszystkie" type="button">Odznacz wszystkie</button>
+        <div class="lista-zagadnien">
+          ${dane.quizy.map((q) => `
+            <label class="zagadnienie">
+              <input type="checkbox" value="${q.id}" checked>
+              <span class="zagadnienie-nazwa"><span class="numer">${q.numer}.</span> ${q.nazwa}</span>
+              <span class="zagadnienie-ile">${ile(q.id)}</span>
+            </label>`).join('')}
+        </div>
+        <p class="zagadnienia-podsumowanie"></p>
+        <div class="przyciski">
+          <button class="przycisk anuluj" type="button">Anuluj</button>
+          <button class="przycisk glowny rozpocznij" type="button">Rozpocznij</button>
+        </div>
+      </section>
+    </div>`);
+  const pola = [...okno.querySelectorAll('input[type="checkbox"]')];
+  const rozpocznij = okno.querySelector('.rozpocznij'), wszystkie = okno.querySelector('.zaznacz-wszystkie');
+  const odswiez = () => {
+    const wybrane = pola.filter((x) => x.checked);
+    const n = wybrane.reduce((s, x) => s + ile(x.value), 0);
+    rozpocznij.disabled = !wybrane.length;
+    const k = wybrane.length, slowoK = k === 1 ? 'zagadnienie' : k >= 2 && k <= 4 ? 'zagadnienia' : 'zagadnień';
+    okno.querySelector('.zagadnienia-podsumowanie').textContent = k ? `Wybrano ${k} ${slowoK} · ${n} ${odmianaPytan(n)}` : 'Zaznacz co najmniej jedno zagadnienie';
+    wszystkie.textContent = wybrane.length === pola.length ? 'Odznacz wszystkie' : 'Zaznacz wszystkie';
+  };
+  pola.forEach((x) => x.addEventListener('change', odswiez));
+  wszystkie.addEventListener('click', () => { const zazn = !pola.every((x) => x.checked); pola.forEach((x) => { x.checked = zazn; }); odswiez(); });
+  okno.querySelector('.anuluj').addEventListener('click', () => okno.remove());
+  okno.addEventListener('click', (e) => { if (e.target === okno) okno.remove(); });
+  rozpocznij.addEventListener('click', () => {
+    const wybrane = pola.filter((x) => x.checked).map((x) => x.value);
+    if (!wybrane.length) return;
+    location.hash = T.quiz(wybrane.length === pola.length ? SPRAWDZIAN : `${SPRAWDZIAN}~${wybrane.join(',')}`);
+  });
+  odswiez();
+  document.body.append(okno);
+  rozpocznij.focus({ preventScroll: true });
+  // okno znika przy zmianie widoku
+  const sprzataj = () => { okno.remove(); window.removeEventListener('hashchange', sprzataj); };
+  window.addEventListener('hashchange', sprzataj);
 }
 
 // ======================================================================= QUIZ
-async function widokQuiz(quizId) {
+async function widokQuiz(adres) {
   zamknijMape();
   await wczytajDane();
+  const { quizId, kategorie } = rozbierzAdresQuizu(adres);
   if (quizId !== SPRAWDZIAN && !dane.quizy.some((q) => q.id === quizId)) { location.hash = '#europa-wskaz'; return; }
-  const nazwa = nazwaQuizu(dane, quizId);
+  const nazwa = kategorie ? `Sprawdzian · ${kategorie.length} z ${dane.quizy.length}` : nazwaQuizu(dane, quizId);
   document.title = `${nazwa} – Europa`;
 
   app.innerHTML = '';
@@ -316,7 +381,7 @@ async function widokQuiz(quizId) {
   }
 
   function start() {
-    pytania = tasuj(pytaniaQuizu(dane, quizId));
+    pytania = tasuj(pytaniaSprawdzianu(quizId, kategorie));
     nr = 0; poprawne = 0; bledy = [];
     pokazPytanie();
   }
@@ -393,7 +458,7 @@ async function widokQuiz(quizId) {
 
   function pokazWynik() {
     const proc = procent(poprawne, pytania.length);
-    zapiszWynik(quizId, proc); // nadpisuje poprzedni wynik tego quizu
+    if (!kategorie) zapiszWynik(quizId, proc); // nadpisuje poprzedni wynik (Sprawdzian z wybranych zagadnień nie jest zapisywany)
     mapa.wyczysc();
     const okno = el(`
       <div class="tlo-okna tlo-wyniku">
@@ -451,11 +516,12 @@ async function widokQuiz(quizId) {
 
 // ============================================================== QUIZ „WYPISZ”
 // Na mapie podświetla się obiekt, a użytkownik wpisuje jego nazwę w górnym pasku.
-async function widokWypisz(quizId) {
+async function widokWypisz(adres) {
   zamknijMape();
   await wczytajDane();
+  const { quizId, kategorie } = rozbierzAdresQuizu(adres);
   if (quizId !== SPRAWDZIAN && !dane.quizy.some((q) => q.id === quizId)) { location.hash = '#europa-wypisz'; return; }
-  const nazwa = nazwaQuizu(dane, quizId);
+  const nazwa = kategorie ? `Sprawdzian · ${kategorie.length} z ${dane.quizy.length}` : nazwaQuizu(dane, quizId);
   document.title = `${nazwa} (wypisz) – Europa`;
   const KOLOR_PYTANIA = '#e8b04b'; // podświetlenie obiektu, o który pytamy
   const KOLOR_DOBRZE = '#16b45a';
@@ -532,7 +598,7 @@ async function widokWypisz(quizId) {
   let klawiaturaPrzedBledem = false; // czy przed błędną odpowiedzią klawiatura była otwarta (telefon)
 
   function start() {
-    pytania = tasuj(pytaniaQuizu(dane, quizId));
+    pytania = tasuj(pytaniaSprawdzianu(quizId, kategorie));
     nr = 0; poprawne = 0; bledy = [];
     pokazPytanie();
   }
@@ -629,7 +695,7 @@ async function widokWypisz(quizId) {
 
   function pokazWynik() {
     const proc = procent(poprawne, pytania.length);
-    zapiszWynik(quizId, proc, undefined, 'wypisz'); // nadpisuje poprzedni wynik tego quizu w trybie „Wypisz”
+    if (!kategorie) zapiszWynik(quizId, proc, undefined, 'wypisz'); // jw., w trybie „Wypisz”
     mapa.wyczysc();
     pole.blur();
     const okno = el(`
