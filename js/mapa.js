@@ -138,11 +138,11 @@ export function utworzMape(element, { geometrie, tlo }) {
   // ---- warstwa podświetleń ----
   const warstwa = L.layerGroup().addTo(map);
   // Podświetlenie rysujemy od razu w całości, także części poza ekranem: obszar rysowania warstwy
-  // obejmuje widok ORAZ cały podświetlony obiekt (z limitem, żeby przy dużym przybliżeniu nie
+  // obejmuje widok ORAZ cały podświetlony obiekt (z limitem 3000 px, żeby przy dużym przybliżeniu nie
   // tworzyć gigantycznej grafiki). Leaflet domyślnie rysuje tylko widok + 10%, więc duży obszar
   // pojawiał się w dwóch częściach. Rysowanie następuje raz (po dodaniu i po zakończeniu ruchu),
   // a w trakcie lotu mapa tylko przesuwa i skaluje gotowy rysunek – bez przerysowywania.
-  const ZAPAS_MAX = 6000; // px poza widokiem w każdą stronę
+  const ZAPAS_MAX = 3000; // px poza widokiem w każdą stronę
   const RendererCalosci = L.SVG.extend({
     _update() {
       if (this._map._animatingZoom && this._bounds) return;
@@ -190,20 +190,20 @@ export function utworzMape(element, { geometrie, tlo }) {
     const typ = f.geometry.type;
     if (typ === 'Point') {
       const [lng, lat] = f.geometry.coordinates;
-      L.circleMarker([lat, lng], { radius: 7, color: '#fff', weight: 2.5, fillColor: kolor, fillOpacity: 1, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.3 }).addTo(warstwa);
+      L.circleMarker([lat, lng], { radius: 7, color: '#fff', weight: 2.5, fillColor: kolor, fillOpacity: 1, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.5 }).addTo(warstwa);
       L.marker([lat, lng], { icon: L.divIcon({ className: 'puls', html: `<span style="--kolor:${kolor}"></span>`, iconSize: [44, 44] }), interactive: false, keyboard: false }).addTo(warstwa);
       return;
     }
     if (typ.includes('LineString')) {
-      L.geoJSON(f, { style: { color: '#ffffff', weight: 8, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.3 }).addTo(warstwa);
-      L.geoJSON(f, { style: { color: kolor, weight: 4.5, opacity: 1, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.3 }).addTo(warstwa);
+      L.geoJSON(f, { style: { color: '#ffffff', weight: 8, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.5 }).addTo(warstwa);
+      L.geoJSON(f, { style: { color: kolor, weight: 4.5, opacity: 1, lineCap: 'round', lineJoin: 'round' }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.5 }).addTo(warstwa);
       return;
     }
     if (slabo) {
-      L.geoJSON(f, { style: { color: kolor, weight: 1.5, opacity: 0.8, fillColor: kolor, fillOpacity: 0.16 }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.3 }).addTo(warstwa);
+      L.geoJSON(f, { style: { color: kolor, weight: 1.5, opacity: 0.8, fillColor: kolor, fillOpacity: 0.16 }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.5 }).addTo(warstwa);
       return;
     }
-    L.geoJSON(f, { style: { color: kolor, weight: 2.5, opacity: 1, fillColor: kolor, fillOpacity: 0.38 }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.3 }).addTo(warstwa);
+    L.geoJSON(f, { style: { color: kolor, weight: 2.5, opacity: 1, fillColor: kolor, fillOpacity: 0.38 }, interactive: false, className: 'podswietlenie', renderer: rendererPodswietlen, smoothFactor: 0.5 }).addTo(warstwa);
     // Bardzo małe obszary (np. Watykan, Monako) dostają dodatkowo pierścień, żeby były widoczne.
     const b = L.geoJSON(f).getBounds();
     const p1 = map.latLngToContainerPoint(b.getSouthWest()), p2 = map.latLngToContainerPoint(b.getNorthEast());
