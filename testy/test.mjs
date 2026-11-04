@@ -135,7 +135,7 @@ test('w quizie „Państwa” nazwy bez dopisku „(państwo)”, w Sprawdzianie
   rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'panstwo-monako'), SPRAWDZIAN), 'Monako (państwo)');
   rowne(nazwaWQuizie(dane.pytania.find((p) => p.id === 'panstwo-cypr'), SPRAWDZIAN), 'Cypr (państwo)');
 });
-test('w quizie „Wyspy i Przynależności” Cypr bez dopisku „(wyspa)”, w Sprawdzianie z dopiskiem', () => {
+test('w quizie „Wyspy” Cypr bez dopisku „(wyspa)”, w Sprawdzianie z dopiskiem', () => {
   const wQuizie = pytaniaQuizu(dane, 'wyspy').map((p) => nazwaWQuizie(p, 'wyspy'));
   prawda(wQuizie.every((n) => !n.includes('(')), 'została nazwa z nawiasem: ' + wQuizie.filter((n) => n.includes('(')));
   prawda(wQuizie.includes('Cypr'), 'brak „Cypr” w quizie wysp');
@@ -150,7 +150,7 @@ test('Bałkany: „Stara Płanina (Bałkany)” w Sprawdzianie i w quizie krain'
   rowne(new Set(wSprawdzianie).size, wSprawdzianie.length, 'nazwy w Sprawdzianie muszą być unikalne:');
 });
 test('kolejność i nazwy quizów na liście', () => {
-  rowne(dane.quizy.map((q) => `${q.numer}. ${q.nazwa}`), ['1. Państwa', '2. Stolice', '3. Morza', '4. Zatoki', '5. Półwyspy', '6. Wyspy i Przynależności', '7. Krainy Geograficzne', '8. Rzeki', '9. Jeziora', '10. Cieśniny']);
+  rowne(dane.quizy.map((q) => `${q.numer}. ${q.nazwa}`), ['1. Państwa', '2. Stolice', '3. Morza', '4. Zatoki', '5. Półwyspy', '6. Wyspy', '7. Krainy Geograficzne', '8. Rzeki', '9. Jeziora', '10. Cieśniny']);
 });
 test('pule fraz zgodne ze specyfikacją', () => {
   rowne(dane.frazy.trafione, TRAFIONE);

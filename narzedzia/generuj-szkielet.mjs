@@ -8,7 +8,7 @@ const quizy = [
   { id: 'morza', numer: 3, nazwa: 'Morza' },
   { id: 'zatoki', numer: 4, nazwa: 'Zatoki' },
   { id: 'polwyspy', numer: 5, nazwa: 'Półwyspy' },
-  { id: 'wyspy', numer: 6, nazwa: 'Wyspy i Przynależności' },
+  { id: 'wyspy', numer: 6, nazwa: 'Wyspy' },
   { id: 'krainy', numer: 7, nazwa: 'Krainy Geograficzne' },
   { id: 'rzeki', numer: 8, nazwa: 'Rzeki' },
   { id: 'jeziora', numer: 9, nazwa: 'Jeziora' },
