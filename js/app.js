@@ -110,7 +110,7 @@ function widokStart() {
   wczytajDane().then(() => {
     if (!v.isConnected) return;
     const ile = dane.quizy.length + 1; // Sprawdzian + quizy
-    v.querySelector('.stat-quizy').textContent = ile;
+    v.querySelector('.stat-quizy').textContent = ile * 2; // każdy quiz w dwóch trybach (Wskaż i Wypisz)
     v.querySelector('.stat-miejsca').textContent = dane.pytania.length;
     const n = dane.pytania.length;
     v.querySelector('.stat-miejsca-slowo').textContent = n === 1 ? 'miejsce' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 'miejsca' : 'miejsc';
