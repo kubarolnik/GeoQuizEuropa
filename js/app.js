@@ -49,28 +49,71 @@ function zamknijMape() {
 }
 
 // ===================================================================== START
+// Kontynenty na stronie głównej. Kolejny kontynent (np. Azja) dochodzi jako kolejny wpis
+// – mapa w tle (img/kontynenty.svg) ma już jego kształt (klasa .kont-<id>).
+const KONTYNENTY = [{ id: 'europa', nazwa: 'Europa', href: '#europa' }];
+let mapaKontynentow = null; // tekst SVG (wczytywany raz)
+function wstawMapeKontynentow(kontener) {
+  const wstaw = (svg) => { if (kontener.isConnected) kontener.insertAdjacentHTML('afterbegin', svg); };
+  if (mapaKontynentow) { wstaw(mapaKontynentow); return; }
+  fetch('img/kontynenty.svg?v=1').then((r) => (r.ok ? r.text() : Promise.reject())).then((t) => { mapaKontynentow = t; wstaw(t); }).catch(() => {});
+}
+const glownaGora = (lewa) => `
+      <header class="glowna-gora">
+        ${lewa}
+        <button class="przycisk-ikona przycisk-motywu" type="button" aria-label="Wybierz motyw" aria-haspopup="dialog">${ikona.motyw}</button>
+      </header>`;
+const logo = '<span class="logo"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg><b>GeoQuiz</b></span>';
+const strzalka = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+// Ukończone quizy (Sprawdzian + quizy) w danym trybie.
+function ukonczoneWTrybie(tryb) {
+  const w = wczytajWyniki(undefined, tryb);
+  return [SPRAWDZIAN, ...dane.quizy.map((q) => q.id)].filter((id) => id in w).length;
+}
+
 function widokStart() {
   zamknijMape();
-  document.title = 'Geografia Europy';
+  document.title = 'GeoQuiz – geografia';
   app.innerHTML = '';
-  const wyniki = wczytajWyniki();
   const v = el(`
-    <main class="widok widok-start">
-      <div class="zdjecie-tla" aria-hidden="true" style="background-image:url(img/tlo-start.jpg)"></div>
-      <button class="przycisk-ikona przycisk-motywu" type="button" aria-label="Wybierz motyw" aria-haspopup="dialog">${ikona.motyw}</button>
-      <div class="start-srodek">
-        <a class="przycisk glowny kategoria" href="#europa">Europa</a>
-        <p class="start-podpis"></p>
-      </div>
+    <main class="widok widok-glowna">
+      ${glownaGora(logo)}
+      <section class="glowna-hero">
+        <div class="glowna-tekst">
+          <span class="glowna-nad">Geografia · quizy z mapą</span>
+          <h1>Naucz się mapy<br>świata.</h1>
+          <p class="glowna-lead">Wybierz kontynent – państwa, stolice, morza, rzeki i góry na czystej mapie bez podpisów.</p>
+          <div class="glowna-lista">
+            ${KONTYNENTY.map((k) => `
+              <a class="wiersz" href="${k.href}" data-kontynent="${k.id}">
+                <span class="wiersz-kropka kropka-${k.id}" aria-hidden="true"></span>
+                <span class="wiersz-tekst"><b>${k.nazwa}</b><span class="wiersz-opis"></span></span>
+                <span class="wiersz-postep"></span>
+                <span class="wiersz-strzalka">${strzalka}</span>
+              </a>`).join('')}
+          </div>
+        </div>
+        <div class="glowna-mapa" data-kontynent="${KONTYNENTY[0].id}"><span class="glowna-mapa-podpis">${KONTYNENTY[0].nazwa}</span></div>
+      </section>
     </main>`);
   app.append(v);
   v.querySelector('.przycisk-motywu').addEventListener('click', (e) => { e.stopPropagation(); przelaczOknoMotywu(v); });
+  const mapa = v.querySelector('.glowna-mapa');
+  wstawMapeKontynentow(mapa);
+  // Komputer: wskazany kontynent podświetla się na mapie (na telefonie nie – patrz CSS).
+  for (const w of v.querySelectorAll('.wiersz')) {
+    w.addEventListener('pointerenter', () => {
+      const k = KONTYNENTY.find((x) => x.id === w.dataset.kontynent);
+      mapa.dataset.kontynent = k.id;
+      mapa.querySelector('.glowna-mapa-podpis').textContent = k.nazwa;
+    });
+  }
   wczytajDane().then(() => {
     if (!v.isConnected) return;
-    const ids = [SPRAWDZIAN, ...dane.quizy.map((q) => q.id)];
-    const wynikiWypisz = wczytajWyniki(undefined, 'wypisz');
-    const ukonczone = ids.filter((id) => id in wyniki).length + ids.filter((id) => id in wynikiWypisz).length;
-    v.querySelector('.start-podpis').textContent = `Sprawdzian i ${dane.quizy.length} quizów · ukończone ${ukonczone}/${ids.length * 2}`;
+    const ile = dane.quizy.length + 1;
+    const wiersz = v.querySelector('.wiersz[data-kontynent="europa"]');
+    wiersz.querySelector('.wiersz-opis').textContent = `Sprawdzian i ${dane.quizy.length} quizów · ${dane.pytania.length} miejsca`;
+    wiersz.querySelector('.wiersz-postep').textContent = `${ukonczoneWTrybie('wskaz') + ukonczoneWTrybie('wypisz')}/${ile * 2}`;
   }).catch(() => {});
 }
 
@@ -141,22 +184,31 @@ function widokWybor() {
   zamknijMape();
   document.title = 'Europa – wybierz tryb';
   app.innerHTML = '';
-  app.append(el(`
-    <main class="widok widok-start widok-wybor">
-      <div class="zdjecie-tla" aria-hidden="true" style="background-image:url(img/tlo-start.jpg)"></div>
-      <a class="przycisk maly wybor-wroc" href="#">${ikona.wstecz}<span>Wróć</span></a>
-      <p class="wybor-naglowek">Europa</p>
-      <div class="start-srodek">
-        <div class="tryby">
+  const v = el(`
+    <main class="widok widok-glowna widok-tryby">
+      ${glownaGora(`<a class="glowna-wroc" href="#">${ikona.wstecz}<span>Wróć</span></a>`)}
+      <section class="tryby-tresc">
+        <span class="glowna-nad">Europa</span>
+        <h1>Wybierz tryb</h1>
+        <div class="glowna-lista">
           ${Object.entries(TRYBY).map(([id, t]) => `
-            <a class="przycisk glowny kategoria tryb" href="${t.lista}">
-              <span class="tryb-ikona">${ikonaTrybu[id]}</span>
-              <span class="tryb-nazwa">${t.nazwa}</span>
-              <span class="tryb-opis">${t.opis}</span>
+            <a class="wiersz" href="${t.lista}" data-tryb="${id}">
+              <span class="wiersz-ikona">${ikonaTrybu[id]}</span>
+              <span class="wiersz-tekst"><b>${t.nazwa}</b><span class="wiersz-opis">${t.opis}</span></span>
+              <span class="wiersz-postep"></span>
+              <span class="wiersz-strzalka">${strzalka}</span>
             </a>`).join('')}
         </div>
-      </div>
-    </main>`));
+      </section>
+      <div class="glowna-mapa tryby-mapa" data-kontynent="europa" aria-hidden="true"></div>
+    </main>`);
+  app.append(v);
+  v.querySelector('.przycisk-motywu').addEventListener('click', (e) => { e.stopPropagation(); przelaczOknoMotywu(v); });
+  wstawMapeKontynentow(v.querySelector('.tryby-mapa'));
+  wczytajDane().then(() => {
+    if (!v.isConnected) return;
+    for (const w of v.querySelectorAll('.wiersz')) w.querySelector('.wiersz-postep').textContent = `${ukonczoneWTrybie(w.dataset.tryb)}/${dane.quizy.length + 1}`;
+  }).catch(() => {});
 }
 
 // ================================================================ LISTA QUIZÓW

@@ -678,3 +678,95 @@ a { color: inherit; }
 .panel.tylko-przynaleznosc .odpowiedz { display: block; }
 .panel.tylko-przynaleznosc .fraza, .panel.tylko-przynaleznosc .poprawna, .panel.tylko-przynaleznosc .dalej { display: none; }
 .panel.tylko-przynaleznosc .przynaleznosc { margin: 0; animation: pojaw 260ms var(--krzywa) both; }
+
+/* ================= strona główna i wybór trybu (układ „editorial”: tekst po lewej, mapa po prawej) ================= */
+.widok-glowna {
+  --g-mocny: #eef2f5; --g-slaby: #a9b4bd; --g-cichy: #8b97a1; --g-karta: rgba(22, 36, 50, .78); --g-linia: rgba(255, 255, 255, .09);
+  position: relative; min-height: 100vh; min-height: 100dvh; overflow-x: hidden;
+  padding: 0 max(clamp(20px, 6vw, 88px), env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(clamp(20px, 6vw, 88px), env(safe-area-inset-left));
+  background: radial-gradient(80% 70% at 85% 40%, rgba(var(--akcent-rgb), .10), transparent 70%), var(--tlo);
+  color: var(--g-mocny);
+}
+:root[data-tlo="jasne"] .widok-glowna { --g-mocny: #15191e; --g-slaby: #5b646d; --g-cichy: #78818a; --g-karta: rgba(255, 255, 255, .85); --g-linia: rgba(20, 25, 30, .1); }
+.glowna-gora { position: relative; z-index: 2; height: 84px; padding-top: env(safe-area-inset-top); display: flex; align-items: center; justify-content: space-between; }
+.glowna-gora .przycisk-motywu { position: static; }
+.widok-glowna .okno-motywu { top: calc(env(safe-area-inset-top) + 72px); right: max(clamp(20px, 6vw, 88px), env(safe-area-inset-right)); }
+.logo { display: flex; align-items: center; gap: 10px; font-size: 17px; letter-spacing: -.01em; }
+.logo svg { width: 22px; height: 22px; fill: none; stroke: var(--akcent); stroke-width: 1.8; }
+.glowna-wroc {
+  display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px 9px 10px; border-radius: 12px;
+  border: 1px solid var(--g-linia); color: var(--g-mocny); text-decoration: none; font-size: 14px; transition: background-color var(--czas);
+}
+.glowna-wroc:hover { background: var(--g-karta); }
+.glowna-wroc svg { width: 18px; height: 18px; }
+.glowna-hero { min-height: calc(100vh - 84px - 32px); min-height: calc(100dvh - 84px - 32px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); align-items: center; gap: 40px; }
+.glowna-nad { display: block; color: var(--akcent); font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.widok-glowna h1 { margin: 14px 0 0; font-size: clamp(40px, 4.8vw, 62px); line-height: 1.02; letter-spacing: -.035em; font-weight: 700; color: var(--g-mocny); }
+.glowna-lead { max-width: 440px; margin: 20px 0 0; font-size: 17px; line-height: 1.55; color: var(--g-slaby); }
+.glowna-lista { display: grid; gap: 14px; margin-top: 30px; max-width: 480px; }
+.wiersz {
+  display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 16px; padding: 16px 18px;
+  border-radius: 16px; border: 1px solid var(--g-linia); background: var(--g-karta); color: var(--g-mocny); text-decoration: none;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transition: border-color var(--czas), background var(--czas), transform var(--czas) var(--krzywa);
+  animation: pojaw 360ms var(--krzywa) backwards; /* backwards: po animacji działa przesunięcie przy najechaniu */
+}
+.wiersz + .wiersz { animation-delay: 60ms; }
+.wiersz:hover, .wiersz:focus-visible { border-color: rgba(var(--akcent-rgb), .6); background: linear-gradient(90deg, rgba(var(--akcent-rgb), .13), var(--g-karta)); transform: translateX(3px); outline: none; }
+.wiersz:active { transform: scale(.99); }
+.wiersz-kropka { width: 12px; height: 12px; border-radius: 50%; background: var(--akcent); box-shadow: 0 0 0 5px rgba(var(--akcent-rgb), .12); }
+.kropka-azja { background: #d9a85b; box-shadow: 0 0 0 5px rgba(217, 168, 91, .14); }
+.wiersz-ikona { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: rgba(var(--akcent-rgb), .14); color: var(--akcent); }
+.wiersz-ikona svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.wiersz-tekst b { display: block; font-size: 20px; letter-spacing: -.02em; }
+.wiersz-opis { display: block; margin-top: 3px; font-size: 13.5px; line-height: 1.4; color: var(--g-slaby); }
+.wiersz-postep { font-size: 12.5px; color: var(--g-cichy); font-variant-numeric: tabular-nums; }
+.wiersz-strzalka svg { display: block; width: 20px; height: 20px; fill: none; stroke: var(--g-cichy); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: stroke var(--czas); }
+.wiersz:hover .wiersz-strzalka svg { stroke: var(--akcent); }
+
+/* mapa kontynentów (img/kontynenty.svg wstawiony do strony, żeby kolorować go zmiennymi motywu) */
+.glowna-mapa {
+  position: relative; height: min(72vh, 620px); border-radius: 28px; overflow: hidden;
+  border: 1px solid var(--g-linia); background: linear-gradient(160deg, rgba(var(--akcent-rgb), .04), transparent);
+  animation: pojaw-mapa 600ms var(--krzywa) both;
+}
+.glowna-mapa svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; }
+.glowna-mapa .siatka { stroke: var(--akcent); stroke-opacity: .07; stroke-width: 1; }
+.glowna-mapa .lad { fill: var(--akcent); fill-opacity: .04; stroke: var(--akcent); stroke-opacity: .22; stroke-width: 1.1; stroke-linejoin: round; }
+.glowna-mapa .kont { fill-opacity: 0; stroke-opacity: 0; stroke-width: 1.3; stroke-linejoin: round; transition: fill-opacity 300ms, stroke-opacity 300ms; }
+.glowna-mapa .kont-europa { fill: var(--akcent); stroke: var(--akcent); }
+.glowna-mapa .kont-azja { fill: #d9a85b; stroke: #d9a85b; }
+.glowna-mapa[data-kontynent="europa"] .kont-europa, .glowna-mapa[data-kontynent="azja"] .kont-azja { fill-opacity: .2; stroke-opacity: .85; }
+.glowna-mapa-podpis { position: absolute; z-index: 1; left: 22px; bottom: 18px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--g-cichy); }
+
+/* wybór trybu: lista po lewej, wygaszona mapa w tle po prawej */
+.tryby-tresc { position: relative; z-index: 2; max-width: 560px; padding-top: 6vh; }
+.tryby-tresc .glowna-lista { max-width: none; }
+.tryby-mapa {
+  position: fixed; z-index: 1; right: -6vw; top: 12vh; width: 62vw; height: 80vh; border: 0; border-radius: 0; background: none; pointer-events: none;
+  -webkit-mask-image: radial-gradient(closest-side, #000 60%, transparent); mask-image: radial-gradient(closest-side, #000 60%, transparent);
+}
+.tryby-mapa[data-kontynent] .kont-europa { fill-opacity: .1; stroke-opacity: .5; }
+
+/* telefon: mapa nad tekstem; wskazany kontynent się nie podświetla */
+@media (max-width: 719px) {
+  .glowna-gora { height: 72px; }
+  .glowna-hero { min-height: 0; grid-template-columns: 1fr; gap: 0; align-content: start; padding-top: 4px; }
+  .glowna-mapa { order: -1; height: 210px; border-radius: 22px; margin-bottom: 24px; }
+  .widok-glowna h1 { font-size: 38px; }
+  .glowna-lead { font-size: 15.5px; }
+  .glowna-lista { margin-top: 22px; }
+  .wiersz { gap: 12px; padding: 14px; }
+  .wiersz-ikona { width: 42px; height: 42px; }
+  .wiersz-tekst b { font-size: 18px; }
+  .wiersz-opis { font-size: 13px; }
+  .widok-glowna .glowna-mapa .kont { fill-opacity: 0 !important; stroke-opacity: 0 !important; }
+  .glowna-mapa-podpis { display: none; }
+  .tryby-tresc { padding-top: 8px; }
+  .widok-tryby .wiersz { grid-template-columns: auto 1fr auto; }
+  .widok-tryby .wiersz-postep { display: none; }
+  .tryby-mapa { right: -40vw; top: auto; bottom: -5vh; width: 140vw; height: 60vh; }
+  .widok-glowna .okno-motywu { top: calc(env(safe-area-inset-top) + 64px); }
+}
+@media (prefers-reduced-motion: reduce) { .wiersz, .wiersz:hover { transform: none; transition: none; } }
+.glowna-wroc svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
