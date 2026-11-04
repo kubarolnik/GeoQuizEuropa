@@ -137,23 +137,43 @@ export function utworzMape(element, { geometrie, tlo }) {
 
   // ---- warstwa podświetleń ----
   const warstwa = L.layerGroup().addTo(map);
-  // Podświetlenia rysujemy z dużym zapasem poza widocznym fragmentem mapy (2 ekrany w każdą stronę).
-  // Przy domyślnym zapasie (10%) duży obszar (np. Rosja, Morze Śródziemne) podczas przesuwania
-  // i oddalania mapy pojawiał się w dwóch częściach – resztę Leaflet dorysowywał dopiero po ruchu.
-  const rendererPodswietlen = L.svg({ padding: 2 });
-  // Leaflet przerysowuje warstwę dopiero po zakończeniu ruchu, więc obszar daleko poza ekranem
-  // (np. następne pytanie po drugiej stronie Europy) pojawiałby się dopiero po locie mapy.
-  // W trakcie lotu i przesuwania przerysowujemy podświetlenia w każdej klatce – są zawsze całe.
-  let klatka = 0;
-  map.on('move zoom', () => {
-    if (klatka || !Object.keys(rendererPodswietlen._layers || {}).length) return;
-    klatka = requestAnimationFrame(() => { klatka = 0; if (rendererPodswietlen._map) rendererPodswietlen._reset(); });
+  // Podświetlenie rysujemy od razu w całości, także części poza ekranem: obszar rysowania warstwy
+  // obejmuje widok ORAZ cały podświetlony obiekt (z limitem, żeby przy dużym przybliżeniu nie
+  // tworzyć gigantycznej grafiki). Leaflet domyślnie rysuje tylko widok + 10%, więc duży obszar
+  // pojawiał się w dwóch częściach. Rysowanie następuje raz (po dodaniu i po zakończeniu ruchu),
+  // a w trakcie lotu mapa tylko przesuwa i skaluje gotowy rysunek – bez przerysowywania.
+  const ZAPAS_MAX = 6000; // px poza widokiem w każdą stronę
+  const RendererCalosci = L.SVG.extend({
+    _update() {
+      if (this._map._animatingZoom && this._bounds) return;
+      L.Renderer.prototype._update.call(this);
+      const mapa = this._map, b = this._bounds;
+      const widokMin = b.min.clone(), widokMax = b.max.clone();
+      for (const id in this._layers) {
+        const w = this._layers[id];
+        if (!w.getBounds) continue;
+        const g = w.getBounds();
+        if (!g.isValid()) continue;
+        b.extend(mapa.latLngToLayerPoint(g.getNorthWest())); b.extend(mapa.latLngToLayerPoint(g.getSouthEast()));
+      }
+      b.min.x = Math.round(Math.max(b.min.x, widokMin.x - ZAPAS_MAX)); b.min.y = Math.round(Math.max(b.min.y, widokMin.y - ZAPAS_MAX));
+      b.max.x = Math.round(Math.min(b.max.x, widokMax.x + ZAPAS_MAX)); b.max.y = Math.round(Math.min(b.max.y, widokMax.y + ZAPAS_MAX));
+      const rozmiar = b.getSize(), svg = this._container;
+      if (!this._svgSize || !this._svgSize.equals(rozmiar)) { this._svgSize = rozmiar; svg.setAttribute('width', rozmiar.x); svg.setAttribute('height', rozmiar.y); }
+      L.DomUtil.setPosition(svg, b.min);
+      svg.setAttribute('viewBox', [b.min.x, b.min.y, rozmiar.x, rozmiar.y].join(' '));
+      this.fire('update');
+    },
   });
+  const rendererPodswietlen = new RendererCalosci({ padding: 0.5 });
+  // Po dodaniu nowych podświetleń jednorazowo przeliczamy obszar rysowania, żeby objął cały obiekt.
+  const narysujCale = () => { if (rendererPodswietlen._map) rendererPodswietlen._reset(); };
 
   function wyczysc() { warstwa.clearLayers(); }
 
   // slabo: delikatne podświetlenie (np. państwo pod podświetloną stolicą)
-  function podswietl(id, { kolor = KOLOR_PODSWIETLENIA, slabo = false } = {}) {
+  function podswietl(id, opcje) { podswietlBez(id, opcje); narysujCale(); }
+  function podswietlBez(id, { kolor = KOLOR_PODSWIETLENIA, slabo = false } = {}) {
     const f = indeks.get(id);
     if (!f) return;
     const typ = f.geometry.type;
