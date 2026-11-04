@@ -882,3 +882,8 @@ a { color: inherit; }
   .wyniki-sprawdzianu .wynik-duzy { font-size: 26px; text-align: right; }
   .wyniki-sprawdzianu .wynik-duzy small { white-space: normal; max-width: 96px; margin-left: auto; font-size: 9.5px; line-height: 1.3; }
 }
+/* zaokrąglone rogi kafelków zagadnień także w trakcie animacji (na telefonie nakładki nie wychodzą w rogach) */
+.zagadnienie::before, .zagadnienie::after { border-radius: inherit; }
+@media not ((hover: hover) and (pointer: fine)) {
+  .zagadnienie { -webkit-mask-image: -webkit-radial-gradient(white, black); mask-image: radial-gradient(white, black); }
+}
