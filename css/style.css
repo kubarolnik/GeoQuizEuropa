@@ -673,3 +673,8 @@ a { color: inherit; }
   .karta-info { font-size: 10.5px; }
 }
 @media (prefers-reduced-motion: reduce) { .karta, .karta:hover, .karta:active { transform: none; transition: none; } }
+
+/* Wyspy: po poprawnej odpowiedzi pod pytaniem sama przynależność */
+.panel.tylko-przynaleznosc .odpowiedz { display: block; }
+.panel.tylko-przynaleznosc .fraza, .panel.tylko-przynaleznosc .poprawna, .panel.tylko-przynaleznosc .dalej { display: none; }
+.panel.tylko-przynaleznosc .przynaleznosc { margin: 0; animation: pojaw 260ms var(--krzywa) both; }

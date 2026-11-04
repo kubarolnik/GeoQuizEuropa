@@ -279,7 +279,7 @@ async function widokQuiz(quizId) {
     cel.textContent = polecenieWskaz(p, quizId).replace(/Wschodnioeuropejsk/, 'Wschodnio\u00ADeuropejsk');
     cel.classList.remove('wejscie'); void cel.offsetWidth; cel.classList.add('wejscie');
     odpowiedz.hidden = true;
-    panel.classList.remove('po-odpowiedzi', 'trafione', 'pudlo');
+    panel.classList.remove('po-odpowiedzi', 'trafione', 'pudlo', 'tylko-przynaleznosc');
   }
 
   function odpowiedzNa(latlng) {
@@ -298,6 +298,7 @@ async function widokQuiz(quizId) {
       // mapa najpierw płynnie go odsłania, a dopiero potem liczymy 1 sekundę do następnego pytania.
       poprawne++;
       panel.classList.remove('trafione'); void panel.offsetWidth; panel.classList.add('trafione');
+      pokazPrzynaleznoscPoTrafieniu(p, odpowiedz, przynaleznosc, panel);
       const tenNr = nr;
       Promise.resolve(mapa.pokazObiekt(p.geometria, marginesyPanelu()[0], { przyblizMale: false, lewyMargines: marginesyPanelu()[1] })).then(() => {
         setTimeout(() => {
@@ -494,7 +495,7 @@ async function widokWypisz(quizId) {
     odpowiedz.hidden = true;
     pole.value = '';
     pole.classList.remove('dobrze', 'zle');
-    panel.classList.remove('po-odpowiedzi', 'trafione', 'pudlo');
+    panel.classList.remove('po-odpowiedzi', 'trafione', 'pudlo', 'tylko-przynaleznosc');
     przyciskSprawdz.removeAttribute('aria-disabled');
     // Stolica: delikatnie jej państwo + punkt stolicy. Inne obiekty: sam obiekt.
     const panstwo = panstwoStolicy(p);
@@ -537,6 +538,7 @@ async function widokWypisz(quizId) {
       poprawne++;
       pole.classList.add('dobrze');
       panel.classList.remove('trafione'); void panel.offsetWidth; panel.classList.add('trafione');
+      pokazPrzynaleznoscPoTrafieniu(p, odpowiedz, przynaleznosc, panel);
       const tenNr = nr;
       setTimeout(() => { if (v.isConnected && nr === tenNr) nastepne(); }, 1000);
       return;
@@ -665,6 +667,16 @@ async function trasa() {
     app.innerHTML = '';
     app.append(el(`<main class="widok widok-blad"><p>Nie udało się wczytać danych mapy.</p><p class="okno-opis">Strona musi być otwarta przez serwer (np. GitHub Pages albo <code>npx serve</code>), a nie bezpośrednio z pliku.</p><a class="przycisk" href="#">Strona główna</a></main>`));
   }
+}
+
+// Wyspy: przynależność widać także po poprawnej odpowiedzi (sama, bez frazy i „Dalej”).
+function pokazPrzynaleznoscPoTrafieniu(p, odpowiedz, przynaleznosc, panel) {
+  if (!p.przynaleznosc) return;
+  przynaleznosc.hidden = false;
+  przynaleznosc.innerHTML = '';
+  przynaleznosc.append('Przynależność: ', Object.assign(document.createElement('strong'), { textContent: p.przynaleznoscOpis || p.przynaleznosc }));
+  panel.classList.add('tylko-przynaleznosc');
+  odpowiedz.hidden = false;
 }
 
 // Sprawdzian: pod wynikiem blok z błędami pogrupowanymi wg kategorii (numeracja jak na liście quizów).
